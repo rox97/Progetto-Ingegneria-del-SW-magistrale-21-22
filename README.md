@@ -1,7 +1,7 @@
 # Progetto-Ingegneria-del-SW-magistrale-21-22
 Progetto Ingegneria del SW magistrale 21/22
 
-Simone Baldi(VR457324), Andrea Caliari, Andrea Rossetti
+Simone Baldi (VR457324), Andrea Caliari, Andrea Rossetti (VR457323)
 
 # Scenari
 ## Compilare un Form/Indagine/Poll (agente: professore)
