@@ -9,6 +9,13 @@ public class ELearningController {
     @Autowired
     private CourseRepository courseRepository;
 
+    @PostMapping("/courses")
+    public Course addCourse(@RequestBody Course course){
+
+        courseRepository.save(course);
+        return course;
+    }
+
     @PostMapping("/grades")
     public void addGrades(){
 
