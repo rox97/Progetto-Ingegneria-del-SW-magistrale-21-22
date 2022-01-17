@@ -1,25 +1,28 @@
 package it.univr.elearning;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
 public class Utils {
 
+
     /**
      * Generates the JSON string of the "student" object
      * @param firstName first name
      * @param lastName last name
-     * @param courses list of course
+     //* @param courses list of course
      * @return the generated JSON string
      */
 
 
-    public static String getStudentJson(String firstName, String lastName, List<Course> courses){
+    public static String getStudentJson(String firstName, String lastName){
         return "{\n" +
                 "    \"firstName\": \"" + firstName + "\",\n" +
-                "    \"lastName\": \"" + lastName + "\",\n" +
-                "    \"courses\": \"" + courses + "\",\n" +
+                "    \"lastName\": \"" + lastName + "\"\n" +
                 "}";
     }
 
@@ -29,23 +32,36 @@ public class Utils {
      * Generates the JSON string of the "course" object
      * @param courseName course name
      * @param coordinatorName coordinator name
-     * @param students list of students
+     //* @param students list of students
      * @return the generated JSON string
      */
 
-    public static String getCourseJson(String courseName, String coordinatorName, List<Student> students){
+
+    public static String getCourseJson (String courseName, String coordinatorName){
         return "{\n" +
                 "    \"courseName\": \"" + courseName + "\",\n" +
-                "    \"coordinatorName\": \"" + coordinatorName + "\",\n" +
-                "    \"students\": \"" + students + "\",\n" +
+                "    \"coordinatorName\": \"" + coordinatorName + "\"\n" +
                 "}";
+
     }
 
+
     public static void initCoursesDatabase(){
-        given().contentType("application/json").body(getCourseJson("Intelligienza Artificiale", "Farinelli", null)).when().post("/courses").then().statusCode(200);
+
+        given().contentType("application/json").body(getCourseJson("Fondamenti di Intelligenza Artificiale", "Alessandro Farinelli")).when().post("/courses").then().statusCode(200);
+        given().contentType("application/json").body(getCourseJson("Fondamenti di Ingegneria del Software", "Mariano Ceccato")).when().post("/courses").then().statusCode(200);
+
+
     }
 
     public static void initStudentsDatabase(){
+
+        given().contentType("application/json").body(getStudentJson("Andrea", "Rossetti")).when().post("/student").then().statusCode(200);
+        given().contentType("application/json").body(getStudentJson("Andrea", "Caliari")).when().post("/student").then().statusCode(200);
+        given().contentType("application/json").body(getStudentJson("Simone", "Baldi")).when().post("/student").then().statusCode(200);
+
+
+
 
     }
 }

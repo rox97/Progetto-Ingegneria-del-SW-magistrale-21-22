@@ -22,5 +22,6 @@ public class First_test_class {
 
     public void firstTest(){
         Utils.initCoursesDatabase();
+        Utils.initStudentsDatabase();
     }
 }
