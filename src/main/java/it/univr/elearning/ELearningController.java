@@ -48,8 +48,17 @@ public class ELearningController {
     }
 
     @PostMapping("/grades")
-    public void addGrades(){
+    public void addGrades(@RequestParam(name = "id") Long id){
 
     }
+
+    public void findGradesByStudent(@RequestParam(name = "id") Long id){
+        Student student = studentRepository.findById(id).get();
+
+        Booklet booklet = student.getBooklet();
+
+    }
+
+
 
 }

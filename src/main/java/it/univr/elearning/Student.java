@@ -1,8 +1,7 @@
 package it.univr.elearning;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 //TODO: serve il nome della tabella?
@@ -45,6 +44,16 @@ public class Student {
 
     public void setCourse(Course course){
         this.courses.add(course);
+    }
+
+    private Booklet booklet = new Booklet();
+    @OneToOne
+    @JoinColumn(name = "BOOKLET_ID")
+    public Booklet getBooklet() {
+        return booklet;
+    }
+    public void setBooklet(Booklet booklet) {
+        this.booklet = booklet;
     }
 
 }

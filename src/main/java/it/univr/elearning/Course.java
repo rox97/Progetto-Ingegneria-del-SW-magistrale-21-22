@@ -1,7 +1,6 @@
 package it.univr.elearning;
 
 import javax.persistence.*;
-import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,8 +39,8 @@ public class Course {
 
     //TODO: come funzionano i join? dobbiamo specificare i nomi? i warning sono importanti o si possono ignorare?
     @ManyToMany
-    @JoinTable(name = "STUDENT_COURSE", joinColumns={@JoinColumn(name="COURSE_ID")})
-    @Column(nullable = true)
+    //@JoinTable(name = "STUDENT_COURSE", joinColumns={@JoinColumn(name="COURSE_ID")}, inverseJoinColumns={@JoinColumn(name="STUDENT_ID")})
+    @JoinColumn(name = "STUDENT_ID")
     private List<Student> students = new ArrayList<>();
 
     public List<Student> getStudents() {
