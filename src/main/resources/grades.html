@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>MVC Web application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+<h1>Students grades</h1>
+
+<form action="addGrades" method="post">
+<table border="1">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Grade</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="student: ${students}">
+        <td th:text="${student.id}"> <b>10 </b></td>
+        <td th:text="${student.firstName}"> John </td>
+        <td th:text="${student.lastName}"> Smith </td>
+        <td><label>
+            <input type="text" th:value="${student.grade}">
+        </label></td>
+    </tr>
+    </tbody>
+</table>
+
+    <input type="submit" value="salva"/>
+    <input type="submit" value="annulla" />
+
+</form>
+
+</body>
+</html>

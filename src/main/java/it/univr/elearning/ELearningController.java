@@ -1,13 +1,14 @@
 package it.univr.elearning;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+@Controller
 public class ELearningController {
 
     @Autowired
@@ -26,6 +27,7 @@ public class ELearningController {
         return student;
     }
 
+    // TODO: mapping
     public void setCourseStudents(@RequestParam(name="id") Long id, @RequestParam(name="students") List<Student> students){
         Course c = new Course();
         if (courseRepository.existsById(id)){
@@ -38,6 +40,7 @@ public class ELearningController {
         }
     }
 
+    // TODO: mapping
     public void setCourseStudent(@RequestParam(name="id") Long idCourse, @RequestParam(name="student") Long idStudent){
         if (courseRepository.existsById(idCourse)){
             Course c = courseRepository.findById(idCourse).get();
@@ -47,17 +50,41 @@ public class ELearningController {
         }
     }
 
-    @PostMapping("/grades")
-    public void addGrades(@RequestParam(name = "id") Long id){
-
+    @RequestMapping("/")
+    public String index(){
+        return "grades";
     }
 
-    public void findGradesByStudent(@RequestParam(name = "id") Long id){
-        Student student = studentRepository.findById(id).get();
 
-        Booklet booklet = student.getBooklet();
 
+    @RequestMapping("/grades")
+    public String addGrades(/*@PathVariable("courseId") Long id,*/ Model model){
+        Course c = new Course();
+        //if(courseRepository.findById(id).isPresent()) {
+          //  c = courseRepository.findById(id).get();
+        //}
+        c = initTest();
+        List<Student> students = c.getStudents();
+        model.addAttribute("students", students);
+        return "grades";
     }
+
+
+
+    //TEST
+    public Course initTest(){
+        Student s1 = new Student("andrea", "rossetti");
+        Student s2 = new Student("simone", "baldi");
+        studentRepository.save(s1);
+        studentRepository.save(s2);
+        Course c = new Course("Fondamenti AI", "Farinelli");
+        c.setStudent(s1);
+        c.setStudent(s2);
+        courseRepository.save(c);
+        courseRepository.findByCourseName("Fondamenti AI");
+        return c;
+    }
+
 
 
 

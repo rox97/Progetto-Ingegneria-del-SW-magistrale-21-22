@@ -34,9 +34,10 @@ public class Booklet {
     public void setExamDate(Date examDate) {this.examDate = examDate;}
 
 
-    private Student student;
 
     @OneToOne(mappedBy="booklet")
+    private Student student;
+
     public Student getStudent() {
         return student;
     }

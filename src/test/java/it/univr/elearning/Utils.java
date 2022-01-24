@@ -56,9 +56,9 @@ public class Utils {
 
     public static void initStudentsDatabase(){
 
-        given().contentType("application/json").body(getStudentJson("Andrea", "Rossetti")).when().post("/student").then().statusCode(200);
-        given().contentType("application/json").body(getStudentJson("Andrea", "Caliari")).when().post("/student").then().statusCode(200);
-        given().contentType("application/json").body(getStudentJson("Simone", "Baldi")).when().post("/student").then().statusCode(200);
+        given().contentType("application/json").body(getStudentJson("Andrea", "Rossetti")).when().post("/students").then().statusCode(200);
+        given().contentType("application/json").body(getStudentJson("Andrea", "Caliari")).when().post("/students").then().statusCode(200);
+        given().contentType("application/json").body(getStudentJson("Simone", "Baldi")).when().post("/students").then().statusCode(200);
 
 
 

@@ -46,9 +46,9 @@ public class Student {
         this.courses.add(course);
     }
 
-    private Booklet booklet = new Booklet();
     @OneToOne
     @JoinColumn(name = "BOOKLET_ID")
+    private Booklet booklet = new Booklet();
     public Booklet getBooklet() {
         return booklet;
     }

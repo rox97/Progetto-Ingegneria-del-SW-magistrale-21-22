@@ -24,4 +24,5 @@ public class First_test_class {
         Utils.initCoursesDatabase();
         Utils.initStudentsDatabase();
     }
+
 }
