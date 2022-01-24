@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -75,13 +76,13 @@ public class ELearningController {
     public Course initTest(){
         Student s1 = new Student("andrea", "rossetti");
         Student s2 = new Student("simone", "baldi");
-        studentRepository.save(s1);
-        studentRepository.save(s2);
+        //studentRepository.save(s1);
+        //studentRepository.save(s2);
         Course c = new Course("Fondamenti AI", "Farinelli");
         c.setStudent(s1);
         c.setStudent(s2);
-        courseRepository.save(c);
-        courseRepository.findByCourseName("Fondamenti AI");
+        //courseRepository.save(c);
+        //courseRepository.findByCourseName("Fondamenti AI");
         return c;
     }
 

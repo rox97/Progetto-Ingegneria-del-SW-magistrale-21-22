@@ -16,7 +16,7 @@ public class First_test_class {
     public static void setUp() {
         RestAssured.baseURI = "http://localhost:8080";
     }
-
+/*
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
 
@@ -24,5 +24,7 @@ public class First_test_class {
         Utils.initCoursesDatabase();
         Utils.initStudentsDatabase();
     }
+
+ */
 
 }
