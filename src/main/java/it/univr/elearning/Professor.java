@@ -32,6 +32,7 @@ public class Professor {
     public String getProfessorSurname(){ return professorSurname;}
 
     @OneToMany(mappedBy="professor",cascade = {CascadeType.ALL})
+    //private Course course = new Course();
     private List<Course> courses = new ArrayList<>();
     public List<Course> getCourses() {
         return courses;
