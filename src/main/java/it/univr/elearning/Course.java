@@ -47,7 +47,7 @@ public class Course {
         this.professor = professor;
     }
 
-    //TODO: come funzionano i join? dobbiamo specificare i nomi? i warning sono importanti o si possono ignorare?
+    //QUESTION: come funzionano i join? dobbiamo specificare i nomi? i warning sono importanti o si possono ignorare?
     @ManyToMany(cascade = {CascadeType.ALL})
     //@JoinTable(name = "STUDENT_COURSE", joinColumns={@JoinColumn(name="COURSE_ID")}, inverseJoinColumns={@JoinColumn(name="STUDENT_ID")})
     @JoinColumn(name = "STUDENT_ID")

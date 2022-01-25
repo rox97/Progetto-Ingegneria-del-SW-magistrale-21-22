@@ -15,17 +15,17 @@
         <th>Id</th>
         <th>Name</th>
         <th>Surname</th>
+        <th>Booklet</th>
         <th>Grade</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="student: ${students}">
-        <td th:text="${student.id}"> <b>10 </b></td>
+        <td th:text="${student.id}"> <b> 10 </b></td>
         <td th:text="${student.firstName}"> John </td>
         <td th:text="${student.lastName}"> Smith </td>
-        <td><label>
-            <input type="text" name="grade">
-        </label></td>
+        <td th:text="${student.getBooklet().getId()}"> 0 </td>
+        <td><input type="text" name="grade"/></td>
     </tr>
     </tbody>
 </table>

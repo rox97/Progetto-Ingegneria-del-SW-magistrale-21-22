@@ -30,13 +30,13 @@ public class ELearningController {
     }
 
     // TODO: valutare se serve
-    @PostMapping("/courses")
+    @PostMapping("/pCourses")
     public Professor addProfessor(@RequestBody Professor professor){
         professorRepository.save(professor);
         return professor;
     }
 
-    @GetMapping("/courses/{courseId}")
+    @GetMapping("/pCourses/{professorId}")
     public Optional<Professor> getProfessor(@PathVariable("professorsId") Long id){
 
         return professorRepository.findById(id);
@@ -96,7 +96,7 @@ public class ELearningController {
     }
 
     @RequestMapping("/addGrades")
-    public String addGrades(@RequestParam(name="grade", required = true) String grade){
+    public String addGrades(@RequestParam(name="grade", required = true) List<String> grade, Model model){
 
 
         return "redirect:/index";
@@ -108,10 +108,6 @@ public class ELearningController {
 
         return "noticeBoard";
     }
-
-
-
-
 
     //TEST
     public Course initTest(){

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
-//TODO: serve il nome della tabella?
+//QUESTION: serve il nome della tabella?
 @Table(name = "STUDENT")
 public class Student {
 
@@ -48,12 +48,13 @@ public class Student {
 
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "BOOKLET_ID")
-    private Booklet booklet;
+    private Booklet booklet = new Booklet();
     public Booklet getBooklet() {
         return booklet;
     }
     public void setBooklet(Booklet booklet) {
         this.booklet = booklet;
     }
+    public void setGrade(String grade){this.booklet.setGrade(grade);}
 
 }
