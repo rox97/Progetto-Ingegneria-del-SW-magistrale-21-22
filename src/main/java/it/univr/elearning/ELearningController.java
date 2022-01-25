@@ -57,7 +57,6 @@ public class ELearningController {
     }
 
 
-
     @RequestMapping("/grades")
     public String addGrades(/*@PathVariable("courseId") Long id,*/ Model model){
         Course c = new Course();
@@ -68,6 +67,13 @@ public class ELearningController {
         List<Student> students = c.getStudents();
         model.addAttribute("students", students);
         return "grades";
+    }
+
+    @RequestMapping("/noticeBoard")
+    public String viewNoticeBoard(){
+
+
+        return "noticeBoard";
     }
 
 

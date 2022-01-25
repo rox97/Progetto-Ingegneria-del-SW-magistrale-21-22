@@ -37,6 +37,16 @@ public class Course {
 
     public String getCoordinatorName(){return coordinatorName;}
 
+    @OneToOne
+    @JoinColumn(name = "PROFESSOR_ID")
+    private Professor professor = new Professor();
+    public Professor getProfessor() {
+        return professor;
+    }
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
+    }
+
     //TODO: come funzionano i join? dobbiamo specificare i nomi? i warning sono importanti o si possono ignorare?
     @ManyToMany
     //@JoinTable(name = "STUDENT_COURSE", joinColumns={@JoinColumn(name="COURSE_ID")}, inverseJoinColumns={@JoinColumn(name="STUDENT_ID")})

@@ -36,7 +36,7 @@ public class Booklet {
 
 
     @OneToOne(mappedBy="booklet")
-    private Student student;
+    private Student student = new Student();
 
     public Student getStudent() {
         return student;
