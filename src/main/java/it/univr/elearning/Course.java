@@ -37,7 +37,7 @@ public class Course {
 
     public String getCoordinatorName(){return coordinatorName;}
 
-    @OneToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "PROFESSOR_ID")
     private Professor professor = new Professor();
     public Professor getProfessor() {
@@ -48,7 +48,7 @@ public class Course {
     }
 
     //TODO: come funzionano i join? dobbiamo specificare i nomi? i warning sono importanti o si possono ignorare?
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.ALL})
     //@JoinTable(name = "STUDENT_COURSE", joinColumns={@JoinColumn(name="COURSE_ID")}, inverseJoinColumns={@JoinColumn(name="STUDENT_ID")})
     @JoinColumn(name = "STUDENT_ID")
     private List<Student> students = new ArrayList<>();

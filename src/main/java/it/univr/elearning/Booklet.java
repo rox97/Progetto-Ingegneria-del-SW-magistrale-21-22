@@ -35,7 +35,7 @@ public class Booklet {
 
 
 
-    @OneToOne(mappedBy="booklet")
+    @OneToOne(mappedBy="booklet",cascade = {CascadeType.ALL})
     private Student student = new Student();
 
     public Student getStudent() {

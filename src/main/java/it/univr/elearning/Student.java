@@ -32,7 +32,7 @@ public class Student {
         this.lastName = lastName;
     }
 
-    @ManyToMany(mappedBy="students")
+    @ManyToMany(mappedBy="students",cascade = {CascadeType.ALL})
     private List<Course> courses = new ArrayList<>();
     public List<Course> getCourses() {
         return courses;
@@ -46,7 +46,7 @@ public class Student {
         this.courses.add(course);
     }
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "BOOKLET_ID")
     private Booklet booklet = new Booklet();
     public Booklet getBooklet() {

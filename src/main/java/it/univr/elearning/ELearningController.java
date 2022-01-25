@@ -14,6 +14,7 @@ public class ELearningController {
 
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
     private StudentRepository studentRepository;
 
     @PostMapping("/courses")
@@ -58,7 +59,7 @@ public class ELearningController {
 
 
     @RequestMapping("/grades")
-    public String addGrades(/*@PathVariable("courseId") Long id,*/ Model model){
+    public String grades(/*@PathVariable("courseId") Long id,*/ Model model){
         Course c = new Course();
         //if(courseRepository.findById(id).isPresent()) {
           //  c = courseRepository.findById(id).get();
@@ -67,6 +68,13 @@ public class ELearningController {
         List<Student> students = c.getStudents();
         model.addAttribute("students", students);
         return "grades";
+    }
+
+    @RequestMapping("/addGrades")
+    public String addGrades(@RequestParam(name="grade", required = true) String grade){
+
+
+        return "redirect:/index";
     }
 
     @RequestMapping("/noticeBoard")
@@ -78,16 +86,18 @@ public class ELearningController {
 
 
 
+
+
     //TEST
     public Course initTest(){
         Student s1 = new Student("andrea", "rossetti");
         Student s2 = new Student("simone", "baldi");
-        //studentRepository.save(s1);
-        //studentRepository.save(s2);
+        studentRepository.save(s1);
+        studentRepository.save(s2);
         Course c = new Course("Fondamenti AI", "Farinelli");
         c.setStudent(s1);
         c.setStudent(s2);
-        //courseRepository.save(c);
+        courseRepository.save(c);
         //courseRepository.findByCourseName("Fondamenti AI");
         return c;
     }

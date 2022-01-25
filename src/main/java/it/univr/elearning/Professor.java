@@ -31,11 +31,13 @@ public class Professor {
     public String getProfessorName(){ return professorName;}
     public String getProfessorSurname(){ return professorSurname;}
 
-    @OneToMany(mappedBy="professor")
-    private Course course;
+    @OneToMany(mappedBy="professor",cascade = {CascadeType.ALL})
     private List<Course> courses = new ArrayList<>();
     public List<Course> getCourses() {
         return courses;
+    }
+    public void setCourses(List<Course> courses){
+        this.courses = courses;
     }
 
 
