@@ -5,9 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class ELearningController {
@@ -16,6 +14,8 @@ public class ELearningController {
     private CourseRepository courseRepository;
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private ProfessorRepository professorRepository;
 
     @PostMapping("/courses")
     public Course addCourse(@RequestBody Course course){
@@ -23,10 +23,35 @@ public class ELearningController {
         return course;
     }
 
+    @GetMapping("/courses/{courseId}")
+    public Optional<Course> getCourse(@PathVariable("coursesId") Long id){
+
+        return courseRepository.findById(id);
+    }
+
+    // TODO: valutare se serve
+    @PostMapping("/courses")
+    public Professor addProfessor(@RequestBody Professor professor){
+        professorRepository.save(professor);
+        return professor;
+    }
+
+    @GetMapping("/courses/{courseId}")
+    public Optional<Professor> getProfessor(@PathVariable("professorsId") Long id){
+
+        return professorRepository.findById(id);
+    }
+
     @PostMapping("/student")
     public Student addStudent(@RequestBody Student student){
         studentRepository.save(student);
         return student;
+    }
+
+    @GetMapping("/student/{studentId}")
+    public Optional<Student> getStudent(@PathVariable("studentId") Long id){
+
+        return studentRepository.findById(id);
     }
 
     // TODO: mapping

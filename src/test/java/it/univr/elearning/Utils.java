@@ -45,6 +45,13 @@ public class Utils {
 
     }
 
+    public static String getProfessorJson (String professorName, String professorSurname){
+        return "{\n" +
+                "    \"professorName\": \"" + professorName + "\",\n" +
+                "    \"professorSurname\": \"" + professorSurname + "\"\n" +
+                "}";
+    }
+
 
     public static void initCoursesDatabase(){
 
@@ -61,7 +68,14 @@ public class Utils {
         given().contentType("application/json").body(getStudentJson("Simone", "Baldi")).when().post("/students").then().statusCode(200);
 
 
-
-
     }
+
+    public static void initProfessorDatabase(){
+        given().contentType("application/json").body(getProfessorJson("Mariano", "Ceccato")).when().post("/professor").then().statusCode(200);
+        given().contentType("application/json").body(getProfessorJson("Alessandro", "Farinelli")).when().post("professor").then().statusCode(200);
+        given().contentType("application/json").body(getProfessorJson("Damiano", "Carra")).when().post("/professor").then().statusCode(200);
+        given().contentType("application/json").body(getProfessorJson("Enrico", "Gregorio")).when().post("/professor").then().statusCode(200);
+    }
+
+
 }

@@ -24,6 +24,7 @@ public class Professor {
         this.professorSurname = professorSurname;
     }
 
+    public void setId(Long id){ this.id = id;}
     public void setProfessorName(String professorName){ this.professorName = professorName;}
     public void setProfessorSurname(String professorSurname){ this.professorSurname = professorSurname;}
 
@@ -32,7 +33,6 @@ public class Professor {
     public String getProfessorSurname(){ return professorSurname;}
 
     @OneToMany(mappedBy="professor",cascade = {CascadeType.ALL})
-    //private Course course = new Course();
     private List<Course> courses = new ArrayList<>();
     public List<Course> getCourses() {
         return courses;

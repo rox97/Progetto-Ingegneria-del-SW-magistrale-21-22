@@ -39,7 +39,7 @@ public class Course {
 
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "PROFESSOR_ID")
-    private Professor professor = new Professor();
+    private Professor professor;
     public Professor getProfessor() {
         return professor;
     }
@@ -62,10 +62,5 @@ public class Course {
     public void setStudent(Student student){
         this.students.add(student);
     }
-
-
-
-
-
 
 }

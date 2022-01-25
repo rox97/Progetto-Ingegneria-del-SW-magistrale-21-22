@@ -48,7 +48,7 @@ public class Student {
 
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "BOOKLET_ID")
-    private Booklet booklet = new Booklet();
+    private Booklet booklet;
     public Booklet getBooklet() {
         return booklet;
     }
