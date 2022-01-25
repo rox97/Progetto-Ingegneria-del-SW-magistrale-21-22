@@ -91,14 +91,19 @@ public class ELearningController {
         //}
         c = initTest();
         List<Student> students = c.getStudents();
+        StudentForm studentForm = new StudentForm();
+        studentForm.setStudents(students);
+        model.addAttribute("studentForm", studentForm);
         model.addAttribute("students", students);
         return "grades";
     }
 
     @RequestMapping("/addGrades")
-    public String addGrades(@RequestParam(name="grade", required = true) List<String> grade, Model model){
-
-
+    public String addGrades(@ModelAttribute("studentForm") StudentForm studentForm, Model model){
+        List<Student> students = studentForm.getStudents();
+        for(Student s : students){
+            System.out.println(s.getId() + " " + s.getFirstName() + " " + s.getLastName() + " " + s.getLastGrade());
+        }
         return "redirect:/index";
     }
 

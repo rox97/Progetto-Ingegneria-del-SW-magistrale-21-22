@@ -2,6 +2,7 @@ package it.univr.elearning;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Map;
 
 @Entity
 @Table(name = "BOOKLET")

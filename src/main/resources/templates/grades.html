@@ -8,24 +8,26 @@
 <body>
 <h1>Students grades</h1>
 
-<form action="addGrades" method="post">
+<form action="addGrades" method="post" th:object="${studentForm}">
 <table border="1">
     <thead>
     <tr>
         <th>Id</th>
         <th>Name</th>
         <th>Surname</th>
-        <th>Booklet</th>
         <th>Grade</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="student: ${students}">
+    <tr th:each="student, iteration: ${students}">
         <td th:text="${student.id}"> <b> 10 </b></td>
         <td th:text="${student.firstName}"> John </td>
-        <td th:text="${student.lastName}"> Smith </td>
-        <td th:text="${student.getBooklet().getId()}"> 0 </td>
-        <td><input type="text" name="grade"/></td>
+        <td th:text="*{students[__${iteration.index}__].lastName}"> Smith </td>
+        <td><input type="text" th:field="*{students[__${iteration.index}__].lastGrade}"/></td>
+        <input type="hidden" th:field="*{students[__${iteration.index}__].id}"/>
+        <input type="hidden" th:field="*{students[__${iteration.index}__].firstName}"/>
+        <input type="hidden" th:field="*{students[__${iteration.index}__].lastName}"/>
+
     </tr>
     </tbody>
 </table>
