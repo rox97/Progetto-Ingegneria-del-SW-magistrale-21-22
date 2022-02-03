@@ -60,15 +60,12 @@ public class Student {
         this.courses.add(course);
     }
 
-    @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "BOOKLET_ID")
-    private Booklet booklet = new Booklet();
-    public Booklet getBooklet() {
+    @OneToMany(mappedBy = "student" ,cascade = {CascadeType.MERGE})
+    private List<Booklet> booklet = new ArrayList<>();
+    public List<Booklet> getBooklet() {
         return booklet;
     }
     public void setBooklet(Booklet booklet) {
-        this.booklet = booklet;
+        this.booklet.add(booklet);
     }
-    public void setGrade(String grade){this.booklet.setGrade(grade);}
-
 }

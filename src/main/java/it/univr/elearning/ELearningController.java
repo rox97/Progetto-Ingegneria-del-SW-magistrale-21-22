@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -16,6 +18,13 @@ public class ELearningController {
     private StudentRepository studentRepository;
     @Autowired
     private ProfessorRepository professorRepository;
+    @Autowired
+    private BookletRepository bookletRepository;
+
+    @RequestMapping("/login")
+    public String login(){
+        return "login";
+    }
 
     @PostMapping("/courses")
     public Course addCourse(@RequestBody Course course){
@@ -54,7 +63,7 @@ public class ELearningController {
         return studentRepository.findById(id);
     }
 
-    // TODO: mapping
+    // TODO: valutare se serve e nel caso mapping
     public void setCourseStudents(@RequestParam(name="id") Long id, @RequestParam(name="students") List<Student> students){
         Course c = new Course();
         if (courseRepository.existsById(id)){
@@ -67,7 +76,7 @@ public class ELearningController {
         }
     }
 
-    // TODO: mapping
+    // TODO: valutare se serve e nel caso mapping
     public void setCourseStudent(@RequestParam(name="id") Long idCourse, @RequestParam(name="student") Long idStudent){
         if (courseRepository.existsById(idCourse)){
             Course c = courseRepository.findById(idCourse).get();
@@ -82,6 +91,9 @@ public class ELearningController {
         return "grades";
     }
 
+    @RequestMapping("/home")
+    public String home(){return "home";}
+
 
     @RequestMapping("/grades")
     public String grades(/*@PathVariable("courseId") Long id,*/ Model model){
@@ -89,22 +101,38 @@ public class ELearningController {
         //if(courseRepository.findById(id).isPresent()) {
           //  c = courseRepository.findById(id).get();
         //}
+        //REMOVE: corso di test
         c = initTest();
         List<Student> students = c.getStudents();
         StudentForm studentForm = new StudentForm();
         studentForm.setStudents(students);
         model.addAttribute("studentForm", studentForm);
         model.addAttribute("students", students);
+        model.addAttribute("courseName", c.getCourseName());
         return "grades";
     }
 
     @RequestMapping("/addGrades")
-    public String addGrades(@ModelAttribute("studentForm") StudentForm studentForm, Model model){
+    public String addGrades(@ModelAttribute("courseName") String courseName,@ModelAttribute("examDate") String examDate, @ModelAttribute("examType") String examType,@ModelAttribute("studentForm") StudentForm studentForm, Model model) throws ParseException {
         List<Student> students = studentForm.getStudents();
+        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(examDate);
+        System.out.println(courseName);
+        System.out.println(date + " " + examType);
         for(Student s : students){
             System.out.println(s.getId() + " " + s.getFirstName() + " " + s.getLastName() + " " + s.getLastGrade());
+            Booklet booklet = new Booklet();
+            booklet.setCourseName(courseName);
+            booklet.setExamDate(date);
+            booklet.setExamType(examType);
+            booklet.setGrade(s.getLastGrade());
+            booklet.setStudent(s);
+            bookletRepository.save(booklet);
         }
-        return "redirect:/index";
+        Iterable<Booklet> booklets = bookletRepository.findAll();
+        for(Booklet b : booklets){
+            System.out.println(b.getId()+" "+b.getGrade()+" "+b.getExamType()+" "+b.getExamDate()+" "+b.getCourseName()+" "+b.getStudent().getFirstName());
+        }
+        return "redirect:/home";
     }
 
     @RequestMapping("/noticeBoard")

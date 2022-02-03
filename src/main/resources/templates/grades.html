@@ -7,8 +7,15 @@
 
 <body>
 <h1>Students grades</h1>
+<h2>
+    Course:
+    <span th:text="${courseName}"> test </span>
+</h2>
 
 <form action="addGrades" method="post" th:object="${studentForm}">
+    Date:<input type="date" name="examDate"><br>
+    Exam type:<input type="text" name="examType"><br>
+    <input type="hidden" name="courseName" th:value="${courseName}"/>
 <table border="1">
     <thead>
     <tr>
