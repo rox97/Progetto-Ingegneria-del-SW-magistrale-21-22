@@ -21,9 +21,11 @@ public class Booklet {
     protected Booklet() {
     }
 
-    public Booklet(String courseName, String grade) {
+    public Booklet(String courseName, String examType, String grade, Date examDate) {
         this.courseName = courseName;
+        this.examType = examType;
         this.grade = grade;
+        this.examDate = examDate;
     }
 
     public Long getId() {
@@ -34,7 +36,7 @@ public class Booklet {
         return courseName;
     }
 
-    public Object getGrade() {
+    public String getGrade() {
         return grade;
     }
 
@@ -44,6 +46,10 @@ public class Booklet {
 
     public String getExamType() {
         return examType;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setExamType(String examType) {

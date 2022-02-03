@@ -23,6 +23,18 @@ public class ELearningController {
 
     @RequestMapping("/login")
     public String login(){
+        //REMOVE: se rimuovo la prima istanza di un voto nella repository, non riesco più a salvarne altri
+        initTest();
+        String examDate = "1970-01-01";
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd").parse(examDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Booklet b = new Booklet("test","test","test",date);
+        bookletRepository.save(b);
+
         return "login";
     }
 
@@ -97,12 +109,11 @@ public class ELearningController {
 
     @RequestMapping("/grades")
     public String grades(/*@PathVariable("courseId") Long id,*/ Model model){
-        Course c = new Course();
         //if(courseRepository.findById(id).isPresent()) {
           //  c = courseRepository.findById(id).get();
         //}
-        //REMOVE: corso di test
-        c = initTest();
+        //QUESTION: Optional?
+        Course c = courseRepository.getCourseByCourseName("Fondamenti AI");
         List<Student> students = c.getStudents();
         StudentForm studentForm = new StudentForm();
         studentForm.setStudents(students);
@@ -113,11 +124,18 @@ public class ELearningController {
     }
 
     @RequestMapping("/addGrades")
-    public String addGrades(@ModelAttribute("courseName") String courseName,@ModelAttribute("examDate") String examDate, @ModelAttribute("examType") String examType,@ModelAttribute("studentForm") StudentForm studentForm, Model model) throws ParseException {
+    public String addGrades(@ModelAttribute("courseName") String courseName,@ModelAttribute("examDate") String examDate, @ModelAttribute("examType") String examType,@ModelAttribute("studentForm") StudentForm studentForm, Model model){
         List<Student> students = studentForm.getStudents();
-        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(examDate);
+        System.out.println(examDate);
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd").parse(examDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         System.out.println(courseName);
         System.out.println(date + " " + examType);
+        List<Booklet> courseBooklets = new ArrayList<>();
         for(Student s : students){
             System.out.println(s.getId() + " " + s.getFirstName() + " " + s.getLastName() + " " + s.getLastGrade());
             Booklet booklet = new Booklet();
@@ -126,11 +144,25 @@ public class ELearningController {
             booklet.setExamType(examType);
             booklet.setGrade(s.getLastGrade());
             booklet.setStudent(s);
-            bookletRepository.save(booklet);
+            //FIXME:la pagina html visualizza i voti precedenti
+            if (!Objects.equals(s.getLastGrade(), "")){
+                //courseBooklets.add(booklet);
+                for(Booklet bR : bookletRepository.findAll()){
+                    if (Objects.equals(bR.getCourseName(), booklet.getCourseName()) && Objects.equals(bR.getStudent().getFirstName(), booklet.getStudent().getFirstName())) {
+                        //bR.setGrade(booklet.getGrade());
+                        bookletRepository.delete(bR);
+                        bookletRepository.save(booklet);
+                    } else {
+                        bookletRepository.save(booklet);
+
+                    }
+                }
+            }
         }
+
         Iterable<Booklet> booklets = bookletRepository.findAll();
         for(Booklet b : booklets){
-            System.out.println(b.getId()+" "+b.getGrade()+" "+b.getExamType()+" "+b.getExamDate()+" "+b.getCourseName()+" "+b.getStudent().getFirstName());
+            System.out.println("Final Booklets: "+b.getId()+" "+b.getGrade()+" "+b.getExamType()+" "+b.getExamDate()+" "+b.getCourseName()+" "+b.getStudent());
         }
         return "redirect:/home";
     }

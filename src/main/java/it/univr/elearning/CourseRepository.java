@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface CourseRepository extends CrudRepository<Course,Long> {
 
-    Optional<Course> findByCourseName(String courseName);
+    Course getCourseByCourseName(String courseName);
 }
