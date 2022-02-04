@@ -144,9 +144,8 @@ public class ELearningController {
             booklet.setExamType(examType);
             booklet.setGrade(s.getLastGrade());
             booklet.setStudent(s);
-            //FIXME:la pagina html visualizza i voti precedenti
             if (!Objects.equals(s.getLastGrade(), "")){
-                //courseBooklets.add(booklet);
+                s.setLastGrade("");
                 for(Booklet bR : bookletRepository.findAll()){
                     if (Objects.equals(bR.getCourseName(), booklet.getCourseName()) && Objects.equals(bR.getStudent().getFirstName(), booklet.getStudent().getFirstName())) {
                         //bR.setGrade(booklet.getGrade());

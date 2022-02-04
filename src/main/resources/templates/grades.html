@@ -30,6 +30,7 @@
         <td th:text="${student.id}"> <b> 10 </b></td>
         <td th:text="${student.firstName}"> John </td>
         <td th:text="*{students[__${iteration.index}__].lastName}"> Smith </td>
+        <!-- th:field="*{students[__${iteration.index}__].lastGrade}" -->
         <td><input type="text" th:field="*{students[__${iteration.index}__].lastGrade}"/></td>
         <input type="hidden" th:field="*{students[__${iteration.index}__].id}"/>
         <input type="hidden" th:field="*{students[__${iteration.index}__].firstName}"/>
@@ -39,9 +40,8 @@
     </tbody>
 </table>
 
-    <input type="submit" value="salva"/>
-    <input type="submit" value="annulla" />
-
+    <input type="submit" value="salva" />
+    <a href="/login"> Annulla </a>
 </form>
 
 </body>
