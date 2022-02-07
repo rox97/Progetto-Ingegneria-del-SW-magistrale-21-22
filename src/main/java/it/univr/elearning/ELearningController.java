@@ -19,7 +19,7 @@ public class ELearningController {
     @Autowired
     private ProfessorRepository professorRepository;
     @Autowired
-    private BookletRepository bookletRepository;
+    private GradeRepository gradeRepository;
 
     @RequestMapping("/login")
     public String login(){
@@ -32,8 +32,8 @@ public class ELearningController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Booklet b = new Booklet("test","test","test",date);
-        bookletRepository.save(b);
+        Grade b = new Grade("test","test","test",date);
+        gradeRepository.save(b);
 
         return "login";
     }
@@ -112,57 +112,59 @@ public class ELearningController {
         //if(courseRepository.findById(id).isPresent()) {
           //  c = courseRepository.findById(id).get();
         //}
-        //QUESTION: Optional?
-        Course c = courseRepository.getCourseByCourseName("Fondamenti AI");
-        List<Student> students = c.getStudents();
-        StudentForm studentForm = new StudentForm();
-        studentForm.setStudents(students);
-        model.addAttribute("studentForm", studentForm);
-        model.addAttribute("students", students);
-        model.addAttribute("courseName", c.getCourseName());
-        return "grades";
+        Optional<Course> c = courseRepository.getCourseByCourseName("Fondamenti AI");
+        if(c.isPresent()) {
+            Course test = c.get();
+            List<Student> students = test.getStudents();
+            StudentForm studentForm = new StudentForm();
+            studentForm.setStudents(students);
+            model.addAttribute("studentForm", studentForm);
+            model.addAttribute("students", students);
+            model.addAttribute("courseName", test.getCourseName());
+            return "grades";
+        }
+        else{
+            return "notfound";
+        }
     }
 
     @RequestMapping("/addGrades")
     public String addGrades(@ModelAttribute("courseName") String courseName,@ModelAttribute("examDate") String examDate, @ModelAttribute("examType") String examType,@ModelAttribute("studentForm") StudentForm studentForm, Model model){
         List<Student> students = studentForm.getStudents();
-        System.out.println(examDate);
+        //TODO: ottimizzare questa parte del try catch. Non penso sia ottimo non gestire l'exception
         Date date = null;
         try {
             date = new SimpleDateFormat("yyyy-MM-dd").parse(examDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        System.out.println(courseName);
-        System.out.println(date + " " + examType);
-        List<Booklet> courseBooklets = new ArrayList<>();
+        } catch (ParseException ignored){}
+
+        List<Grade> courseBooklets = new ArrayList<>();
+        //FIXME: nullPointerException probabilmente generato dal fatto che non inizializza la repository all'avvio.
+        //Probabilmente si risolverà con la versione definitiva
         for(Student s : students){
-            System.out.println(s.getId() + " " + s.getFirstName() + " " + s.getLastName() + " " + s.getLastGrade());
-            Booklet booklet = new Booklet();
-            booklet.setCourseName(courseName);
-            booklet.setExamDate(date);
-            booklet.setExamType(examType);
-            booklet.setGrade(s.getLastGrade());
-            booklet.setStudent(s);
+            Grade grade = new Grade();
+            grade.setCourseName(courseName);
+            grade.setExamDate(date);
+            grade.setExamType(examType);
+            grade.setGrade(s.getLastGrade());
+            grade.setStudent(s);
             if (!Objects.equals(s.getLastGrade(), "")){
                 s.setLastGrade("");
-                for(Booklet bR : bookletRepository.findAll()){
-                    if (Objects.equals(bR.getCourseName(), booklet.getCourseName()) && Objects.equals(bR.getStudent().getFirstName(), booklet.getStudent().getFirstName())) {
+                for(Grade gR : gradeRepository.findAll()){
+                    if (Objects.equals(gR.getCourseName(), grade.getCourseName()) && Objects.equals(gR.getStudent().getFirstName(), grade.getStudent().getFirstName())) {
                         //bR.setGrade(booklet.getGrade());
-                        bookletRepository.delete(bR);
-                        bookletRepository.save(booklet);
-                    } else {
-                        bookletRepository.save(booklet);
-
+                        gradeRepository.delete(gR);
                     }
+                    gradeRepository.save(grade);
                 }
             }
         }
-
+/*
         Iterable<Booklet> booklets = bookletRepository.findAll();
         for(Booklet b : booklets){
             System.out.println("Final Booklets: "+b.getId()+" "+b.getGrade()+" "+b.getExamType()+" "+b.getExamDate()+" "+b.getCourseName()+" "+b.getStudent());
         }
+
+ */
         return "redirect:/home";
     }
 
@@ -173,18 +175,35 @@ public class ELearningController {
         return "noticeBoard";
     }
 
+
+
+    @RequestMapping("/booklet")
+    public String getBooklet(Model model){
+        //TEST
+        Student s = studentRepository.getStudentByStudentId("VR1234");
+        System.out.println(s.getFirstName());
+        model.addAttribute("firstName", s.getFirstName());
+        model.addAttribute("lastName", s.getLastName());
+        Iterable<Grade> grades = gradeRepository.findAll();
+        for(Grade g : grades){
+            if(Objects.equals(g.getStudent().getStudentId(), s.getStudentId())){
+                model.addAttribute("booklet",g);
+            }
+        }
+
+        return "booklet";
+    }
+
     //TEST
-    public Course initTest(){
-        Student s1 = new Student("andrea", "rossetti");
-        Student s2 = new Student("simone", "baldi");
+    public void initTest(){
+        Student s1 = new Student("andrea", "rossetti","VR1234");
+        Student s2 = new Student("simone", "baldi","VR9876");
         studentRepository.save(s1);
         studentRepository.save(s2);
-        Course c = new Course("Fondamenti AI", "Farinelli");
+        Course c = new Course("Fondamenti AI", "Farinelli","2021/22");
         c.setStudent(s1);
         c.setStudent(s2);
         courseRepository.save(c);
-        //courseRepository.findByCourseName("Fondamenti AI");
-        return c;
     }
 
 

@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>ELearning Web application</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+<h1>Student's booklet</h1>
+
+Student: <span th:text="${firstName}"> firstName </span> <span th:text="${lastName}"> lastName </span>
+  <table border="1">
+    <thead>
+    <tr>
+      <th>Id</th>
+      <th>Course Name</th>
+      <th>Exam Type</th>
+      <th>Grade</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="grade: ${booklet}">
+      <td th:text="${grade.id}"> <b> 10 </b></td>
+      <td th:text="${grade.courseName}"> Fondamenti di Ingegneria del Software </td>
+      <td th:text="${grade.examType}"> Esame </td>
+      <td th:text="*{grade.grade}"> 30 </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <button href="/home"> Indietro </button>
+
+</body>

@@ -14,13 +14,15 @@ public class Course {
     private Long id;
     private String courseName;
     private String coordinatorName;
+    private String academicYear;
 
     protected Course() {
     }
 
-    public Course(String courseName, String coordinatorName) {
+    public Course(String courseName, String coordinatorName, String academicYear) {
         this.courseName = courseName;
         this.coordinatorName = coordinatorName;
+        this.academicYear = academicYear;
     }
 
     public void setCourseName(String courseName) {
@@ -31,6 +33,9 @@ public class Course {
         this.coordinatorName = coordinatorName;
     }
 
+    public void setAcademicYear(String academicYear) {
+        this.academicYear = academicYear;
+    }
 
     public Long getId() {
         return id;
@@ -42,6 +47,10 @@ public class Course {
 
     public String getCoordinatorName() {
         return coordinatorName;
+    }
+
+    public String getAcademicYear() {
+        return academicYear;
     }
 
     @ManyToOne(cascade = {CascadeType.ALL})

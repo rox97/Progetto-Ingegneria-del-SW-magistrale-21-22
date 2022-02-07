@@ -15,12 +15,16 @@ public class Student {
     private String firstName;
     private String lastName;
     private String lastGrade;
+    private String studentId;
+    //QUESTION: la password va bene salvata così?
+    private String password;
 
     protected Student(){}
 
-    public Student(String firstName, String lastName){
+    public Student(String firstName, String lastName, String studentId){
         this.firstName = firstName;
         this.lastName = lastName;
+        this.studentId = studentId;
     }
 
     public Long  getId() {return id;}
@@ -29,6 +33,14 @@ public class Student {
 
     public String getLastGrade() {
         return lastGrade;
+    }
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void setId(Long id) {
@@ -41,9 +53,16 @@ public class Student {
     public void setLastName(String lastName){
         this.lastName = lastName;
     }
-
     public void setLastGrade(String lastGrade) {
         this.lastGrade = lastGrade;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @ManyToMany(mappedBy="students",cascade = {CascadeType.ALL})
@@ -61,11 +80,11 @@ public class Student {
     }
 
     @OneToMany(mappedBy = "student" ,cascade = {CascadeType.MERGE})
-    private List<Booklet> booklet = new ArrayList<>();
-    public List<Booklet> getBooklet() {
-        return booklet;
-    }
-    public void setBooklet(Booklet booklet) {
-        this.booklet.add(booklet);
+    private List<Grade> grades = new ArrayList<>();
+    //public List<Grade> getBooklet() {
+    //    return grades;
+    //}
+    public void setGrade(Grade grade) {
+        this.grades.add(grade);
     }
 }

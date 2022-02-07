@@ -3,9 +3,11 @@ package it.univr.elearning;
 import javax.persistence.*;
 import java.util.Date;
 
+//TODO: cambiare nome in GRADE invece di BOOKLET
+
 @Entity
 @Table(name = "BOOKLET")
-public class Booklet {
+public class Grade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,10 +20,10 @@ public class Booklet {
     private Date examDate;
 
 
-    protected Booklet() {
+    protected Grade() {
     }
 
-    public Booklet(String courseName, String examType, String grade, Date examDate) {
+    public Grade(String courseName, String examType, String grade, Date examDate) {
         this.courseName = courseName;
         this.examType = examType;
         this.grade = grade;

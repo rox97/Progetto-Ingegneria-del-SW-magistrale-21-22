@@ -16,6 +16,9 @@ public class Professor {
     private long id;
     private String professorName;
     private String professorSurname;
+    private String userName;
+    //QUESTION: la password va bene salvata così?
+    private String password;
 
     protected Professor(){}
 
@@ -28,9 +31,25 @@ public class Professor {
     public void setProfessorName(String professorName){ this.professorName = professorName;}
     public void setProfessorSurname(String professorSurname){ this.professorSurname = professorSurname;}
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Long  getId() {return id;}
     public String getProfessorName(){ return professorName;}
     public String getProfessorSurname(){ return professorSurname;}
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 
     @OneToMany(mappedBy="professor",cascade = {CascadeType.ALL})
     private List<Course> courses = new ArrayList<>();
