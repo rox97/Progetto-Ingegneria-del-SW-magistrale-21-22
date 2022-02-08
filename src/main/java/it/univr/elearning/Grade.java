@@ -1,12 +1,13 @@
 package it.univr.elearning;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.Date;
 
-//TODO: cambiare nome in GRADE invece di BOOKLET
 
 @Entity
-@Table(name = "BOOKLET")
+@Table(name = "GRADE")
 public class Grade {
 
     @Id
@@ -71,7 +72,7 @@ public class Grade {
     }
 
 
-    @ManyToOne(cascade = {CascadeType.MERGE})
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "STUDENT_ID")
     private Student student;
 

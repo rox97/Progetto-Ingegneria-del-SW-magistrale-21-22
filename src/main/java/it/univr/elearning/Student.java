@@ -65,7 +65,7 @@ public class Student {
         this.password = password;
     }
 
-    @ManyToMany(mappedBy="students",cascade = {CascadeType.ALL})
+    @ManyToMany(mappedBy="students",cascade = {CascadeType.ALL}, targetEntity = Course.class)
     private List<Course> courses = new ArrayList<>();
     public List<Course> getCourses() {
         return courses;
@@ -79,11 +79,12 @@ public class Student {
         this.courses.add(course);
     }
 
-    @OneToMany(mappedBy = "student" ,cascade = {CascadeType.MERGE})
+    @OneToMany(mappedBy = "student" ,cascade = {CascadeType.MERGE}, targetEntity = Grade.class, fetch = FetchType.EAGER)
     private List<Grade> grades = new ArrayList<>();
     //public List<Grade> getBooklet() {
     //    return grades;
     //}
+    //public Grade getGrade(){return grade;}
     public void setGrade(Grade grade) {
         this.grades.add(grade);
     }
