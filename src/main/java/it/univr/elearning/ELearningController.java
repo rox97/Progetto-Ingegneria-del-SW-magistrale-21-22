@@ -169,10 +169,24 @@ public class ELearningController {
     }
 
     @RequestMapping("/noticeBoard")
-    public String viewNoticeBoard(){
+    public String notice(Model model){
+        Optional<Course> c = courseRepository.getCourseByCourseName("Fondamenti AI");
 
+        if(c.isPresent()) {
+            Course test = c.get();
+            List<Student> students = test.getStudents();
+            StudentForm studentForm = new StudentForm();
+            studentForm.setStudents(students);
 
-        return "noticeBoard";
+            model.addAttribute("studentForm", studentForm);
+            model.addAttribute("students", students);
+            model.addAttribute("courseName", test.getCourseName());
+
+            return "noticeBoard";
+        }
+        else{
+            return "notfound";
+        }
     }
 
 

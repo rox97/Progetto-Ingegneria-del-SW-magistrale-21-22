@@ -13,15 +13,15 @@
         <thead>
         <tr>
             <th>Id</th>
-            <th>Title</th>
-            <th>Date</th>
+            <th>Name</th>
+            <th>Surname</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="student: ${students}">
-            <td th:text="${student.id}"> <b>10 </b></td>
-            <td th:text="${student.firstName}"> John </td>
-            <td th:text="${student.lastName}"> Smith </td>
+        <tr th:each="professor: ${professor}">
+            <td th:text="${professor.id}"> <b>10 </b></td>
+            <td th:text="${professor.firstName}"> John </td>
+            <td th:text="${professor.lastName}"> Smith </td>
         </tr>
         </tbody>
     </table>
