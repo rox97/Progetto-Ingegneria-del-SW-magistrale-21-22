@@ -20,6 +20,8 @@ public class ELearningController {
     private ProfessorRepository professorRepository;
     @Autowired
     private GradeRepository gradeRepository;
+    @Autowired
+    private EventRepository eventRepository;
 
     @RequestMapping("/login")
     public String login() {
@@ -35,8 +37,6 @@ public class ELearningController {
         }
         Grade b = new Grade("test", "test", "test", date);
         Student s = new Student();
-        //b.setStudent(s);
-        //s.setGrade(b);
         gradeRepository.save(b);
 
         return "login";
@@ -182,22 +182,12 @@ public class ELearningController {
 
     @RequestMapping("/booklet")
     public String getBooklet(Model model){
-        //FIXME: se cambio il voto e torno nella pagina del libretto ho un NullPointerException
         //TEST
         Student s = studentRepository.getStudentByStudentId("VR1234");
         Iterable<Grade> grades = gradeRepository.findByStudent_StudentId("VR1234");
-        System.out.println(s.getFirstName());
         model.addAttribute("firstName", s.getFirstName());
         model.addAttribute("lastName", s.getLastName());
-        List<Grade> result = new ArrayList<>();
-        for(Grade g : grades){
-            System.out.println("Booklets: "+g.getId()+" "+g.getGrade()+" "+g.getExamType()+" "+g.getExamDate()+" "+g.getCourseName()+" "+g.getStudent());
-            result.add(g);
-        }
-
-        model.addAttribute("booklet",result);
-
-
+        model.addAttribute("booklet",grades);
         return "booklet";
     }
 

@@ -12,7 +12,6 @@ Student: <span th:text="${firstName}"> firstName </span> <span th:text="${lastNa
   <table border="1">
     <thead>
     <tr>
-      <th>Id</th>
       <th>Course Name</th>
       <th>Exam Type</th>
       <th>Grade</th>
@@ -20,7 +19,6 @@ Student: <span th:text="${firstName}"> firstName </span> <span th:text="${lastNa
     </thead>
     <tbody>
     <tr th:each="grade: ${booklet}">
-      <td th:text="${grade.id}"> <b> 10 </b></td>
       <td th:text="${grade.courseName}"> Fondamenti di Ingegneria del Software </td>
       <td th:text="${grade.examType}"> Esame </td>
       <td th:text="*{grade.grade}"> 30 </td>
