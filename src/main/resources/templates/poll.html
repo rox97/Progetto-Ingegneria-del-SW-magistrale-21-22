@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+</head>
+<body>
+
+<p>Creazione sondaggio:</p>
+
+
+<form name="sondaggio" method="get">
+    <div id=check00>
+        <input type="checkbox" id="check0" name="risposta">
+        <input type="text" onfocus="this.value=''" name="item">
+    </div>
+</form>
+<button type="button" id="button1" onclick="add_field()">Aggiungi risposta</button>
+<button type="button" id="button2" onclick="remove_checkbox()">Elimina risposta</button>
+<button type="button" onclick="add_field()">Avanti</button>
+
+
+<script>
+let currentCount = 0;
+    function add_field()
+    {
+      if(currentCount<3){
+        var aCapo = document.createElement('br');
+        var div = document.createElement('div');// make a hr
+        div.setAttribute('id', 'check'+(currentCount+1)+'0');
+        var form = document.getElementsByTagName('form')[0],
+        input1 = document.createElement('input');
+        input1.setAttribute('type', 'checkbox');
+        input1.setAttribute('id', 'check'+(currentCount+1));
+        input1.setAttribute('name', 'risposta');
+        input2 = document.createElement('input');
+        input2.setAttribute('type', 'text');
+        input2.setAttribute('onfocus', 'this.value=""');
+        input2.setAttribute('name', 'item');
+        form.appendChild(div);
+        div.appendChild(aCapo);
+        div.appendChild(input1);
+        div.appendChild(input2);
+
+        currentCount++;
+        if(currentCount==3){
+          document.getElementById('button1').style.visibility = 'hidden';
+        }
+      }
+    }
+
+    function remove_checkbox(){
+
+      const matches=document.querySelectorAll('input:checked');
+      var arrayLength = matches.length;
+      for (var i = 0; i < arrayLength; i++) {
+        var el = document.getElementById(matches[i].id+'0');
+        el.remove();
+        currentCount--;
+        document.getElementById('button1').style.visibility = 'visible';
+        //Do something
+      }
+
+    }
+
+
+</script>
+
+</body>
+</html>
