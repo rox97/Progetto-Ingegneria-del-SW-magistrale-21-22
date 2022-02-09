@@ -45,53 +45,40 @@ public class ELearningController {
 
     @RequestMapping("/login")
     public String login() {
-        //REMOVE: se rimuovo la prima istanza di un voto nella repository, non riesco più a salvarne altri
         return "login";
     }
 
+    @GetMapping("/")
+    public String index() {
+        return "redirect:/init";
+    }
+
+    @RequestMapping("/home")
+    public String home() {
+        return "home";
+    }
+
     @RequestMapping("/courses")
-    public String showCourses(Model model, @RequestParam("userName") String username, @RequestParam("password") String password){
+    public String showCourses(@RequestParam("userName") String username, @RequestParam("password") String password, Model model){
         if(professorRepository.existsByUserName(username)){
             Professor p = professorRepository.findByUserName(username);
             model.addAttribute("courses",p.getCourses());
-            return "courses";
+            return "pCourses";
         }
         else if(studentRepository.existsByStudentId(username)){
             Student s = studentRepository.findStudentByStudentId(username);
+            model.addAttribute("student", s);
             model.addAttribute("courses",s.getCourses());
-            return "courses";
+            return "sCourses";
         }
         else
             return "/notfound";
 
     }
 
-
-    /*
-    @PostMapping("/courses")
-    public Course addCourse(@RequestBody Course course) {
-        courseRepository.save(course);
-        return course;
-    }
-    */
-
-    @GetMapping("/courses/{courseId}")
-    public Optional<Course> getCourse(@PathVariable("coursesId") Long id) {
-
-        return courseRepository.findById(id);
-    }
-
-    // TODO: valutare se serve
-    @PostMapping("/pCourses")
-    public Professor addProfessor(@RequestBody Professor professor) {
-        professorRepository.save(professor);
-        return professor;
-    }
-
-    @GetMapping("/pCourses/{professorId}")
-    public Optional<Professor> getProfessor(@PathVariable("professorsId") Long id) {
-
-        return professorRepository.findById(id);
+    //TODO: quando implementerò anche il controllo della password, per tornare alla pagina dei corsi da pagine interne, utilizzerò solo l'username e non la password (vedi hidden input in libretto)
+    public String returnToCourses(@RequestParam("username") String username){
+        return "a";
     }
 
     @PostMapping("/student")
@@ -128,24 +115,31 @@ public class ELearningController {
             student.setCourse(c);
         }
     }
-
-    @GetMapping("/")
-    public String index() {
-        return "grades";
+    @RequestMapping("/calendar")
+    public String showCalendar(@RequestParam("studentId") String studentId, Model model){
+        Student student = studentRepository.findStudentByStudentId(studentId);
+        List<Course> courses = student.getCourses();
+        List<Event> events = new ArrayList<>();
+        for(Course c : courses){
+            events.addAll(c.getEvents());
+        }
+        model.addAttribute("events",events);
+        model.addAttribute("student", student);
+    return "/calendar";
     }
 
-    @RequestMapping("/home")
-    public String home() {
-        return "home";
+    public void addEvent(){
+
+    }
+
+    public void showEvent(){
+
     }
 
 
     @RequestMapping("/grades")
     public String grades(/*@PathVariable("courseId") Long id,*/ Model model) {
-        //if(courseRepository.findById(id).isPresent()) {
-        //  c = courseRepository.findById(id).get();
-        //}
-
+        //TEST
         Optional<Course> c = courseRepository.findCourseByCourseName("Fondamenti AI");
         //FIXME: quando torno sulla pagina non mi visualizza tutti i numeri di matricola
         if (c.isPresent()) {
@@ -171,7 +165,7 @@ public class ELearningController {
             date = new SimpleDateFormat("yyyy-MM-dd").parse(examDate);
         } catch (ParseException ignored) {
         }
-        //FIXME: nullPointerException probabilmente generato dal fatto che non inizializza la repository all'avvio.
+        //FIXME: nullPointerException ogni tanto, probabilmente generato dal fatto che non inizializza la repository all'avvio.
         //Probabilmente si risolverà con la versione definitiva
         for (Student s : students) {
             if (!Objects.equals(s.getLastGrade(), "")) {
@@ -221,15 +215,14 @@ public class ELearningController {
 
 
     @RequestMapping("/booklet")
-    public String getBooklet(Model model){
-        //TEST
-        Student s = studentRepository.findStudentByStudentId("VR1234");
-        Iterable<Grade> grades = gradeRepository.findByStudent_StudentId("VR1234");
-        model.addAttribute("firstName", s.getFirstName());
-        model.addAttribute("lastName", s.getLastName());
+    public String getBooklet(@RequestParam("studentId") String sId, Model model){
+        Iterable<Grade> grades = gradeRepository.findByStudent_StudentId(sId);
+        Student s = studentRepository.findStudentByStudentId(sId);
+        model.addAttribute("student", s);
         model.addAttribute("booklet",grades);
         return "booklet";
     }
+
 
     @GetMapping("/uploadFile")
     public String uploadPage() {
