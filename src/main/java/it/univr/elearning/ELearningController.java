@@ -30,6 +30,8 @@ public class ELearningController {
     private GradeRepository gradeRepository;
     @Autowired
     private EventRepository eventRepository;
+    @Autowired
+    private NoticeRepository noticeRepository;
 
     //Variabile percorso cartella upload file
     private final String UPLOAD_DIR = "./testUPLOADFILES/";
