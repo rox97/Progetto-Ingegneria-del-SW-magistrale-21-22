@@ -26,8 +26,10 @@
         </tr>
         </tbody>
     </table>
-
-<a href="/home"> Indietro  </a><br>
+<form action="courses" method="get">
+    <input type="hidden" name="userName" th:value="${student.studentId}"/>
+    <input type="submit" value="Indietro">
+</form>
 <a href="createNotice">  Crea </a><br>
 
 </body>

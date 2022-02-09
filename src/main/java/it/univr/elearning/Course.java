@@ -83,4 +83,16 @@ public class Course {
         this.students.add(student);
     }
 
+    @OneToMany(mappedBy="course",cascade = {CascadeType.ALL})
+    private List<Event> events = new ArrayList<>();
+    public List<Event> getEvents() {
+        return events;
+    }
+    public void setCourses(List<Event> events){
+        this.events = events;
+    }
+    public void setCourse(Event event){
+        this.events.add(event);
+    }
+
 }
