@@ -34,7 +34,10 @@
   <input type="hidden" th:name="studentId" th:value="${student.studentId}"/>
   <input type="submit" value="Calendario">
 </form>
-<a href="/home">File Personali</a><br>
+<form action="uploadFile" method="get">
+  <input type="submit" value="File Personali">
+</form>
+<!--<a href="/uploadFile">File Personali</a><br> -->
 <form action="calendar" method="get">
   <input type="hidden" th:name="studentId" th:value="${student.studentId}"/>
   <input type="submit" value="Bacheca">
