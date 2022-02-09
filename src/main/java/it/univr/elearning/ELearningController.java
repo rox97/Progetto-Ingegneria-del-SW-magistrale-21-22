@@ -28,6 +28,8 @@ public class ELearningController {
     private ProfessorRepository professorRepository;
     @Autowired
     private GradeRepository gradeRepository;
+    @Autowired
+    private NoticeRepository noticeRepository;
 
     //Variabile percorso cartella upload file
     private final String UPLOAD_DIR = "./testUPLOADFILES/";
@@ -186,23 +188,12 @@ public class ELearningController {
 
     @RequestMapping("/noticeBoard")
     public String notice(Model model){
-        Optional<Course> c = courseRepository.getCourseByCourseName("Fondamenti AI");
 
-        if(c.isPresent()) {
-            Course test = c.get();
-            List<Student> students = test.getStudents();
-            StudentForm studentForm = new StudentForm();
-            studentForm.setStudents(students);
+        Iterable<Notice> notices = noticeRepository.findAll();
+        model.addAttribute("notices",notices);
 
-            model.addAttribute("studentForm", studentForm);
-            model.addAttribute("students", students);
-            model.addAttribute("courseName", test.getCourseName());
+        return "noticeBoard";
 
-            return "noticeBoard";
-        }
-        else{
-            return "notfound";
-        }
     }
 
 
@@ -269,6 +260,11 @@ public class ELearningController {
         c.setStudent(s1);
         c.setStudent(s2);
         courseRepository.save(c);
+        //inizializzazione avvisi
+        Notice a = new Notice ("titolo","testo","Fondamenti AI");
+        Notice b = new Notice ("gianni","mefisto","Fondamenti AI");
+        noticeRepository.save(a);
+        noticeRepository.save(b);
 
         try {
 

@@ -8,27 +8,23 @@
 <body>
 <h1>Notice board</h1>
 
-<form action="addGrades" method="post">
     <table border="1">
         <thead>
         <tr>
             <th>Id</th>
-            <th>Name</th>
-            <th>Surname</th>
+            <th>Title</th>
+            <th>Text</th>
+            <th>Course Name</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="professor: ${professor}">
-            <td th:text="${professor.id}"> <b>10 </b></td>
-            <td th:text="${professor.firstName}"> John </td>
-            <td th:text="${professor.lastName}"> Smith </td>
+        <tr th:each="notice: ${notices}">
+            <td th:text="${notice.id}"></td>
+            <td th:text="${notice.title}"></td>
+            <td th:text="${notice.text}"></td>
+            <td th:text="${notice.courseName}"></td>
         </tr>
         </tbody>
     </table>
-
-    <input type="submit" value="salva"/>
-    <input type="submit" value="annulla" />
-
-</form>
 
 </body>
