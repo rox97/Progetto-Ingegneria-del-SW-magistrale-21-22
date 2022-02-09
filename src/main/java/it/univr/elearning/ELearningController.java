@@ -185,10 +185,13 @@ public class ELearningController {
     }
 
     @RequestMapping("/noticeBoard")
-    public String viewNoticeBoard(){
+    public String notice(Model model){
 
+        Iterable<Notice> notices = noticeRepository.findAll();
+        model.addAttribute("notices",notices);
 
         return "noticeBoard";
+
     }
 
 
@@ -245,6 +248,11 @@ public class ELearningController {
         c.setStudent(s1);
         c.setStudent(s2);
         courseRepository.save(c);
+        //inizializzazione avvisi
+        Notice a = new Notice ("titolo","testo","Fondamenti AI");
+        Notice b = new Notice ("gianni","mefisto","Fondamenti AI");
+        noticeRepository.save(a);
+        noticeRepository.save(b);
 
         try {
 
