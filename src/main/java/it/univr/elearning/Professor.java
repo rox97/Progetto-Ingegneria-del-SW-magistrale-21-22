@@ -22,9 +22,10 @@ public class Professor {
 
     protected Professor(){}
 
-    public Professor(String professorName, String professorSurname){
+    public Professor(String professorName, String professorSurname, String userName){
         this.professorName = professorName;
         this.professorSurname = professorSurname;
+        this.userName = userName;
     }
 
     public void setId(Long id){ this.id = id;}
@@ -59,6 +60,10 @@ public class Professor {
     public void setCourses(List<Course> courses){
         this.courses = courses;
     }
+    public void setCourse(Course course){
+        this.courses.add(course);
+    }
+
 
 
 }

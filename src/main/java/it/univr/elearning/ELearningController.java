@@ -36,31 +36,44 @@ public class ELearningController {
     //Variabile percorso cartella upload file
     private final String UPLOAD_DIR = "./testUPLOADFILES/";
 
+    @RequestMapping("/init")
+    public String init() {
+        initTest();
+        return "redirect:login";
+    }
+
 
     @RequestMapping("/login")
     public String login() {
         //REMOVE: se rimuovo la prima istanza di un voto nella repository, non riesco più a salvarne altri
-        initTest();
-
-        String examDate = "1970-01-01";
-        Date date = null;
-        try {
-            date = new SimpleDateFormat("yyyy-MM-dd").parse(examDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Grade b = new Grade("test", "test", "test", date);
-        Student s = new Student();
-        gradeRepository.save(b);
-
         return "login";
     }
 
+    @RequestMapping("/courses")
+    public String showCourses(Model model, @RequestParam("userName") String username, @RequestParam("password") String password){
+        if(professorRepository.existsByUserName(username)){
+            Professor p = professorRepository.findByUserName(username);
+            model.addAttribute("courses",p.getCourses());
+            return "courses";
+        }
+        else if(studentRepository.existsByStudentId(username)){
+            Student s = studentRepository.findStudentByStudentId(username);
+            model.addAttribute("courses",s.getCourses());
+            return "courses";
+        }
+        else
+            return "/notfound";
+
+    }
+
+
+    /*
     @PostMapping("/courses")
     public Course addCourse(@RequestBody Course course) {
         courseRepository.save(course);
         return course;
     }
+    */
 
     @GetMapping("/courses/{courseId}")
     public Optional<Course> getCourse(@PathVariable("coursesId") Long id) {
@@ -133,7 +146,7 @@ public class ELearningController {
         //  c = courseRepository.findById(id).get();
         //}
 
-        Optional<Course> c = courseRepository.getCourseByCourseName("Fondamenti AI");
+        Optional<Course> c = courseRepository.findCourseByCourseName("Fondamenti AI");
         //FIXME: quando torno sulla pagina non mi visualizza tutti i numeri di matricola
         if (c.isPresent()) {
             Course test = c.get();
@@ -158,8 +171,6 @@ public class ELearningController {
             date = new SimpleDateFormat("yyyy-MM-dd").parse(examDate);
         } catch (ParseException ignored) {
         }
-
-        List<Grade> courseBooklet = new ArrayList<>();
         //FIXME: nullPointerException probabilmente generato dal fatto che non inizializza la repository all'avvio.
         //Probabilmente si risolverà con la versione definitiva
         for (Student s : students) {
@@ -174,8 +185,6 @@ public class ELearningController {
                 s.setGrade(grade);
                 for(Grade gR : gradeRepository.findAll()){
                     if (Objects.equals(gR.getCourseName(), courseName) && Objects.equals(gR.getStudent().getStudentId(), s.getStudentId())) {
-                        System.out.println("dentro all'if");
-                        //bR.setGrade(booklet.getGrade());
                         gradeRepository.delete(gR);
                     }
                 }
@@ -197,9 +206,16 @@ public class ELearningController {
     }
 
     @RequestMapping("/createNotice")
-    public String createNotice(@RequestParam("title") String title, @RequestParam("text") String text, @RequestParam("courseName") String courseName ){
+    public String input(){
+        return "createNotice";
+    }
+
+    @RequestMapping("/inputNotice")
+    public String createNewNotice(@RequestParam(name="title", required=true) String title,
+                                  @RequestParam(name="text", required=true) String text,
+                                  @RequestParam(name="courseName", required=true) String courseName){
         noticeRepository.save(new Notice(title,text,courseName));
-        return "redirect:/home";
+        return "redirect:/noticeBoard";
     }
 
 
@@ -207,7 +223,7 @@ public class ELearningController {
     @RequestMapping("/booklet")
     public String getBooklet(Model model){
         //TEST
-        Student s = studentRepository.getStudentByStudentId("VR1234");
+        Student s = studentRepository.findStudentByStudentId("VR1234");
         Iterable<Grade> grades = gradeRepository.findByStudent_StudentId("VR1234");
         model.addAttribute("firstName", s.getFirstName());
         model.addAttribute("lastName", s.getLastName());
@@ -252,10 +268,36 @@ public class ELearningController {
         Student s2 = new Student("simone", "baldi","VR9876");
         studentRepository.save(s1);
         studentRepository.save(s2);
+        Professor p1 = new Professor("Alessandro", "Farinelli", "qwerty");
         Course c = new Course("Fondamenti AI", "Farinelli","2021/22");
         c.setStudent(s1);
         c.setStudent(s2);
+        c.setProfessor(p1);
+        p1.setCourse(c);
         courseRepository.save(c);
+        professorRepository.save(p1);
+
+        Course c2 = new Course("Fondamenti di Ingegneria del SW", "Ceccato","2021/22");
+        Professor p2 = new Professor("Mariano", "Ceccato", "asdfgh");
+        c2.setStudent(s1);
+        c2.setProfessor(p2);
+        p2.setCourse(c2);
+        courseRepository.save(c2);
+        professorRepository.save(p2);
+
+
+        //REMOVE: se rimuovo la prima istanza di un voto nella repository, non riesco più a salvarne altri
+        String examDate = "1970-01-01";
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd").parse(examDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Grade g = new Grade("test", "test", "test", date);
+        Student s = new Student();
+        gradeRepository.save(g);
+
         //inizializzazione avvisi
         Notice a = new Notice ("titolo","testo","Fondamenti AI");
         Notice b = new Notice ("gianni","mefisto","Fondamenti AI");

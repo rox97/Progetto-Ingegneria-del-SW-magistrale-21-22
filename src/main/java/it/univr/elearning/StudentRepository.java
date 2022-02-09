@@ -6,6 +6,8 @@ import java.util.Optional;
 
 public interface StudentRepository  extends CrudRepository<Student, Long> {
 
-    Student getStudentByStudentId(String studentId);
+    Student findStudentByStudentId(String studentId);
+    boolean existsByStudentId(String studentId);
+
 
 }
