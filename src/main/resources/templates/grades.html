@@ -19,7 +19,7 @@
 <table border="1">
     <thead>
     <tr>
-        <th>Id</th>
+        <th>Student Id</th>
         <th>Name</th>
         <th>Surname</th>
         <th>Grade</th>
@@ -27,14 +27,17 @@
     </thead>
     <tbody>
     <tr th:each="student, iteration: ${students}">
-        <td th:text="${student.id}"> <b> 10 </b></td>
-        <td th:text="${student.firstName}"> John </td>
+        <td th:text="*{students[__${iteration.index}__].studentId}"> <b> 10 </b></td>
+        <td th:text="*{students[__${iteration.index}__].firstName}"> John </td>
+        <!-- QUESTION: Perchè se tolgo iteration da tutti i text non funziona più? -->
         <td th:text="*{students[__${iteration.index}__].lastName}"> Smith </td>
         <!-- th:field="*{students[__${iteration.index}__].lastGrade}" -->
         <td><input type="text" th:field="*{students[__${iteration.index}__].lastGrade}"/></td>
         <input type="hidden" th:field="*{students[__${iteration.index}__].id}"/>
         <input type="hidden" th:field="*{students[__${iteration.index}__].firstName}"/>
         <input type="hidden" th:field="*{students[__${iteration.index}__].lastName}"/>
+        <input type="hidden" th:field="*{students[__${iteration.index}__].studentId}"/>
+
 
     </tr>
     </tbody>
