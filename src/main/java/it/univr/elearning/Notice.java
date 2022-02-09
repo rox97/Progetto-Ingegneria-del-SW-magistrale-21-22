@@ -1,9 +1,8 @@
 package it.univr.elearning;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
+@Entity
 
 public class Notice {
     @Id
@@ -13,8 +12,6 @@ public class Notice {
     private String title;
     private String text;
     private String courseName;
-    //QUESTION: la password va bene salvata così?
-    private String password;
 
     protected Notice(){}
 
@@ -29,19 +26,13 @@ public class Notice {
     public void setText(String text) {
         this.text = text;
     }
-    public void setcourseName(String courseName){ this.title = courseName;}
+    public void setCourseName(String courseName){ this.title = courseName;}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public Long  getId() {return id;}
     public String getTitle() {return title; }
     public String getText(){ return text;}
     public String getCourseName(){ return courseName;}
 
-    public String getPassword() {
-        return password;
-    }
 
 }

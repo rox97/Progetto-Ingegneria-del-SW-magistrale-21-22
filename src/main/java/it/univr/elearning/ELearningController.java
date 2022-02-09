@@ -196,6 +196,12 @@ public class ELearningController {
 
     }
 
+    @RequestMapping("/createNotice")
+    public String createNotice(@RequestParam("title") String title, @RequestParam("text") String text, @RequestParam("courseName") String courseName ){
+        noticeRepository.save(new Notice(title,text,courseName));
+        return "redirect:/home";
+    }
+
 
 
     @RequestMapping("/booklet")
