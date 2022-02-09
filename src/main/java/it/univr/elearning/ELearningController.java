@@ -115,6 +115,7 @@ public class ELearningController {
             student.setCourse(c);
         }
     }
+
     @RequestMapping("/calendar")
     public String showCalendar(@RequestParam("studentId") String studentId, Model model){
         Student student = studentRepository.findStudentByStudentId(studentId);
@@ -190,10 +191,11 @@ public class ELearningController {
     }
 
     @RequestMapping("/noticeBoard")
-    public String notice(Model model){
-
+    public String notice(@RequestParam("studentId") String studentId,Model model){
+        Student s = studentRepository.findStudentByStudentId(studentId);
         Iterable<Notice> notices = noticeRepository.findAll();
         model.addAttribute("notices",notices);
+        model.addAttribute("student", s);
 
         return "noticeBoard";
 
