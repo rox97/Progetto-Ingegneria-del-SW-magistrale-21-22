@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -231,24 +232,26 @@ public class ELearningController {
         return "booklet";
     }
 
-    @GetMapping("/uploadFile")
-    public String uploadPage() {
+    @GetMapping("/uploadFile") //visualizza la pagina html upload
+    public String uploadPage(Model model) {
+        FileListing fL= new FileListing();
+        model.addAttribute("files", fL.getFileStringListing()); //popola la tabella con i file caricati
         return "upload";
     }
 
-    @PostMapping("/upload")
+    @PostMapping("/upload") //Upload dei file lato docente
     public String uploadFile(@RequestParam("file") MultipartFile file, RedirectAttributes attributes) {
 
-        // check if file is empty
+        // controlla che il file non sia vuoto
         if (file.isEmpty()) {
             attributes.addFlashAttribute("message", "Please select a file to upload.");
-            return "redirect:/";
+            return "redirect:/uploadFile";
         }
 
-        // normalize the file path
+        // normalizza la path del file
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-        // save the file on the local file system
+        // Salva il file nel file system locale
         try {
             Path path = Paths.get(UPLOAD_DIR + fileName);
             Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
@@ -256,11 +259,31 @@ public class ELearningController {
             e.printStackTrace();
         }
 
-        // return success response
+        // ritorna una risposta di successo
         attributes.addFlashAttribute("message", "You successfully uploaded " + fileName + '!');
 
-        return "redirect:/";
+        return "redirect:/uploadFile";
     }
+
+    @PostMapping("/delete") // elimina il file selezionato
+    public String deleteFile(@RequestParam("file") String fileName) {
+
+        FileListing fL=new FileListing();
+        File[]files=fL.getFilePathListing(); //Prendo la lista dei file
+
+        for (File file : files) {
+            if(file.getName().equals(fileName)){ //cicla la lista dei file ed elimina quello scelto
+                file.delete();
+            }
+        }
+
+        return "redirect:/uploadFile";
+    }
+
+
+
+
+
 
     //TEST
     public void initTest(){
