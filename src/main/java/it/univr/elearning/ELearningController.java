@@ -454,6 +454,12 @@ public class ELearningController {
         return "redirect:/uploadFile";
     }
 
+    @GetMapping("/poll") //visualizza la pagina html upload
+    public String poll() {
+
+        return "poll";
+    }
+
 
 
 
