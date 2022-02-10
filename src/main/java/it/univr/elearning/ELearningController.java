@@ -216,7 +216,8 @@ public class ELearningController {
         model.addAttribute("notices",notices);
         //model.addAttribute("student", s);
 
-        return "/noticeBoard";
+        return "noticeBoard";
+
     }
 
     //FIXME: non dovrebbe più servire
@@ -287,7 +288,7 @@ public class ELearningController {
 
     @PostMapping("/upload") //Upload dei file lato docente
     public String uploadFile(@RequestParam("file") MultipartFile file, RedirectAttributes attributes) {
-
+        FileListing fL= new FileListing();
         // controlla che il file non sia vuoto
         if (file.isEmpty()) {
             attributes.addFlashAttribute("message", "Please select a file to upload.");
@@ -299,7 +300,7 @@ public class ELearningController {
 
         // Salva il file nel file system locale
         try {
-            Path path = Paths.get(UPLOAD_DIR + fileName);
+            Path path = Paths.get(fL.getUploadDir() + fileName);
             Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
