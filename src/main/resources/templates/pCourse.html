@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ELearning Web application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+<h1><span th:text="${course.courseName}">Test</span></h1>
+
+<a href="grades?courseId=10" th:href="@{grades(courseId=${course.id})}"><button>Add Grades</button></a>
+<a href="addEvent?courseId=10" th:href="@{addEvent(courseId=${course.id})}"><button>Add Event</button> </a>
+
+
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Course Name</th>
+        <th>Academic Year</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:text="${course.id}"> <b> 10 </b></td>
+        <td th:text="${course.courseName}"> Fondamenti di Ingegneria del Software </td>
+        <td th:text="${course.academicYear}"> 2021/22 </td>
+    </tr>
+    </tbody>
+</table>
+<form action="retCourses" method="get">
+    <input type="submit" value="Indietro">
+</form>
+
+</body>

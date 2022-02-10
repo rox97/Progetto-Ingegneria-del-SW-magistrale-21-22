@@ -22,10 +22,11 @@
     <td th:text="${course.id}"> <b> 10 </b></td>
     <td th:text="${course.courseName}"> Fondamenti di Ingegneria del Software </td>
     <td th:text="${course.academicYear}"> 2021/22 </td>
-    <td> <a href="show?id=10" th:href="@{show(id=${course.id})}"> show </a></td>
+    <td> <a href="showCourse?courseId=10" th:href="@{showCourse(courseId=${course.id})}"> show </a></td>
   </tr>
   </tbody>
 </table>
-<a href="/login">Esci</a>
+<a href="/pCalendar"><button>Calendario</button></a><br>
+<a href="/login"><button>Esci</button></a>
 
 </body>

@@ -83,7 +83,7 @@ public class Course {
         this.students.add(student);
     }
 
-    @OneToMany(mappedBy="course",cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy="course",cascade = {CascadeType.MERGE})
     private List<Event> events = new ArrayList<>();
     public List<Event> getEvents() {
         return events;

@@ -1,6 +1,7 @@
 package it.univr.elearning;
 
 import javax.persistence.*;
+import java.net.URI;
 import java.util.Date;
 
 @Entity
@@ -12,8 +13,12 @@ public class Event {
     private Long id;
     private String eventTitle;
     private String eventDescription;
+    private String eventCourse;
+    private URI link;
     @Temporal(TemporalType.DATE)
     private Date eventDate;
+    //QUESTION: per usare un solo tipo di evento con consegna, posso riciclarlo e renderlo di doppia utilità?
+    private boolean isHomework;
 
     public Event(String eventTitle, String eventDescription, Date eventDate) {
         this.eventTitle = eventTitle;
@@ -49,6 +54,14 @@ public class Event {
         this.eventDescription = eventDescription;
     }
 
+    public String getEventCourse() {
+        return eventCourse;
+    }
+
+    public void setEventCourse(String eventCourse) {
+        this.eventCourse = eventCourse;
+    }
+
     public Date getEventDate() {
         return eventDate;
     }
@@ -57,7 +70,7 @@ public class Event {
         this.eventDate = eventDate;
     }
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "COURSE_ID")
     private Course course;
 

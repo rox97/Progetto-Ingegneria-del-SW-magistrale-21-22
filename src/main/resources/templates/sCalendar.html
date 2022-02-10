@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ELearning Web application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+<h1>Student's calendar</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Event Title</th>
+        <th>Date</th>
+        <th>Description</th>
+        <!--<th>Show</th>-->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="event: ${events}">
+        <td th:text="${event.eventTitle}"> </td>
+        <td th:text="${event.eventDate}"> </td>
+        <td th:text="${event.eventDescription}">  </td>
+    </tr>
+    </tbody>
+</table>
+<!---
+<form action="courses" method="get">
+    <input type="hidden" name="userName" th:value="${student.studentId}"/>
+    <input type="hidden" name="password" th:value="${student.password}"/>
+    <input type="submit" value="Indietro">
+</form>
+--->
+<form action="retCourses" method="get">
+    <input type="submit" value="Indietro">
+</form>
+</body>

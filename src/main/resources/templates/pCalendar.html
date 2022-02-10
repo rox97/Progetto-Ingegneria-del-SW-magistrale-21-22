@@ -6,22 +6,25 @@
 </head>
 
 <body>
-<h1>Student's calendar</h1>
+<h1>Professor's calendar</h1>
 
 <table border="1">
     <thead>
     <tr>
         <th>Event Title</th>
-        <th>Description</th>
         <th>Date</th>
-        <th>Show</th>
+        <th>Description</th>
+        <th>Edit</th>
+        <th>Delete</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="event: ${events}">
         <td th:text="${event.eventTitle}"> </td>
-        <td th:text="${event.eventDescription}">  </td>
         <td th:text="${event.eventDate}"> </td>
+        <td th:text="${event.eventDescription}">  </td>
+        <td> <a href="editEvent?eventId=10" th:href="@{editEvent(eventId=${event.id})}"><button>Edit</button></a></td>
+        <td> <a href="deleteEvent?eventId=10" th:href="@{deleteEvent(eventId=${event.id})}"><button>Delete</button></a></td>
     </tr>
     </tbody>
 </table>

@@ -16,6 +16,7 @@
     Date:<input type="date" name="examDate"><br>
     Exam type:<input type="text" name="examType"><br>
     <input type="hidden" name="courseName" th:value="${courseName}"/>
+    <input type="hidden" name="courseId" th:value="${courseId}"/>
 <table border="1">
     <thead>
     <tr>
@@ -30,23 +31,17 @@
         <td th:text="*{students[__${iteration.index}__].studentId}"> <b> 10 </b></td>
         <td th:text="*{students[__${iteration.index}__].firstName}"> John </td>
         <td th:text="*{students[__${iteration.index}__].lastName}"> Smith </td>
-        <!-- th:field="*{students[__${iteration.index}__].lastGrade}" -->
         <td><input type="text" th:field="*{students[__${iteration.index}__].lastGrade}"/></td>
         <input type="hidden" th:field="*{students[__${iteration.index}__].id}"/>
         <input type="hidden" th:field="*{students[__${iteration.index}__].firstName}"/>
         <input type="hidden" th:field="*{students[__${iteration.index}__].lastName}"/>
         <input type="hidden" th:field="*{students[__${iteration.index}__].studentId}"/>
-
-
     </tr>
     </tbody>
 </table>
-
     <input type="submit" value="Salva" />
 </form>
-
-<!--- TODO: ritorno al corso da cui si era partiti--->
-<a href="/home"> Annulla </a>
+<a href="/retCourse?courseId=10" th:href="@{retCourse(courseId=${courseId})}"><button>Annulla</button></a>
 
 </body>
 </html>
