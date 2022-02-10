@@ -35,6 +35,8 @@ public class ELearningController {
 
     //Variabile percorso cartella upload file
     private final String UPLOAD_DIR = "./testUPLOADFILES/";
+    private String username = "";
+    private String studentId = "";
 
     @RequestMapping("/init")
     public String init() {
@@ -60,25 +62,40 @@ public class ELearningController {
 
     @RequestMapping("/courses")
     public String showCourses(@RequestParam("userName") String username, @RequestParam("password") String password, Model model){
-        if(professorRepository.existsByUserName(username)){
-            Professor p = professorRepository.findByUserName(username);
+        this.username = "";
+        if(professorRepository.existsByUserNameAndPassword(username,password)){
+            Professor p = professorRepository.findByUserNameAndPassword(username,password);
             model.addAttribute("courses",p.getCourses());
+            this.username = username;
             return "pCourses";
         }
-        else if(studentRepository.existsByStudentId(username)){
-            Student s = studentRepository.findStudentByStudentId(username);
-            model.addAttribute("student", s);
+        else if(studentRepository.existsByStudentIdAndPassword(username,password)){
+            Student s = studentRepository.findStudentByStudentIdAndPassword(username,password);
+            //model.addAttribute("student", s);
             model.addAttribute("courses",s.getCourses());
+            this.studentId = username;
             return "sCourses";
         }
         else
-            return "/notfound";
+            return "/loginError";
 
     }
 
-    //TODO: quando implementerò anche il controllo della password, per tornare alla pagina dei corsi da pagine interne, utilizzerò solo l'username e non la password (vedi hidden input in libretto)
-    public String returnToCourses(@RequestParam("username") String username){
-        return "a";
+    @RequestMapping("/retCourses")
+    public String returnToCourses(Model model){
+        if(professorRepository.existsByUserName(username)){
+            Professor p = professorRepository.findByUserName(username);
+            model.addAttribute("courses",p.getCourses());
+            return "/pCourses";
+        }
+        else if(studentRepository.existsByStudentId(studentId)){
+            Student s = studentRepository.findStudentByStudentId(studentId);
+            //model.addAttribute("student", s);
+            model.addAttribute("courses",s.getCourses());
+            return "/sCourses";
+        }
+        else
+            return "/notfound";
     }
 
     @PostMapping("/student")
@@ -117,7 +134,7 @@ public class ELearningController {
     }
 
     @RequestMapping("/calendar")
-    public String showCalendar(@RequestParam("studentId") String studentId, Model model){
+    public String showCalendar(Model model){
         Student student = studentRepository.findStudentByStudentId(studentId);
         List<Course> courses = student.getCourses();
         List<Event> events = new ArrayList<>();
@@ -142,7 +159,6 @@ public class ELearningController {
     public String grades(/*@PathVariable("courseId") Long id,*/ Model model) {
         //TEST
         Optional<Course> c = courseRepository.findCourseByCourseName("Fondamenti AI");
-        //FIXME: quando torno sulla pagina non mi visualizza tutti i numeri di matricola
         if (c.isPresent()) {
             Course test = c.get();
             model.addAttribute("courseName", test.getCourseName());
@@ -158,7 +174,7 @@ public class ELearningController {
     }
 
     @RequestMapping("/addGrades")
-    public String addGrades(@ModelAttribute("courseName") String courseName, @ModelAttribute("examDate") String examDate, @ModelAttribute("examType") String examType, @ModelAttribute("studentForm") StudentForm studentForm, Model model) {
+    public String addGrades(@ModelAttribute("courseName") String courseName, @ModelAttribute("examDate") String examDate, @ModelAttribute("examType") String examType, @ModelAttribute("studentForm") StudentForm studentForm) {
         List<Student> students = studentForm.getStudents();
         //TODO: ottimizzare questa parte del try catch. Non penso sia ottimo non gestire l'exception
         Date date = null;
@@ -191,11 +207,11 @@ public class ELearningController {
     }
 
     @RequestMapping("/noticeBoard")
-    public String notice(@RequestParam("studentId") String studentId,Model model){
+    public String notice(Model model){
         Student s = studentRepository.findStudentByStudentId(studentId);
         Iterable<Notice> notices = noticeRepository.findAll();
         model.addAttribute("notices",notices);
-        model.addAttribute("student", s);
+        //model.addAttribute("student", s);
 
         return "noticeBoard";
 
@@ -217,11 +233,12 @@ public class ELearningController {
 
 
     @RequestMapping("/booklet")
-    public String getBooklet(@RequestParam("studentId") String sId, Model model){
-        Iterable<Grade> grades = gradeRepository.findByStudent_StudentId(sId);
-        Student s = studentRepository.findStudentByStudentId(sId);
-        model.addAttribute("student", s);
+    public String getBooklet(Model model){
+        Iterable<Grade> grades = gradeRepository.findByStudent_StudentId(studentId);
         model.addAttribute("booklet",grades);
+        // Serve solo a visualizzare il nome. Nel caso non importasse si può togliere
+        Student s = studentRepository.findStudentByStudentId(studentId);
+        model.addAttribute("student", s);
         return "booklet";
     }
 
@@ -261,9 +278,12 @@ public class ELearningController {
     public void initTest(){
         Student s1 = new Student("andrea", "rossetti","VR1234");
         Student s2 = new Student("simone", "baldi","VR9876");
+        s1.setPassword("andrea");
+        s2.setPassword("simone");
         studentRepository.save(s1);
         studentRepository.save(s2);
         Professor p1 = new Professor("Alessandro", "Farinelli", "qwerty");
+        p1.setPassword("alessandro");
         Course c = new Course("Fondamenti AI", "Farinelli","2021/22");
         c.setStudent(s1);
         c.setStudent(s2);
@@ -274,6 +294,7 @@ public class ELearningController {
 
         Course c2 = new Course("Fondamenti di Ingegneria del SW", "Ceccato","2021/22");
         Professor p2 = new Professor("Mariano", "Ceccato", "asdfgh");
+        p2.setPassword("mariano");
         c2.setStudent(s1);
         c2.setProfessor(p2);
         p2.setCourse(c2);

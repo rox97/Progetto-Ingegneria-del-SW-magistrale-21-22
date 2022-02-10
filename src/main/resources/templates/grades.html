@@ -29,7 +29,6 @@
     <tr th:each="student, iteration: ${students}">
         <td th:text="*{students[__${iteration.index}__].studentId}"> <b> 10 </b></td>
         <td th:text="*{students[__${iteration.index}__].firstName}"> John </td>
-        <!-- QUESTION: Perchè se tolgo iteration da tutti i text non funziona più? -->
         <td th:text="*{students[__${iteration.index}__].lastName}"> Smith </td>
         <!-- th:field="*{students[__${iteration.index}__].lastGrade}" -->
         <td><input type="text" th:field="*{students[__${iteration.index}__].lastGrade}"/></td>
@@ -44,8 +43,10 @@
 </table>
 
     <input type="submit" value="Salva" />
-    <a href="/login"> Annulla </a>
 </form>
+
+<!--- TODO: ritorno al corso da cui si era partiti--->
+<a href="/home"> Annulla </a>
 
 </body>
 </html>

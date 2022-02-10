@@ -26,6 +26,7 @@
   </tr>
   </tbody>
 </table>
+<!---
 <form action="booklet" method="get">
   <input type="hidden" th:name="studentId" th:value="${student.studentId}"/>
   <input type="submit" value="Libretto">
@@ -34,10 +35,15 @@
   <input type="hidden" th:name="studentId" th:value="${student.studentId}"/>
   <input type="submit" value="Calendario">
 </form>
-<a href="/home">File Personali</a><br>
-<form action="calendar" method="get">
+<form action="noticeBoard" method="get">
   <input type="hidden" th:name="studentId" th:value="${student.studentId}"/>
   <input type="submit" value="Bacheca">
-</form><a href="/login">Esci</a>
+ </form>
+  --->
+<a href="/booklet">Libretto</a><br>
+<a href="/calendar">Calendario</a><br>
+<a href="/noticeBoard">Bacheca</a><br>
+<a href="/home">File Personali</a><br>
+<a href="/login">Esci</a>
 
 </body>
