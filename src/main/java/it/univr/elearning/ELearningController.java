@@ -33,9 +33,7 @@ public class ELearningController {
     private EventRepository eventRepository;
     @Autowired
     private NoticeRepository noticeRepository;
-
-    //Variabile percorso cartella upload file
-    private final String UPLOAD_DIR = "./testUPLOADFILES/";
+    
     private String username = "";
     private String studentId = "";
 
@@ -254,7 +252,7 @@ public class ELearningController {
 
     @PostMapping("/upload") //Upload dei file lato docente
     public String uploadFile(@RequestParam("file") MultipartFile file, RedirectAttributes attributes) {
-
+        FileListing fL= new FileListing();
         // controlla che il file non sia vuoto
         if (file.isEmpty()) {
             attributes.addFlashAttribute("message", "Please select a file to upload.");
@@ -266,7 +264,7 @@ public class ELearningController {
 
         // Salva il file nel file system locale
         try {
-            Path path = Paths.get(UPLOAD_DIR + fileName);
+            Path path = Paths.get(fL.getUploadDir() + fileName);
             Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
