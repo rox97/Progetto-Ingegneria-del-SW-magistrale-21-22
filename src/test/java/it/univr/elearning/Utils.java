@@ -52,13 +52,19 @@ public class Utils {
                 "}";
     }
 
+    public static String getCandidateJson (String name, String surname, String list){
+        return "{\n" +
+                "    \"name\": \"" + name + "\",\n" +
+                "    \"surname\": \"" + surname + "\",\n" +
+                "    \"list\": \"" + list + "\"\n" +
+                "}";
+    }
+
 
     public static void initCoursesDatabase(){
 
         given().contentType("application/json").body(getCourseJson("Fondamenti di Intelligenza Artificiale", "Alessandro Farinelli")).when().post("/courses").then().statusCode(200);
         given().contentType("application/json").body(getCourseJson("Fondamenti di Ingegneria del Software", "Mariano Ceccato")).when().post("/courses").then().statusCode(200);
-
-
     }
 
     public static void initStudentsDatabase(){
@@ -66,8 +72,6 @@ public class Utils {
         given().contentType("application/json").body(getStudentJson("Andrea", "Rossetti")).when().post("/students").then().statusCode(200);
         given().contentType("application/json").body(getStudentJson("Andrea", "Caliari")).when().post("/students").then().statusCode(200);
         given().contentType("application/json").body(getStudentJson("Simone", "Baldi")).when().post("/students").then().statusCode(200);
-
-
     }
 
     public static void initProfessorDatabase(){
@@ -75,6 +79,14 @@ public class Utils {
         given().contentType("application/json").body(getProfessorJson("Alessandro", "Farinelli")).when().post("professor").then().statusCode(200);
         given().contentType("application/json").body(getProfessorJson("Damiano", "Carra")).when().post("/professor").then().statusCode(200);
         given().contentType("application/json").body(getProfessorJson("Enrico", "Gregorio")).when().post("/professor").then().statusCode(200);
+    }
+
+    public static void initCandidateDatabase(){
+
+        given().contentType("application/json").body(getCandidateJson("Andrea", "Rossetti","Lista 1")).when().post("/students").then().statusCode(200);
+        given().contentType("application/json").body(getCandidateJson("Andrea", "Caliari", "Lista 2")).when().post("/students").then().statusCode(200);
+        given().contentType("application/json").body(getCandidateJson("Simone", "Baldi", "Lista 3")).when().post("/students").then().statusCode(200);
+
     }
 
 

@@ -59,4 +59,6 @@ public class Candidate {
     public void setNumberVote(int numberVote) {
         this.numberVote = numberVote;
     }
+
+    public void addVote(){this.numberVote++;}
 }

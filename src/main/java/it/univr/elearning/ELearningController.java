@@ -33,6 +33,8 @@ public class ELearningController {
     private EventRepository eventRepository;
     @Autowired
     private NoticeRepository noticeRepository;
+    @Autowired
+    private CandidateRepository candidateRepository;
 
     //Variabile percorso cartella upload file
     private final String UPLOAD_DIR = "./testUPLOADFILES/";
@@ -214,10 +216,10 @@ public class ELearningController {
         model.addAttribute("notices",notices);
         //model.addAttribute("student", s);
 
-        return "noticeBoard";
-
+        return "/noticeBoard";
     }
 
+    //FIXME: non dovrebbe più servire
     @RequestMapping("/createNotice")
     public String input(){
         return "createNotice";
@@ -226,9 +228,40 @@ public class ELearningController {
     @RequestMapping("/inputNotice")
     public String createNewNotice(@RequestParam(name="title", required=true) String title,
                                   @RequestParam(name="text", required=true) String text,
-                                  @RequestParam(name="courseName", required=true) String courseName){
+                                  @RequestParam(name="courseName", required=true) String courseName,
+                                  @RequestParam("studentId") String studentId,
+                                  Model model){
+        model.addAttribute("studentId", studentId);
         noticeRepository.save(new Notice(title,text,courseName));
         return "redirect:/noticeBoard";
+    }
+
+    @RequestMapping("/studentVote")
+    public String showElection(Model model){
+        //Candidate candidate = candidateRepository.findAll();
+        Iterable<Candidate> candidates = candidateRepository.findAll();
+        model.addAttribute("candidates", candidates);
+
+        return "studentVote";
+    }
+
+    @RequestMapping("/newVote")
+    public String newVote(@RequestParam("candidateId") String id){
+        Optional<Candidate> c = candidateRepository.findById(Long.valueOf(id));
+        if(c.isPresent()){
+            Candidate a = c.get();
+            candidateRepository.delete(a);
+            a.addVote();
+            candidateRepository.save(a);
+            //TEST
+            Iterable<Candidate> b = candidateRepository.findAll();
+            for(Candidate s: b){
+                System.out.println(s.getName() + s.getNumberVote());
+            }
+            return "sCourses";
+        } else{
+            return "notfound";
+        }
     }
 
 
@@ -324,6 +357,14 @@ public class ELearningController {
         p2.setCourse(c2);
         courseRepository.save(c2);
         professorRepository.save(p2);
+
+        //INIZIALIZZAZIONE CANDIDATI
+        Candidate cand1 = new Candidate("Simone","Baldi","Lista 1",0);
+        Candidate cand2 = new Candidate("Gianni","Caliari","Lista 2",0);
+        Candidate cand3 = new Candidate("Raudo","Mefisto","Lista 3",0);
+        candidateRepository.save(cand1);
+        candidateRepository.save(cand2);
+        candidateRepository.save(cand3);
 
 
         //REMOVE: se rimuovo la prima istanza di un voto nella repository, non riesco più a salvarne altri

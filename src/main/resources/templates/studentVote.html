@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ELearning Web application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1> Student votes</h1>
+
+<form action="newVote" method="post">
+<table border="1">
+    <thead>
+    <tr>
+        <th>Lista</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Select</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="candidate: ${candidates}">
+        <td th:text="${candidate.list}"></td>
+        <td th:text="${candidate.name}"></td>
+        <td th:text="${candidate.surname}"></td>
+        <td><input type="radio" th:name="candidateId" th:value="${candidate.id}"/></td>
+    </tr>
+
+    </tbody>
+</table>
+    <input type="submit" value="Salva" />
+</form>
+
+</body>
+</html>
