@@ -395,11 +395,12 @@ public class ELearningController {
     public String uploadPage(Model model) {
         FileListing fL= new FileListing();
         model.addAttribute("files", fL.getFileStringListing()); //popola la tabella con i file caricati
-        return "upload";
+        return "uploadFileDocente";
     }
 
     @PostMapping("/upload") //Upload dei file lato docente
     public String uploadFile(@RequestParam("file") MultipartFile file, RedirectAttributes attributes) {
+
         FileListing fL= new FileListing();
         // controlla che il file non sia vuoto
         if (file.isEmpty()) {
@@ -410,16 +411,30 @@ public class ELearningController {
         // normalizza la path del file
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
+        //Mi prendo l'estensione del file
+        String extensionFile="";
+
+        int index= fileName.lastIndexOf('.');
+        if(index > 0) {
+            String extension = fileName.substring(index + 1);
+            System.out.println("File extension is " + extension);
+            extensionFile=extension;
+        }
         // Salva il file nel file system locale
-        try {
-            Path path = Paths.get(fL.getUploadDir() + fileName);
-            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(extensionFile.equals("pdf")){
+            try {
+                Path path = Paths.get(fL.getUploadDir() + fileName);
+                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // ritorna una risposta di successo
+            attributes.addFlashAttribute("message", "File caricato con successo ==> " + fileName + '!');
+        }else{
+            attributes.addFlashAttribute("message", "Upload fallito ==> "+fileName+" Estensione file non supportata" + '!');
         }
 
-        // ritorna una risposta di successo
-        attributes.addFlashAttribute("message", "You successfully uploaded " + fileName + '!');
 
         return "redirect:/uploadFile";
     }
