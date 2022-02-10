@@ -6,25 +6,28 @@
 </head>
 
 <body>
-<h1>Student's calendar</h1>
+<h1>Event</h1>
 
 <table border="1">
     <thead>
     <tr>
         <th>Event Title</th>
         <th>Date</th>
-        <th>Show</th>
+        <th>Description</th>
+        <th>Link</th>
+        <th>File</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="event: ${events}">
+    <tr>
         <td th:text="${event.eventTitle}"> </td>
         <td th:text="${event.eventDate}"> </td>
-        <td><a href="showEvent?eventId=10" th:href="@{showEvent(eventId=${event.id})}"><button>Show</button></a></td>
+        <td th:text="${event.eventDescription}">  </td>
+        <td th:text="${event.link}">  </td>
+
     </tr>
     </tbody>
 </table>
-
 <form action="retCourses" method="get">
     <input type="submit" value="Indietro">
 </form>

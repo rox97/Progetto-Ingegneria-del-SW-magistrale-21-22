@@ -166,9 +166,12 @@ public class ELearningController {
     @RequestMapping("/newEvent")
     public String newEvent(@RequestParam("title") String title,
                            @RequestParam("description") String description,
+                           @RequestParam(name="link") String link,
                            @RequestParam("date") String eventDate,
                            @RequestParam("courseId") Long courseId,
+                           @RequestParam("homework") boolean homework,
                            Model model){
+
         Date date = null;
         try {
             date = new SimpleDateFormat("yyyy-MM-dd").parse(eventDate);
@@ -181,6 +184,12 @@ public class ELearningController {
             Event event = new Event(title, description, date);
             event.setEventCourse(c.getCourseName());
             event.setCourse(c);
+            if(!link.equals("")){
+               event.setLink(link);
+            }
+            if(homework){
+                event.setHomework(true);
+            }
             eventRepository.save(event);
             model.addAttribute(c);
             return "/pCourse";
@@ -209,9 +218,16 @@ public class ELearningController {
         else
             return "/notfound";
     }
-
-    public void showEvent(){
-
+    @RequestMapping("/showEvent")
+    public String showEvent(@RequestParam("eventId") Long eventId, Model model){
+        Optional<Event> result = eventRepository.findById(eventId);
+        if (result.isPresent()) {
+            model.addAttribute("event", result.get());
+            return "/showEvent";
+        }
+        else{
+            return "notfound";
+        }
     }
 
 
@@ -329,6 +345,11 @@ public class ELearningController {
         } else{
             return "notfound";
         }
+    }
+
+    @RequestMapping("/voteManager")
+    public String voteManager(){
+        return "voteManager";
     }
 
     @RequestMapping("/createCandidate")
@@ -461,7 +482,6 @@ public class ELearningController {
         candidateRepository.save(cand2);
         candidateRepository.save(cand3);
 
-
         //REMOVE: se rimuovo la prima istanza di un voto nella repository, non riesco più a salvarne altri
         String examDate = "1970-01-01";
         Date date = null;
@@ -481,7 +501,7 @@ public class ELearningController {
         noticeRepository.save(b);
 
         try {
-    Path path = Paths.get("./testUPLOADFILES/");
+            Path path = Paths.get("./testUPLOADFILES/");
             //java.nio.file.Files;
             if(!Files.exists(path)){
                 Files.createDirectories(path);
