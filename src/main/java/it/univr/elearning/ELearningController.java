@@ -80,6 +80,9 @@ public class ELearningController {
             this.studentId = username;
             return "sCourses";
         }
+        else if(username.equals("elezioni") && password.equals("elezioni")){
+            return "voteManager";
+        }
         else
             return "/loginError";
 
@@ -273,6 +276,7 @@ public class ELearningController {
             return "/notfound";
     }
 
+    //--------------------CONTROLLER BACHECA AVVISI--------------------
     @RequestMapping("/noticeBoard")
     public String notice(Model model){
         Student s = studentRepository.findStudentByStudentId(studentId);
@@ -293,22 +297,20 @@ public class ELearningController {
     @RequestMapping("/inputNotice")
     public String createNewNotice(@RequestParam(name="title", required=true) String title,
                                   @RequestParam(name="text", required=true) String text,
-                                  @RequestParam(name="courseName", required=true) String courseName,
-                                  @RequestParam("studentId") String studentId,
-                                  Model model){
-        model.addAttribute("studentId", studentId);
+                                  @RequestParam(name="courseName", required=true) String courseName){
         noticeRepository.save(new Notice(title,text,courseName));
         return "redirect:/noticeBoard";
     }
 
-    @RequestMapping("/studentVote")
+    //--------------------CONTROLLER ELEZIONI--------------------
+    /*@RequestMapping("/studentVote")
     public String showElection(Model model){
         //TODO: booleano in student per il controllo del voto già effettuato che ritorna un allert
         Iterable<Candidate> candidates = candidateRepository.findAll();
         model.addAttribute("candidates", candidates);
 
         return "studentVote";
-    }
+    }*/
 
     @RequestMapping("/newVote")
     public String newVote(@RequestParam("candidateId") String id){
@@ -327,6 +329,31 @@ public class ELearningController {
         } else{
             return "notfound";
         }
+    }
+
+    @RequestMapping("/createCandidate")
+    public String createCandidate(){
+        return "createCandidate";
+    }
+
+    @RequestMapping("/newCandidate")
+    public String newCandidate(@RequestParam(name="name", required=true) String name,
+                               @RequestParam(name="surname", required=true) String surname,
+                               @RequestParam(name="list", required=true) String list){
+        candidateRepository.save(new Candidate(name,surname,list,0));
+        return "voteManager";
+    }
+
+    /*@RequestMapping("/electionResult")
+    public String electionResult(){
+        return "electionResult";
+    }*/
+
+    @RequestMapping("/electionResult")
+    public String showElectionResult(Model model){
+        Iterable<Candidate> candidates = candidateRepository.findAll();
+        model.addAttribute("candidates",candidates);
+        return "electionResult";
     }
 
 

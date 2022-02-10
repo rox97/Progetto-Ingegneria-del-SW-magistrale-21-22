@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ELearning Web application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h2> Result of election</h2>
+
+    <table border="1">
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Cognome</th>
+            <th>Lista</th>
+            <th>Voti</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="candidate: ${candidates}">
+            <td th:text="${candidate.name}"></td>
+            <td th:text="${candidate.surname}"></td>
+            <td th:text="${candidate.list}"></td>
+            <td th:text="${candidate.numberVote}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="/voteManager"><button>Indietro</button></a>
+</body>
+</html>
