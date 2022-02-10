@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>File Upload lato docente</title>
+</head>
+<body>
+
+<section class="my-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <h2>Upload File Docente aggiornato</h2>
+                <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
+                <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input type="file" name="file" class="form-control-file">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Upload File</button>
+                </form>
+
+                <table border="1">
+                    <thead>
+                    <tr>
+                        <th>File Name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="file: ${files}">
+                        <td th:text="${file}"></td>
+                        <td>
+                            <form method="POST" th:action="@{/delete}">
+                                <input type="hidden" name="file" th:value="${file}"/>
+                                <input type="submit" name="submit" value="delete" class="link-button"></input>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+</body>
+</html>
