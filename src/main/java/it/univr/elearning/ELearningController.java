@@ -442,31 +442,31 @@ public class ELearningController {
 
     @GetMapping("/uploadDocente") //visualizza la pagina html upload lato docente
     public String uploadDocente(Model model,@RequestParam("courseId") Long courseId) {
-        FileListing fL= new FileListing();
-        System.out.println("prova id del corso "+courseId);
+        FileListing fL = new FileListing();
+        System.out.println("prova id del corso " + courseId);
         Optional<Course> c = courseRepository.findById(courseId);
-        String courseName="";
-        if(c.isPresent()){
-           courseName= c.get().getCourseName()+" "+c.get().getAcademicYear();
+        String courseName = "";
+        if (c.isPresent()) {
+            courseName = c.get().getCourseName() + " " + c.get().getAcademicYear();
 
         }
-        if(!username.equals("")){
-            String nameDirTeacher=username+"/"+courseName;
-            System.out.println("nome directory <> "+nameDirTeacher);
+        if (!username.equals("")) {
+            String nameDirTeacher = username + "/" + courseName;
+            System.out.println("nome directory <> " + nameDirTeacher);
             fL.setUploadDir(nameDirTeacher);
-            model.addAttribute("courseId",courseId);
-            model.addAttribute("userName",nameDirTeacher);
+            model.addAttribute("courseId", courseId);
+            model.addAttribute("userName", nameDirTeacher);
             model.addAttribute("files", fL.getFileStringListing(nameDirTeacher)); //popola la tabella con i file caricati
             return "uploadFileDocente";
-        }else
-        {
+        } else {
             return "/notfound";
         }
-
-
     }
 
-    @PostMapping("/upload") //Upload dei file
+
+
+
+    @PostMapping("/upload") //Upload dei file sia docente che studente
     public String uploadFile(Model model,@RequestParam("file") MultipartFile file,@RequestParam("courseId") Long courseId, RedirectAttributes attributes,@RequestParam("userName") String userName) {
 
         FileListing fL= new FileListing();
