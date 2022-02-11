@@ -10,7 +10,7 @@
 
 <a href="grades?courseId=10" th:href="@{grades(courseId=${course.id})}"><button>Add Grades</button></a>
 <a href="addEvent?courseId=10" th:href="@{addEvent(courseId=${course.id})}"><button>Add Event</button></a>
-<a href="uploadDocente?courseId=10" th:href="@{uploadDocente(courseId=${course.id})}"><button>Add File</button> </a>
+<a href="uploadDocente?courseId=10" th:href="@{uploadDocente/{courseId}(courseId=${course.id})}"><button>Add File</button> </a>
 
 
 

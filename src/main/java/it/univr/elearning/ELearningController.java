@@ -444,7 +444,7 @@ public class ELearningController {
     //---------------------------------------------UPLOAD FILE STUDENTE------------------------------------------------------
 
     @GetMapping("/uploadStudente") //visualizza la pagina html upload lato studente
-    public String uploadStudente(Model model, @RequestParam("courseId") Long courseId) {
+    public String uploadStudente(Model model) {
         FileListing fL = new FileListing();
         if (!studentId.equals("")) {
             fL.setUploadDir(studentId);
@@ -458,8 +458,8 @@ public class ELearningController {
 
 //---------------------------------------------UPLOAD FILE DOCENTE------------------------------------------------------
 
-    @GetMapping("/uploadDocente") //visualizza la pagina html upload lato docente
-    public String uploadDocente(Model model,@RequestParam("courseId") Long courseId) {
+    @GetMapping("/uploadDocente/{courseId}") //visualizza la pagina html upload lato docente
+    public String uploadDocente(Model model,@PathVariable(name="courseId") Long courseId) {
         FileListing fL = new FileListing();
         System.out.println("prova id del corso " + courseId);
         Optional<Course> c = courseRepository.findById(courseId);
@@ -485,22 +485,19 @@ public class ELearningController {
 
 
     @PostMapping("/upload") //Upload dei file sia docente che studente
-    public String uploadFile(Model model,@RequestParam("file") MultipartFile file,@RequestParam("courseId") Long courseId, RedirectAttributes attributes,@RequestParam("userName") String userName, @RequestParam(name = "fromEvent", required = false) boolean fromEvent) {
+    public String uploadFile(Model model,@RequestParam("file") MultipartFile file,@RequestParam(name="courseId",defaultValue = "5") Long courseId, RedirectAttributes attributes,@RequestParam("userName") String userName) {
 
         FileListing fL= new FileListing();
-        Optional<Course> c = courseRepository.findById(courseId);
-        Course course = new Course();
-        if(c.isPresent())
-            course = c.get();
-        model.addAttribute(course);
+
         // controlla che il file non sia vuoto
         if (file.isEmpty()) {
             attributes.addFlashAttribute("message", "Please select a file to upload.");
 
             if(!username.equals("")){
-                return "/pCourse";
+                model.addAttribute("courseId", courseId);
+                return "redirect:/uploadDocente/"+courseId;
             }else{
-                return "/sCourse";
+                return "redirect:/uploadStudente";
             }
         }
 
@@ -533,14 +530,16 @@ public class ELearningController {
 
 
         if(!username.equals("")){
-            return "/pCourse";
+
+            model.addAttribute("courseId", courseId);
+            return "redirect:/uploadDocente/"+courseId;
         }else{
-            return "/sCourse";
+            return "redirect:/uploadStudente";
         }
     }
 
     @PostMapping("/delete") // elimina il file selezionato
-    public String deleteFile(Model model,@RequestParam("file") String fileName, @RequestParam("userName") String userName, @RequestParam("courseId") Long courseId) {
+    public String deleteFile(Model model,@RequestParam("file") String fileName, @RequestParam("userName") String userName, @RequestParam(name="courseId",defaultValue = "5") Long courseId) {
 
         FileListing fL=new FileListing();
         File[]files=fL.getFilePathListing(userName); //Prendo la lista dei file
@@ -557,9 +556,9 @@ public class ELearningController {
         model.addAttribute(course);
         model.addAttribute("courseId", courseId);
         if(!username.equals("")){
-            return "/pCourse";
+            return "redirect:/uploadDocente/"+courseId;
         }else{
-            return "/sCourse";
+            return "redirect:/uploadStudente";
         }
 
 
