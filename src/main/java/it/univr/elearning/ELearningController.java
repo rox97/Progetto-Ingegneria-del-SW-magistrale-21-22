@@ -410,16 +410,17 @@ public class ELearningController {
 
     @GetMapping("/uploadStudente") //visualizza la pagina html upload lato studente
     public String uploadStudente(Model model) {
-        FileListing fL= new FileListing();
+        FileListing fL = new FileListing();
 
-        if(!studentId.equals("")){
+        if (!studentId.equals("")) {
             fL.setUploadDir(studentId);
-            model.addAttribute("userName",studentId);
+            model.addAttribute("userName", studentId);
             model.addAttribute("files", fL.getFileStringListing(studentId)); //popola la tabella con i file caricati
             return "cloudStudent";
-        }else{
+        } else {
             return "/notfound";
         }
+    }
 
     @RequestMapping("/retVoteManager")
     public String returnToVoteManager(){
@@ -461,9 +462,6 @@ public class ELearningController {
         {
             return "/notfound";
         }
-
-
-    }
 
 
     }
