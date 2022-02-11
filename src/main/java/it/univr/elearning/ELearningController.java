@@ -406,6 +406,21 @@ public class ELearningController {
         return "electionResult";
     }
 
+    //---------------------------------------------UPLOAD FILE STUDENTE------------------------------------------------------
+
+    @GetMapping("/uploadStudente") //visualizza la pagina html upload lato studente
+    public String uploadStudente(Model model) {
+        FileListing fL= new FileListing();
+
+        if(!studentId.equals("")){
+            fL.setUploadDir(studentId);
+            model.addAttribute("userName",studentId);
+            model.addAttribute("files", fL.getFileStringListing(studentId)); //popola la tabella con i file caricati
+            return "cloudStudent";
+        }else{
+            return "/notfound";
+        }
+
     @RequestMapping("/retVoteManager")
     public String returnToVoteManager(){
         return "voteManager";
@@ -422,23 +437,51 @@ public class ELearningController {
         return "booklet";
     }
 
+//---------------------------------------------UPLOAD FILE DOCENTE------------------------------------------------------
 
-
-    @GetMapping("/uploadFile") //visualizza la pagina html upload
-    public String uploadPage(Model model) {
+    @GetMapping("/uploadDocente") //visualizza la pagina html upload lato docente
+    public String uploadDocente(Model model,@RequestParam("courseId") Long courseId) {
         FileListing fL= new FileListing();
-        model.addAttribute("files", fL.getFileStringListing()); //popola la tabella con i file caricati
-        return "uploadFileDocente";
+        System.out.println("prova id del corso "+courseId);
+        Optional<Course> c = courseRepository.findById(courseId);
+        String courseName="";
+        if(c.isPresent()){
+           courseName= c.get().getCourseName()+" "+c.get().getAcademicYear();
+
+        }
+        if(!username.equals("")){
+            String nameDirTeacher=username+"/"+courseName;
+            System.out.println("nome directory <> "+nameDirTeacher);
+            fL.setUploadDir(nameDirTeacher);
+            model.addAttribute("courseId",courseId);
+            model.addAttribute("userName",nameDirTeacher);
+            model.addAttribute("files", fL.getFileStringListing(nameDirTeacher)); //popola la tabella con i file caricati
+            return "uploadFileDocente";
+        }else
+        {
+            return "/notfound";
+        }
+
+
     }
 
-    @PostMapping("/upload") //Upload dei file lato docente
-    public String uploadFile(@RequestParam("file") MultipartFile file, RedirectAttributes attributes) {
+
+    }
+
+    @PostMapping("/upload") //Upload dei file
+    public String uploadFile(Model model,@RequestParam("file") MultipartFile file,@RequestParam("courseId") Long courseId, RedirectAttributes attributes,@RequestParam("userName") String userName) {
 
         FileListing fL= new FileListing();
+        model.addAttribute(courseId);
         // controlla che il file non sia vuoto
         if (file.isEmpty()) {
             attributes.addFlashAttribute("message", "Please select a file to upload.");
-            return "redirect:/uploadFile";
+
+            if(!username.equals("")){
+                return "redirect:/uploadDocente";
+            }else{
+                return "redirect:/uploadStudente";
+            }
         }
 
         // normalizza la path del file
@@ -456,7 +499,7 @@ public class ELearningController {
         // Salva il file nel file system locale
         if(extensionFile.equals("pdf")){
             try {
-                Path path = Paths.get(fL.getUploadDir() + fileName);
+                Path path = Paths.get(fL.getUploadDir(userName) + fileName);
                 Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -469,14 +512,18 @@ public class ELearningController {
         }
 
 
-        return "redirect:/uploadFile";
+        if(!username.equals("")){
+            return "redirect:/uploadDocente";
+        }else{
+            return "redirect:/uploadStudente";
+        }
     }
 
     @PostMapping("/delete") // elimina il file selezionato
-    public String deleteFile(@RequestParam("file") String fileName) {
+    public String deleteFile(@RequestParam("file") String fileName,@RequestParam("userName") String userName) {
 
         FileListing fL=new FileListing();
-        File[]files=fL.getFilePathListing(); //Prendo la lista dei file
+        File[]files=fL.getFilePathListing(userName); //Prendo la lista dei file
 
         for (File file : files) {
             if(file.getName().equals(fileName)){ //cicla la lista dei file ed elimina quello scelto
@@ -484,10 +531,18 @@ public class ELearningController {
             }
         }
 
-        return "redirect:/uploadFile";
+        if(!username.equals("")){
+            return "redirect:/uploadDocente";
+        }else{
+            return "redirect:/uploadStudente";
+        }
+
+
     }
 
-    @GetMapping("/poll") //visualizza la pagina html upload
+//---------------------------------------------SONDAGGIO--------------------------------------------------------------
+
+    @GetMapping("/poll") //visualizza la pagina html poll
     public String poll() {
 
         return "poll";

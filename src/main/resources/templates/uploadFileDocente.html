@@ -13,9 +13,15 @@
                 <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
                 <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
                     <div class="form-group">
+                        <input type="hidden" name="courseId" th:value="${courseId}"/>
+                        <input type="hidden" name="userName" th:value="${userName}"/>
                         <input type="file" name="file" class="form-control-file">
                     </div>
                     <button type="submit" class="btn btn-primary">Upload File</button>
+                </form>
+
+                <form action="retCourses" method="get">
+                    <input type="submit" value="Indietro">
                 </form>
 
                 <table border="1">
