@@ -7,10 +7,10 @@
 <h1> Insert a candidate for election</h1>
 
 <form action="newCandidate" method="post">
-    Nome:<input type="text" class="boxRisposta" name="name"><br>
-    Cognome:<input type="text" class="boxRisposta" name="surname"><br>
-    Lista:<input type="text" class="boxRisposta" name="list"><br>
-    <input type="submit" value="Salva" onclick="redirect()"/>
+    Nome:<input class="boxRisposta" type="text" name="name" onkeyup="redirect()"><br>
+    Cognome:<input class="boxRisposta" type="text" name="surname" onkeyup="redirect()"><br>
+    Lista:<input class="boxRisposta" type="text" name="list" onkeyup="redirect()"><br>
+    <input id="btn" disabled="disabled" type="submit" value="Salva"/>
 </form>
 <body>
 
@@ -32,10 +32,11 @@
     }
 
     function redirect(){
+      var btn = document.getElementById("btn");
       if(required()==true){
-        window.location.href = "https://www.youtube.com/watch?v=xvFZjo5PgG0";
+        btn.disabled = false;
       }else{
-        alert("Compila i campi vuoti")
+        btn.disabled = true;
       }
     }
 </script>

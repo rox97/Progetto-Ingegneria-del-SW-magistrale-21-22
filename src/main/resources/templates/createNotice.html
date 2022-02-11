@@ -10,12 +10,40 @@
 <h1> Create a new notice</h1>
 
 <form action="inputNotice" method="post">
-    Title:<input type="text" name="title"><br>
-    Text:<input type="text" name="text"><br>
-    Course Name:<input type="text" name="courseName"><br>
-    <input type="submit" value="Salva"/>
+    Title:<input class="boxRisposta" type="text" name="title" onkeyup="redirect()"><br>
+    Text:<input class="boxRisposta" type="text" name="text" onkeyup="redirect()"><br>
+    Course Name:<input class="boxRisposta" type="text" name="courseName" onkeyup="redirect()"><br>
+    <input id="btn" disabled="disabled" type="submit" value="Salva"/>
 </form>
 
-<a href="noticeBoard"> Annulla </a>
+<a href="noticeBoard"><button>Annulla</button></a>
+
+<script>
+    function required(){
+
+      var checkCondition= new Boolean(true);
+      const boxList = document.querySelectorAll(".boxRisposta");
+
+      for(var i=0; i < boxList.length;i++){
+        var empt = boxList[i].value;
+
+        if (empt == "") {
+          checkCondition = false;
+        }
+
+      }
+      return checkCondition;
+    }
+
+    function redirect(){
+      var btn = document.getElementById("btn");
+      if(required()==true){
+        btn.disabled = false;
+      }else{
+        btn.disabled = true;
+      }
+    }
+</script>
+
 </body>
 </html>
