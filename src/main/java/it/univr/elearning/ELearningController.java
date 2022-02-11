@@ -319,14 +319,14 @@ public class ELearningController {
     }
 
     //--------------------CONTROLLER ELEZIONI--------------------
-    /*@RequestMapping("/studentVote")
+    @RequestMapping("/studentVote")
     public String showElection(Model model){
         //TODO: booleano in student per il controllo del voto già effettuato che ritorna un allert
         Iterable<Candidate> candidates = candidateRepository.findAll();
         model.addAttribute("candidates", candidates);
 
         return "studentVote";
-    }*/
+    }
 
     @RequestMapping("/newVote")
     public String newVote(@RequestParam("candidateId") String id){
@@ -336,7 +336,7 @@ public class ELearningController {
             candidateRepository.delete(a);
             a.addVote();
             candidateRepository.save(a);
-            //TEST
+            //FIXME: togliere test
             Iterable<Candidate> b = candidateRepository.findAll();
             for(Candidate s: b){
                 System.out.println(s.getName() + s.getNumberVote());
@@ -377,6 +377,10 @@ public class ELearningController {
         return "electionResult";
     }
 
+    @RequestMapping("/retVoteManager")
+    public String returnToVoteManager(){
+        return "voteManager";
+    }
 
 
     @RequestMapping("/booklet")

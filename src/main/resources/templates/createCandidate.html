@@ -7,12 +7,38 @@
 <h1> Insert a candidate for election</h1>
 
 <form action="newCandidate" method="post">
-    Nome:<input type="text" name="name"><br>
-    Cognome:<input type="text" name="surname"><br>
-    Lista:<input type="text" name="list"><br>
-    <input type="submit" value="Salva"/>
+    Nome:<input type="text" class="boxRisposta" name="name"><br>
+    Cognome:<input type="text" class="boxRisposta" name="surname"><br>
+    Lista:<input type="text" class="boxRisposta" name="list"><br>
+    <input type="submit" value="Salva" onclick="redirect()"/>
 </form>
 <body>
+
+<script>
+    function required(){
+
+      var checkCondition= new Boolean(true);
+      const boxList = document.querySelectorAll(".boxRisposta");
+
+      for(var i=0; i < boxList.length;i++){
+        var empt = boxList[i].value;
+
+        if (empt == "") {
+          checkCondition = false;
+        }
+
+      }
+      return checkCondition;
+    }
+
+    function redirect(){
+      if(required()==true){
+        window.location.href = "https://www.youtube.com/watch?v=xvFZjo5PgG0";
+      }else{
+        alert("Compila i campi vuoti")
+      }
+    }
+</script>
 
 </body>
 </html>
