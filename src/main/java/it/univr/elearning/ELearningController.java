@@ -321,6 +321,18 @@ public class ELearningController {
             return "/notfound";
     }
 
+
+
+    @RequestMapping("/booklet")
+    public String getBooklet(Model model){
+        Iterable<Grade> grades = gradeRepository.findByStudent_StudentId(studentId);
+        model.addAttribute("booklet",grades);
+        Student s = studentRepository.findStudentByStudentId(studentId);
+        model.addAttribute("student", s);
+        return "booklet";
+    }
+
+
     //--------------------CONTROLLER BACHECA AVVISI--------------------
     @RequestMapping("/noticeBoard")
     public String notice(Model model){
@@ -406,12 +418,17 @@ public class ELearningController {
         return "electionResult";
     }
 
+    @RequestMapping("/retVoteManager")
+    public String returnToVoteManager(){
+        return "voteManager";
+    }
+
+
     //---------------------------------------------UPLOAD FILE STUDENTE------------------------------------------------------
 
     @GetMapping("/uploadStudente") //visualizza la pagina html upload lato studente
-    public String uploadStudente(Model model) {
+    public String uploadStudente(Model model, @RequestParam("courseId") String courseId) {
         FileListing fL = new FileListing();
-
         if (!studentId.equals("")) {
             fL.setUploadDir(studentId);
             model.addAttribute("userName", studentId);
@@ -420,22 +437,6 @@ public class ELearningController {
         } else {
             return "/notfound";
         }
-    }
-
-    @RequestMapping("/retVoteManager")
-    public String returnToVoteManager(){
-        return "voteManager";
-    }
-
-
-    @RequestMapping("/booklet")
-    public String getBooklet(Model model){
-        Iterable<Grade> grades = gradeRepository.findByStudent_StudentId(studentId);
-        model.addAttribute("booklet",grades);
-        // Serve solo a visualizzare il nome. Nel caso non importasse si può togliere
-        Student s = studentRepository.findStudentByStudentId(studentId);
-        model.addAttribute("student", s);
-        return "booklet";
     }
 
 //---------------------------------------------UPLOAD FILE DOCENTE------------------------------------------------------
@@ -457,7 +458,7 @@ public class ELearningController {
             model.addAttribute("courseId", courseId);
             model.addAttribute("userName", nameDirTeacher);
             model.addAttribute("files", fL.getFileStringListing(nameDirTeacher)); //popola la tabella con i file caricati
-            return "uploadFileDocente";
+            return "uploadDocente";
         } else {
             return "/notfound";
         }
@@ -470,15 +471,19 @@ public class ELearningController {
     public String uploadFile(Model model,@RequestParam("file") MultipartFile file,@RequestParam("courseId") Long courseId, RedirectAttributes attributes,@RequestParam("userName") String userName) {
 
         FileListing fL= new FileListing();
-        model.addAttribute(courseId);
+        Optional<Course> c = courseRepository.findById(courseId);
+        Course course = new Course();
+        if(c.isPresent())
+            course = c.get();
+        model.addAttribute(course);
         // controlla che il file non sia vuoto
         if (file.isEmpty()) {
             attributes.addFlashAttribute("message", "Please select a file to upload.");
 
             if(!username.equals("")){
-                return "redirect:/uploadDocente";
+                return "/pCourse";
             }else{
-                return "redirect:/uploadStudente";
+                return "/sCourse";
             }
         }
 
@@ -511,14 +516,14 @@ public class ELearningController {
 
 
         if(!username.equals("")){
-            return "redirect:/uploadDocente";
+            return "/pCourse";
         }else{
-            return "redirect:/uploadStudente";
+            return "/sCourse";
         }
     }
 
     @PostMapping("/delete") // elimina il file selezionato
-    public String deleteFile(@RequestParam("file") String fileName,@RequestParam("userName") String userName) {
+    public String deleteFile(Model model,@RequestParam("file") String fileName, @RequestParam("userName") String userName, @RequestParam("courseId") String courseId) {
 
         FileListing fL=new FileListing();
         File[]files=fL.getFilePathListing(userName); //Prendo la lista dei file
@@ -528,9 +533,9 @@ public class ELearningController {
                 file.delete();
             }
         }
-
+        model.addAttribute("courseId", courseId);
         if(!username.equals("")){
-            return "redirect:/uploadDocente";
+            return "/uploadDocente";
         }else{
             return "redirect:/uploadStudente";
         }

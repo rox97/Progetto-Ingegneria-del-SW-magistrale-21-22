@@ -14,6 +14,7 @@
         <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
           <div class="form-group">
             <input type="hidden" name="userName" th:value="${userName}"/>
+            <input type="hidden" name="courseId" th:value="${courseId}"/>
             <input type="file" name="file" class="form-control-file">
           </div>
           <button type="submit" class="btn btn-primary">Upload File</button>
