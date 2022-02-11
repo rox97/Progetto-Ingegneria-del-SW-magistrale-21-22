@@ -29,10 +29,13 @@
     </tbody>
 </table>
 
-<p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
 <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
     <div class="form-group">
         <input type="file" name="file" class="form-control-file">
+        <input type="hidden" name="eventId" th:value="${event.id}">
+        <input type="hidden" name="courseId" th:value="${courseId}">
+        <input type="hidden" name="userName" th:value="${userName}">
+        <input type="hidden" name="fromEvent" value="true">
     </div>
     <button type="submit" class="btn btn-primary">Upload File</button>
 </form>

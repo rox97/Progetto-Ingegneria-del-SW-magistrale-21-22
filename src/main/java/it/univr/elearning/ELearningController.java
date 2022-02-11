@@ -244,19 +244,38 @@ public class ELearningController {
         else
             return "/notfound";
     }
+
     @RequestMapping("/showEvent")
     public String showEvent(@RequestParam("eventId") Long eventId, Model model){
         Optional<Event> result = eventRepository.findById(eventId);
         if (result.isPresent()) {
             model.addAttribute("event", result.get());
-            if(result.get().isHomework())
-                return "/showHomework";
+            if(result.get().isHomework() && !studentId.equals("")) {
+                uploadHomework(eventId, model);
+                return "showSHomework";
+            }
+            else if(result.get().isHomework() && !username.equals(""))
+                return "showPHomework";
             else
                 return "/showEvent";
         }
         else{
             return "notfound";
         }
+    }
+
+    public void uploadHomework(Long eventId, Model model){
+        FileListing fL = new FileListing();
+        Optional<Event> e = eventRepository.findById(eventId);
+        Event event = new Event();
+        if(e.isPresent())
+            event = e.get();
+        Course course = event.getCourse();
+        String nameDirHomeworks = "Homeworks/" + course.getCourseName() + " " + course.getAcademicYear() + "/" + studentId;
+        System.out.println("nome directory <> " + nameDirHomeworks);
+        fL.setUploadDir(nameDirHomeworks);
+        model.addAttribute("courseId", course.getId());
+        model.addAttribute("userName", nameDirHomeworks);
     }
 
 
@@ -292,8 +311,6 @@ public class ELearningController {
         } catch (ParseException e) {
             System.out.println("DATE PARSING ERROR");
         }
-        //FIXME: nullPointerException ogni tanto, probabilmente generato dal fatto che non inizializza la repository all'avvio.
-        //Probabilmente si risolverà con la versione definitiva
         for (Student s : students) {
             if (!Objects.equals(s.getLastGrade(), "")) {
                 Grade grade = new Grade();
@@ -427,7 +444,7 @@ public class ELearningController {
     //---------------------------------------------UPLOAD FILE STUDENTE------------------------------------------------------
 
     @GetMapping("/uploadStudente") //visualizza la pagina html upload lato studente
-    public String uploadStudente(Model model, @RequestParam("courseId") String courseId) {
+    public String uploadStudente(Model model, @RequestParam("courseId") Long courseId) {
         FileListing fL = new FileListing();
         if (!studentId.equals("")) {
             fL.setUploadDir(studentId);
@@ -468,7 +485,7 @@ public class ELearningController {
 
 
     @PostMapping("/upload") //Upload dei file sia docente che studente
-    public String uploadFile(Model model,@RequestParam("file") MultipartFile file,@RequestParam("courseId") Long courseId, RedirectAttributes attributes,@RequestParam("userName") String userName) {
+    public String uploadFile(Model model,@RequestParam("file") MultipartFile file,@RequestParam("courseId") Long courseId, RedirectAttributes attributes,@RequestParam("userName") String userName, @RequestParam(name = "fromEvent", required = false) boolean fromEvent) {
 
         FileListing fL= new FileListing();
         Optional<Course> c = courseRepository.findById(courseId);
@@ -523,7 +540,7 @@ public class ELearningController {
     }
 
     @PostMapping("/delete") // elimina il file selezionato
-    public String deleteFile(Model model,@RequestParam("file") String fileName, @RequestParam("userName") String userName, @RequestParam("courseId") String courseId) {
+    public String deleteFile(Model model,@RequestParam("file") String fileName, @RequestParam("userName") String userName, @RequestParam("courseId") Long courseId) {
 
         FileListing fL=new FileListing();
         File[]files=fL.getFilePathListing(userName); //Prendo la lista dei file
@@ -533,11 +550,16 @@ public class ELearningController {
                 file.delete();
             }
         }
+        Optional<Course> c = courseRepository.findById(courseId);
+        Course course = new Course();
+        if(c.isPresent())
+            course = c.get();
+        model.addAttribute(course);
         model.addAttribute("courseId", courseId);
         if(!username.equals("")){
-            return "/uploadDocente";
+            return "/pCourse";
         }else{
-            return "redirect:/uploadStudente";
+            return "/sCourse";
         }
 
 
