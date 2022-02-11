@@ -17,7 +17,6 @@ public class Professor {
     private String professorName;
     private String professorSurname;
     private String userName;
-    //QUESTION: la password va bene salvata così?
     private String password;
 
     protected Professor(){}

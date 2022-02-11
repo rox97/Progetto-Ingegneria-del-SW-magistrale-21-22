@@ -4,7 +4,6 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
-//QUESTION: serve il nome della tabella?
 @Table(name = "STUDENT")
 public class Student {
 
@@ -16,7 +15,6 @@ public class Student {
     private String lastName;
     private String lastGrade;
     private String studentId;
-    //QUESTION: la password va bene salvata così?
     private String password;
 
     protected Student(){}

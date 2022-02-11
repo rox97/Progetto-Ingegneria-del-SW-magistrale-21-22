@@ -6,12 +6,12 @@
 </head>
 
 <body>
-<h1>Event</h1>
+<h1>Homework</h1>
 
 <table border="1">
     <thead>
     <tr>
-        <th>Event Title</th>
+        <th>Homework Title</th>
         <th>Date</th>
         <th>Description</th>
         <th>Link</th>
@@ -24,10 +24,19 @@
         <td th:text="${event.eventDate}"> </td>
         <td th:text="${event.eventDescription}">  </td>
         <td th:text="${event.link}">  </td>
-
+        <td th:text="test"> </td>
     </tr>
     </tbody>
 </table>
+
+<p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
+<form method="post" th:action="@{/upload}" enctype="multipart/form-data">
+    <div class="form-group">
+        <input type="file" name="file" class="form-control-file">
+    </div>
+    <button type="submit" class="btn btn-primary">Upload File</button>
+</form>
+
 <form action="retCalendar" method="get">
     <input type="submit" value="Indietro">
 </form>

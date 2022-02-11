@@ -157,6 +157,33 @@ public class ELearningController {
         return "pCalendar";
     }
 
+    @RequestMapping("/retCalendar")
+    public String returnToCalendar(Model model){
+        if(professorRepository.existsByUserName(username)){
+            Professor professor = professorRepository.findByUserName(username);
+            List<Course> courses = professor.getCourses();
+            List<Event> events = new ArrayList<>();
+            for(Course c : courses){
+                events.addAll(c.getEvents());
+            }
+            model.addAttribute("events",events);
+            return "/pCalendar";
+        }
+        else if(studentRepository.existsByStudentId(studentId)){
+            Student student = studentRepository.findStudentByStudentId(studentId);
+            List<Course> courses = student.getCourses();
+            List<Event> events = new ArrayList<>();
+            for(Course c : courses){
+                events.addAll(c.getEvents());
+            }
+            model.addAttribute("events",events);
+            model.addAttribute("student", student);
+            return "/sCalendar";
+        }
+        else
+            return "/notfound";
+    }
+
     @RequestMapping("/addEvent")
     public String addEvent(@RequestParam("courseId") Long courseId, Model model){
             model.addAttribute("courseId", courseId);
@@ -169,9 +196,8 @@ public class ELearningController {
                            @RequestParam(name="link") String link,
                            @RequestParam("date") String eventDate,
                            @RequestParam("courseId") Long courseId,
-                           @RequestParam("homework") boolean homework,
+                           @RequestParam(name = "homework", required = false) boolean homework,
                            Model model){
-
         Date date = null;
         try {
             date = new SimpleDateFormat("yyyy-MM-dd").parse(eventDate);
@@ -223,7 +249,10 @@ public class ELearningController {
         Optional<Event> result = eventRepository.findById(eventId);
         if (result.isPresent()) {
             model.addAttribute("event", result.get());
-            return "/showEvent";
+            if(result.get().isHomework())
+                return "/showHomework";
+            else
+                return "/showEvent";
         }
         else{
             return "notfound";
@@ -329,8 +358,8 @@ public class ELearningController {
     }
 
     @RequestMapping("/newVote")
-    public String newVote(@RequestParam("candidateId") String id){
-        Optional<Candidate> c = candidateRepository.findById(Long.valueOf(id));
+    public String newVote(@RequestParam("candidateId") Long id){
+        Optional<Candidate> c = candidateRepository.findById(id);
         if(c.isPresent()){
             Candidate a = c.get();
             candidateRepository.delete(a);
@@ -341,7 +370,7 @@ public class ELearningController {
             for(Candidate s: b){
                 System.out.println(s.getName() + s.getNumberVote());
             }
-            return "sCourses";
+            return "redirect:/retCourses";
         } else{
             return "notfound";
         }
@@ -479,7 +508,7 @@ public class ELearningController {
         studentRepository.save(s2);
         Professor p1 = new Professor("Alessandro", "Farinelli", "qwerty");
         p1.setPassword("alessandro");
-        Course c = new Course("Fondamenti AI", "Farinelli","2021/22");
+        Course c = new Course("Fondamenti AI", "Farinelli","2021-22");
         c.setStudent(s1);
         c.setStudent(s2);
         c.setProfessor(p1);
@@ -487,7 +516,7 @@ public class ELearningController {
         courseRepository.save(c);
         professorRepository.save(p1);
 
-        Course c2 = new Course("Fondamenti di Ingegneria del SW", "Ceccato","2021/22");
+        Course c2 = new Course("Fondamenti di Ingegneria del SW", "Ceccato","2021-22");
         Professor p2 = new Professor("Mariano", "Ceccato", "asdfgh");
         p2.setPassword("mariano");
         c2.setStudent(s1);
@@ -553,7 +582,6 @@ public class ELearningController {
         return studentRepository.findById(id);
     }
 
-    // TODO: valutare se serve e nel caso mapping
     public void setCourseStudents(@RequestParam(name = "id") Long id, @RequestParam(name = "students") List<Student> students) {
         Course c = new Course();
         if (courseRepository.existsById(id)) {
@@ -566,7 +594,6 @@ public class ELearningController {
         }
     }
 
-    // TODO: valutare se serve e nel caso mapping
     public void setCourseStudent(@RequestParam(name = "id") Long idCourse, @RequestParam(name = "student") Long idStudent) {
         if (courseRepository.existsById(idCourse)) {
             Course c = courseRepository.findById(idCourse).get();

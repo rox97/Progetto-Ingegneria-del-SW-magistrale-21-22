@@ -13,6 +13,7 @@
     <tr>
         <th>Event Title</th>
         <th>Date</th>
+        <th>Event Type</th>
         <th>Show</th>
     </tr>
     </thead>
@@ -20,6 +21,10 @@
     <tr th:each="event: ${events}">
         <td th:text="${event.eventTitle}"> </td>
         <td th:text="${event.eventDate}"> </td>
+        <td th:switch="${event.homework}">
+            <p th:case="true">Homework</p>
+            <p th:case="false">Event</p>
+        </td>
         <td><a href="showEvent?eventId=10" th:href="@{showEvent(eventId=${event.id})}"><button>Show</button></a></td>
     </tr>
     </tbody>

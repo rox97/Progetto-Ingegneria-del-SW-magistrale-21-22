@@ -65,9 +65,7 @@ public class Course {
         this.professor = professor;
     }
 
-    //QUESTION: come funzionano i join? dobbiamo specificare i nomi?
     @ManyToMany(cascade = {CascadeType.ALL})
-    //@JoinTable(name = "STUDENT_COURSE", joinColumns={@JoinColumn(name="COURSE_ID")}, inverseJoinColumns={@JoinColumn(name="STUDENT_ID")})
     @JoinColumn(name = "STUDENT_ID")
     private List<Student> students = new ArrayList<>();
 
