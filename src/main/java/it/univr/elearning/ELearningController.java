@@ -475,7 +475,7 @@ public class ELearningController {
             model.addAttribute("courseId", courseId);
             model.addAttribute("userName", nameDirTeacher);
             model.addAttribute("files", fL.getFileStringListing(nameDirTeacher)); //popola la tabella con i file caricati
-            return "uploadDocente";
+            return "/uploadDocente";
         } else {
             return "/notfound";
         }
@@ -485,7 +485,13 @@ public class ELearningController {
 
 
     @PostMapping("/upload") //Upload dei file sia docente che studente
-    public String uploadFile(Model model,@RequestParam("file") MultipartFile file,@RequestParam(name="courseId",defaultValue = "5") Long courseId, RedirectAttributes attributes,@RequestParam("userName") String userName) {
+    public String uploadFile(Model model,
+                             @RequestParam("file") MultipartFile file,
+                             @RequestParam(name = "courseId", required = false) Long courseId,
+                             RedirectAttributes attributes,
+                             @RequestParam("userName") String userName,
+                             @RequestParam(name = "eventId", required = false) Long eventId) {
+
 
         FileListing fL= new FileListing();
 
@@ -494,10 +500,13 @@ public class ELearningController {
             attributes.addFlashAttribute("message", "Please select a file to upload.");
 
             if(!username.equals("")){
-                model.addAttribute("courseId", courseId);
-                return "redirect:/uploadDocente/"+courseId;
+                    model.addAttribute("courseId", courseId);
+                    return "redirect:/uploadDocente/" + courseId;
             }else{
-                return "redirect:/uploadStudente";
+                if(eventId == null)
+                    return "redirect:/uploadStudente";
+                else
+                    return "redirect:/retCalendar";
             }
         }
 
@@ -530,11 +539,13 @@ public class ELearningController {
 
 
         if(!username.equals("")){
-
-            model.addAttribute("courseId", courseId);
-            return "redirect:/uploadDocente/"+courseId;
+                model.addAttribute("courseId", courseId);
+                return "redirect:/uploadDocente/" + courseId;
         }else{
-            return "redirect:/uploadStudente";
+            if(eventId == null)
+                return "redirect:/uploadStudente";
+            else
+                return "redirect:/retCalendar";
         }
     }
 

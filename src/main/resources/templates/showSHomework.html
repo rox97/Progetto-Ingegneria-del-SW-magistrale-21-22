@@ -35,12 +35,11 @@
         <input type="hidden" name="eventId" th:value="${event.id}">
         <input type="hidden" name="courseId" th:value="${courseId}">
         <input type="hidden" name="userName" th:value="${userName}">
-        <input type="hidden" name="fromEvent" value="true">
     </div>
     <button type="submit" class="btn btn-primary">Upload File</button>
 </form>
 
-<form action="retCalendar" method="get">
+<form action="/retCalendar" method="get">
     <input type="submit" value="Indietro">
 </form>
 </body>
