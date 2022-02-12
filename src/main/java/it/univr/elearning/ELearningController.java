@@ -18,8 +18,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static java.lang.Thread.sleep;
-
 @Controller
 public class ELearningController {
 
@@ -131,6 +129,7 @@ public class ELearningController {
 
     }
 
+    //TODO: unire questi tre metodi in uno solo (probabilmente l'ultimo)
     @RequestMapping("/sCalendar")
     public String showSCalendar(Model model){
         Student student = studentRepository.findStudentByStudentId(studentId);
@@ -167,6 +166,7 @@ public class ELearningController {
                 events.addAll(c.getEvents());
             }
             model.addAttribute("events",events);
+            model.addAttribute("professor", professor);
             return "/pCalendar";
         }
         else if(studentRepository.existsByStudentId(studentId)){
@@ -423,10 +423,6 @@ public class ELearningController {
         return "voteManager";
     }
 
-    /*@RequestMapping("/electionResult")
-    public String electionResult(){
-        return "electionResult";
-    }*/
 
     @RequestMapping("/electionResult")
     public String showElectionResult(Model model){
@@ -660,44 +656,6 @@ public class ELearningController {
             System.err.println("Failed to create directory!" + e.getMessage());
         }
     }
-
-    //QUESTION: Servono ancora? si possono eliminare tutti?
-
-    @PostMapping("/student")
-    public Student addStudent(@RequestBody Student student) {
-        studentRepository.save(student);
-        return student;
-    }
-
-    @GetMapping("/student/{studentId}")
-    public Optional<Student> getStudent(@PathVariable("studentId") Long id) {
-
-        return studentRepository.findById(id);
-    }
-
-    public void setCourseStudents(@RequestParam(name = "id") Long id, @RequestParam(name = "students") List<Student> students) {
-        Course c = new Course();
-        if (courseRepository.existsById(id)) {
-            c = courseRepository.findById(id).get();
-            c.setStudents(students);
-        }
-
-        for (Student s : students) {
-            s.setCourse(c);
-        }
-    }
-
-    public void setCourseStudent(@RequestParam(name = "id") Long idCourse, @RequestParam(name = "student") Long idStudent) {
-        if (courseRepository.existsById(idCourse)) {
-            Course c = courseRepository.findById(idCourse).get();
-            Student student = studentRepository.findById(idStudent).get();
-            c.setStudent(student);
-            student.setCourse(c);
-        }
-    }
-
-
-
 
 
 }

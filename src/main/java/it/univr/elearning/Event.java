@@ -16,7 +16,6 @@ public class Event {
     private String link;
     @Temporal(TemporalType.DATE)
     private Date eventDate;
-    //QUESTION: per usare un solo tipo di evento con consegna, posso riciclarlo e renderlo di doppia utilità?
     private boolean isHomework = false;
 
     public Event(String eventTitle, String eventDescription, Date eventDate) {
