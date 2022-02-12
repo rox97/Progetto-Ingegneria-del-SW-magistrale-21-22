@@ -550,7 +550,9 @@ public class ELearningController {
     }
 
     @PostMapping("/delete") // elimina il file selezionato
-    public String deleteFile(Model model,@RequestParam("file") String fileName, @RequestParam("userName") String userName, @RequestParam(name="courseId",defaultValue = "5") Long courseId) {
+    public String deleteFile(Model model,@RequestParam("file") String fileName,
+                             @RequestParam("userName") String userName,
+                             @RequestParam(name="courseId",required = false) Long courseId) {
 
         FileListing fL=new FileListing();
         File[]files=fL.getFilePathListing(userName); //Prendo la lista dei file
@@ -560,13 +562,14 @@ public class ELearningController {
                 file.delete();
             }
         }
-        Optional<Course> c = courseRepository.findById(courseId);
-        Course course = new Course();
-        if(c.isPresent())
-            course = c.get();
-        model.addAttribute(course);
-        model.addAttribute("courseId", courseId);
+
         if(!username.equals("")){
+            Optional<Course> c = courseRepository.findById(courseId);
+            Course course = new Course();
+            if(c.isPresent())
+                course = c.get();
+            model.addAttribute(course);
+            model.addAttribute("courseId", courseId);
             return "redirect:/uploadDocente/"+courseId;
         }else{
             return "redirect:/uploadStudente";
