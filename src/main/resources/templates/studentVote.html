@@ -23,13 +23,26 @@
         <td th:text="${candidate.list}"></td>
         <td th:text="${candidate.name}"></td>
         <td th:text="${candidate.surname}"></td>
-        <td><input type="radio" th:name="candidateId" th:value="${candidate.id}"/></td>
+        <td><input type="radio" class="checkRisposta" onclick="handleClick()" th:name="candidateId" th:value="${candidate.id}"/></td>
     </tr>
 
     </tbody>
 </table>
-    <input type="submit" value="Salva" />
+    <input id="btn" disabled="disabled" type="submit" value="Salva" />
+
 </form>
+
+<a href="/retCourses"><button>Indietro</button></a>
+
+<script>
+
+      function handleClick(){
+        var btn = document.getElementById("btn");
+        btn.disabled = false;
+      }
+
+
+</script>
 
 </body>
 </html>

@@ -1,4 +1,4 @@
-# Progetto-Ingegneria-del-SW-magistrale-21-22
+    # Progetto-Ingegneria-del-SW-magistrale-21-22
 Progetto Ingegneria del SW magistrale 21/22
 
 Simone Baldi (VR457324), Andrea Caliari (VR456755), Andrea Rossetti (VR457323)
@@ -90,11 +90,11 @@ Una volta salvato l’evento, il sistema visualizza un messaggio di successo e l
 ### Initial Assumption
 Il professore ha la possibilità di inviare degli avvisi ad ogni partecipante (solo a tutti) del corso tramite la sezione apposita all’interno della sua aerea personale.
 ### Normal
-Il professore accede al corso nel quale vuole inviare l’annuncio, entra nella sezione annunci e può scegliere di inviare un avviso andando a compilare i campi che lo compongono come il titolo, il contenuto, programmare l’orario e la data di pubblicazione, se lo vuole. Compilato l’avviso il professore provvederà a caricare l’avviso sulla bacheca degli studenti. Se l’avviso contiene una programmazione oraria diventerà pubblico all’orario indicato.
+Il professore accede al corso nel quale vuole inviare l’annuncio, entra nella sezione messaggi e può scegliere di inviare un avviso andando a compilare i campi che lo compongono come il titolo, il contenuto. Compilato l’avviso il professore provvederà a caricare l’avviso sulla bacheca degli studenti.
 ### What can go wrong
-Il professore ha la possibilità di rimuovere l’avviso oppure di modificarlo. Nel caso della modifica la data di pubblicazione verrà aggiornata al momento della modifica e verrà reinviata una notifica agli studenti.
+Il professore ha la possibilità di rimuovere l’avviso, quindi di conseguenza non sarà più visibile agli studenti.
 ### Other Activities
-Gli studenti ricevono una notifica quando il docente pubblica l’avviso.
+Gli studenti ricevono l'avviso nella loro pagina relativa al corso.
 ### System state on completion
 Il professore può vedere il suo annuncio appena pubblicato o in caso di annuncio programmato il riepilogo di esso.
 
@@ -119,11 +119,11 @@ Lo studente ha la possibilità di votare tramite un’interfaccia apposita all�
 ### Normal
 Lo studente può votare per le elezioni tramite l’interfaccia apposita andando a cliccare sulla sua preferenza tra i candidati presenti. Il voto è preso in considerazione solo se lo studente dopo aver selezionato la sua scelta conferma la votazione tramite il tasto di conferma.
 ### What can go wrong
-Lo studente seleziona la lista ma senza indicare una preferenza tra i candidati di quella lista; in questo caso se lo studente andrà a confermare la votazione il sistema lo avvertirà con un popup che non avrà effettuato quella determinata scelta e che se vuole può inviare comunque la votazione.
+Lo studente seleziona uno tra i candidati disponibili; se lo studente andrà a confermare la votazione senza indicare una preferenza il sistema non gli permetterà di votare e potrà solo tornare indietro.
 ### Other Activities
 L’organizzatore delle elezioni potrà vedere le percentuali delle votazioni tramite la sua area personale.
 ### System state on completion
-Lo studente vedrà il resoconto della sua votazione con tutte le preferenze da lui indicate.
+Lo studente vedrà il resoconto della sua votazione.
 
 # Casi di test
 

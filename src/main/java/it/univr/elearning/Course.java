@@ -93,4 +93,16 @@ public class Course {
         this.events.add(event);
     }
 
+    @OneToMany(mappedBy="course",cascade = {CascadeType.MERGE})
+    private List<Message> messages = new ArrayList<>();
+    public List<Message> getMessages() {
+        return messages;
+    }
+    public void setMessages(List<Message> messages){
+        this.messages = messages;
+    }
+    public void setMessage(Message message){
+        this.messages.add(message);
+    }
+
 }

@@ -18,6 +18,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static java.lang.Thread.sleep;
+
 @Controller
 public class ELearningController {
 
@@ -35,6 +37,8 @@ public class ELearningController {
     private NoticeRepository noticeRepository;
     @Autowired
     private CandidateRepository candidateRepository;
+    @Autowired
+    private MessageRepository messageRepository;
 
     //Variabile percorso cartella upload file
     private String username = "";
@@ -213,6 +217,8 @@ public class ELearningController {
         else
             return "/notfound";
     }
+
+
     @RequestMapping("/editEvent")
     public String editEvent(@RequestParam("eventId") Long eventId, Model model) {
         Optional<Event> event = eventRepository.findById(eventId);
@@ -260,6 +266,8 @@ public class ELearningController {
             return "notfound";
         }
     }
+
+
     public void uploadHomework(Long eventId, Model model){
         FileListing fL = new FileListing();
         Optional<Event> e = eventRepository.findById(eventId);
@@ -324,6 +332,8 @@ public class ELearningController {
         } catch (ParseException e) {
             System.out.println("DATE PARSING ERROR");
         }
+        //FIXME: nullPointerException ogni tanto, probabilmente generato dal fatto che non inizializza la repository all'avvio.
+        //Probabilmente si risolverà con la versione definitiva
         for (Student s : students) {
             if (!Objects.equals(s.getLastGrade(), "")) {
                 Grade grade = new Grade();
@@ -407,14 +417,9 @@ public class ELearningController {
             candidateRepository.delete(a);
             a.addVote();
             candidateRepository.save(a);
-            //FIXME: togliere test
-            Iterable<Candidate> b = candidateRepository.findAll();
-            for(Candidate s: b){
-                System.out.println(s.getName() + s.getNumberVote());
-            }
             return "redirect:/retCourses";
         } else{
-            return "notfound";
+            return "/notfound";
         }
     }
 
@@ -448,6 +453,71 @@ public class ELearningController {
     public String returnToVoteManager(){
         return "voteManager";
     }
+
+    //------------------------CONTROLLER MESSAGGI------------------------------
+
+    @RequestMapping("/pNewMessage")
+    public String message(Model model, @RequestParam("courseId") Long courseId){
+        Optional<Course> a = courseRepository.findById(courseId);
+        if (a.isPresent()) {
+            Course course = a.get();
+            model.addAttribute("courseName",course.getCourseName());
+            model.addAttribute("courseId",courseId);
+            return "/pNewMessage";
+        } else{
+            return "/notfound";
+        }
+    }
+
+    @RequestMapping("/newMessage")
+    public String newMessage(@RequestParam(name="title", required=true) String title,
+                             @RequestParam(name="text", required=true) String text,
+                             @RequestParam("courseId") Long courseId,
+                             Model model){
+        Optional<Course> a = courseRepository.findById(courseId);
+        if (a.isPresent()){
+            Course course = a.get();
+            Message message = new Message(title,text,course.getCourseName());
+            message.setCourse(course);
+            messageRepository.save(message);
+            returnToCourse(courseId,model);
+            return "/pCourse";
+        } else{
+            return "/notfound"; //FIXME: cambiare ritorno
+        }
+    }
+
+
+    @RequestMapping("/pShowCourseMessage")
+    public String showCourseMessage(@RequestParam("courseId") Long courseId, Model model){
+        Optional<Course> s = courseRepository.findById(courseId);
+        if(s.isPresent()){
+            Course test = s.get();
+            model.addAttribute("courseName",test.getCourseName());
+            model.addAttribute("courseId",courseId);
+            List<Message> messages = messageRepository.findByCourse_id(courseId);
+            model.addAttribute("messages",messages);
+            return "/pShowCourseMessage";
+        } else{
+            return "/notfound";
+        }
+    }
+
+    @RequestMapping("/sViewMessage")
+    public String viewMessage(@RequestParam("courseId") Long courseId, Model model){
+        Optional<Course> s = courseRepository.findById(courseId);
+        if(s.isPresent()){
+            Course test = s.get();
+            model.addAttribute("courseName",test.getCourseName());
+            model.addAttribute("courseId",courseId);
+            List<Message> messages = messageRepository.findByCourse_id(courseId);
+            model.addAttribute("messages",messages);
+            return "/sViewMessage";
+        } else{
+            return "/notfound";
+        }
+    }
+
 
 
     //---------------------------------------------UPLOAD FILE STUDENTE------------------------------------------------------
