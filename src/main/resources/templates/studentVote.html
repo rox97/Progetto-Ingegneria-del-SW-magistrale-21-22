@@ -32,9 +32,10 @@
 
 </form>
 
-<button onclick="redirect()">Indietro</button>
+<button type="button" onclick="redirect()">Indietro</button>
 
-<script>
+<script type="text/javascript">
+
 
       function handleClick(){
         var btn = document.getElementById("btn");
@@ -42,26 +43,28 @@
       }
 
       function required(){
-      var checkCondition= new Boolean(true);
-          const boxList = document.querySelectorAll(".checkRisposta");
+        var checkCondition= new Boolean(true);
+        const boxList = document.querySelectorAll(".checkRisposta");
 
-          for(var i=0; i < boxList.length;i++){
+        for(var i=0; i < boxList.length;i++){
 
-              if(!boxList[i].checked){
+            if(boxList[i].checked == true){
                 checkCondition = false;
-              }
+            }
 
-          }
-          return checkCondition;
+        }
+
+        return checkCondition;
       }
 
       function redirect(){
-        var btn = document.getElementById("btn");
+
           if(required()==true){
-            alert("Non hai salvato il tuo voto");
+            window.location.href = "/retCourses";
 
           }else{
-             window.location.href = "/retCourses";
+             alert("Non hai salvato la selezione");
+
           }
       }
 
