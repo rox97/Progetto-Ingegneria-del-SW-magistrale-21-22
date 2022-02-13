@@ -107,7 +107,10 @@ public class ELearningController {
         Optional<Course> c = courseRepository.findById(courseId);
         if(c.isPresent()){
             model.addAttribute(c.get());
-            return "/pCourse";
+            if(!username.equals(""))
+                return "/pCourse";
+            else
+                return "/sCourse";
         }
         else
             return "/notfound";
@@ -129,14 +132,16 @@ public class ELearningController {
 
     }
 
-    //TODO: unire questi tre metodi in uno solo (probabilmente l'ultimo)
     @RequestMapping("/sCalendar")
     public String showSCalendar(Model model){
         Student student = studentRepository.findStudentByStudentId(studentId);
         List<Course> courses = student.getCourses();
         List<Event> events = new ArrayList<>();
         for(Course c : courses){
-            events.addAll(c.getEvents());
+            List<Event> genericEvents = c.getEvents();
+            for(Event e : genericEvents)
+                if(!e.isHomework())
+                    events.add(e);
         }
         model.addAttribute("events",events);
         model.addAttribute("student", student);
@@ -149,7 +154,10 @@ public class ELearningController {
         List<Course> courses = professor.getCourses();
         List<Event> events = new ArrayList<>();
         for(Course c : courses){
-            events.addAll(c.getEvents());
+            List<Event> genericEvents = c.getEvents();
+            for(Event e : genericEvents)
+                if(!e.isHomework())
+                    events.add(e);
         }
         model.addAttribute("events",events);
         model.addAttribute("professor", professor);
@@ -158,28 +166,10 @@ public class ELearningController {
 
     @RequestMapping("/retCalendar")
     public String returnToCalendar(Model model){
-        if(professorRepository.existsByUserName(username)){
-            Professor professor = professorRepository.findByUserName(username);
-            List<Course> courses = professor.getCourses();
-            List<Event> events = new ArrayList<>();
-            for(Course c : courses){
-                events.addAll(c.getEvents());
-            }
-            model.addAttribute("events",events);
-            model.addAttribute("professor", professor);
-            return "/pCalendar";
-        }
-        else if(studentRepository.existsByStudentId(studentId)){
-            Student student = studentRepository.findStudentByStudentId(studentId);
-            List<Course> courses = student.getCourses();
-            List<Event> events = new ArrayList<>();
-            for(Course c : courses){
-                events.addAll(c.getEvents());
-            }
-            model.addAttribute("events",events);
-            model.addAttribute("student", student);
-            return "/sCalendar";
-        }
+        if(username.equals(""))
+            return "redirect:/sCalendar";
+        else if (studentId.equals(""))
+            return "redirect:/pCalendar";
         else
             return "/notfound";
     }
@@ -227,6 +217,7 @@ public class ELearningController {
     public String editEvent(@RequestParam("eventId") Long eventId, Model model) {
         Optional<Event> event = eventRepository.findById(eventId);
         if (event.isPresent()){
+
             model.addAttribute("courseId", event.get().getCourse().getId());
             eventRepository.delete(event.get());
             return "/addEvent";
@@ -236,10 +227,18 @@ public class ELearningController {
     }
 
     @RequestMapping("/deleteEvent")
-    public String deleteEvent(@RequestParam("eventId") Long eventId){
-        if (eventRepository.existsById(eventId)){
+    public String deleteEvent(@RequestParam("eventId") Long eventId,Model model){
+        Optional<Event> event = eventRepository.findById(eventId);
+        if (event.isPresent()) {
+            boolean homework = event.get().isHomework();
             eventRepository.deleteById(eventId);
-            return "redirect:/pCalendar";
+            if (homework){
+                model.addAttribute("courseId", event.get().getCourse().getId());
+                returnToCourse(event.get().getCourse().getId(),model);
+                return "/pCourse";
+            }
+            else
+                return "redirect:/pCalendar";
         }
         else
             return "/notfound";
@@ -250,12 +249,10 @@ public class ELearningController {
         Optional<Event> result = eventRepository.findById(eventId);
         if (result.isPresent()) {
             model.addAttribute("event", result.get());
-            if(result.get().isHomework() && !studentId.equals("")) {
+            if(result.get().isHomework()) {
                 uploadHomework(eventId, model);
-                return "showSHomework";
+                return "/showSHomework";
             }
-            else if(result.get().isHomework() && !username.equals(""))
-                return "showPHomework";
             else
                 return "/showEvent";
         }
@@ -263,7 +260,6 @@ public class ELearningController {
             return "notfound";
         }
     }
-
     public void uploadHomework(Long eventId, Model model){
         FileListing fL = new FileListing();
         Optional<Event> e = eventRepository.findById(eventId);
@@ -278,6 +274,23 @@ public class ELearningController {
         model.addAttribute("userName", nameDirHomeworks);
     }
 
+    @RequestMapping("/courseHomeworks")
+    public String courseHomeworks(Model model, @RequestParam("courseId") Long courseId){
+        Iterable<Event> events = eventRepository.findAll();
+        List<Event> courseEvents = new ArrayList<>();
+        for(Event event : events){
+            if(event.isHomework() && event.getCourse().getId().equals(courseId))
+                courseEvents.add(event);
+        }
+        model.addAttribute("events",courseEvents);
+        model.addAttribute("courseId", courseId);
+        if(!username.equals(""))
+            return "pCourseHomeworks";
+        else
+            model.addAttribute("userName", studentId);
+            return "sCourseHomeworks";
+
+    }
 
     @RequestMapping("/grades")
     public String grades(@RequestParam("courseId") Long id, Model model) {
@@ -501,8 +514,10 @@ public class ELearningController {
             }else{
                 if(eventId == null)
                     return "redirect:/uploadStudente";
-                else
-                    return "redirect:/retCalendar";
+                else {
+                    returnToCourse(courseId, model);
+                    return "/sCourse";
+                }
             }
         }
 
@@ -540,8 +555,10 @@ public class ELearningController {
         }else{
             if(eventId == null)
                 return "redirect:/uploadStudente";
-            else
-                return "redirect:/retCalendar";
+            else {
+                returnToCourse(courseId, model);
+                return "/sCourse";
+            }
         }
     }
 

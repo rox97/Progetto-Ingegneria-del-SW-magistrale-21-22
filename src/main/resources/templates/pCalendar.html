@@ -13,7 +13,6 @@
     <tr>
         <th>Event Title</th>
         <th>Date</th>
-        <th>Event Type</th>
         <th>Show</th>
         <th>Edit</th>
         <th>Delete</th>
@@ -23,23 +22,12 @@
     <tr th:each="event: ${events}">
         <td th:text="${event.eventTitle}"> </td>
         <td th:text="${event.eventDate}"> </td>
-        <td th:switch="${event.homework}">
-            <p th:case="true">Homework</p>
-            <p th:case="false">Event</p>
-        </td>
         <td><a href="showEvent?eventId=10" th:href="@{showEvent(eventId=${event.id})}"><button>Show</button></a></td>
         <td> <a href="editEvent?eventId=10" th:href="@{editEvent(eventId=${event.id})}"><button>Edit</button></a></td>
         <td> <a href="deleteEvent?eventId=10" th:href="@{deleteEvent(eventId=${event.id})}"><button>Delete</button></a></td>
     </tr>
     </tbody>
 </table>
-<!---
-<form action="courses" method="get">
-    <input type="hidden" name="userName" th:value="${student.studentId}"/>
-    <input type="hidden" name="password" th:value="${student.password}"/>
-    <input type="submit" value="Indietro">
-</form>
---->
 <form action="retCourses" method="get">
     <input type="submit" value="Indietro">
 </form>
