@@ -40,6 +40,7 @@
         var btn = document.getElementById("btn");
         btn.disabled = false;
       }
+
       function required(){
       var checkCondition= new Boolean(true);
           const boxList = document.querySelectorAll(".checkRisposta");
@@ -57,7 +58,7 @@
       function redirect(){
         var btn = document.getElementById("btn");
           if(required()==true){
-          alert("Non hai salvato il tuo voto");
+            alert("Non hai salvato il tuo voto");
 
           }else{
              window.location.href = "/retCourses";
