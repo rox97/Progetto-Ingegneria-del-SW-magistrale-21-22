@@ -32,13 +32,35 @@
 
 </form>
 
-<a href="/retCourses"><button>Indietro</button></a>
+<button onclick="redirect()">Indietro</button>
 
 <script>
 
       function handleClick(){
         var btn = document.getElementById("btn");
         btn.disabled = false;
+      }
+      function required(){
+      var checkCondition= new Boolean(true);
+          const boxList = document.querySelectorAll(".checkRisposta");
+
+          for(var i=0; i < boxList.length;i++){
+
+              if(!boxList[i].checked){
+                checkCondition = false;
+              }
+
+          }
+          return checkCondition;
+      }
+
+      function redirect(){
+        var btn = document.getElementById("btn");
+          if(required()==true){
+             window.location.href = "/retCourses";
+          }else{
+             alert("Non hai salvato il tuo voto");
+          }
       }
 
 
