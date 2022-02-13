@@ -57,9 +57,10 @@
       function redirect(){
         var btn = document.getElementById("btn");
           if(required()==true){
-             window.location.href = "/retCourses";
+          alert("Non hai salvato il tuo voto");
+
           }else{
-             alert("Non hai salvato il tuo voto");
+             window.location.href = "/retCourses";
           }
       }
 
