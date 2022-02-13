@@ -47,6 +47,8 @@ public class ELearningController {
     }
 
 
+
+
     @RequestMapping("/login")
     public String login() {
         return "login";
@@ -63,7 +65,9 @@ public class ELearningController {
     }
 
     @RequestMapping("/courses")
-    public String showCourses(@RequestParam("userName") String username, @RequestParam("password") String password, Model model){
+    public String showCourses(@RequestParam("userName") String username,
+                              @RequestParam("password") String password,
+                              Model model){
         this.username = "";
         this.studentId = "";
         if(professorRepository.existsByUserNameAndPassword(username,password)){
