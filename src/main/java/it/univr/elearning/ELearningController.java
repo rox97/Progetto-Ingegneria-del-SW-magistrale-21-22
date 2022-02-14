@@ -621,7 +621,7 @@ public class ELearningController {
             extensionFile=extension;
         }
         // Salva il file nel file system locale
-        if(extensionFile.equals("pdf")){
+        if((extensionFile.equals("pdf"))||(extensionFile.equals("docx"))||(extensionFile.equals("tar.gz"))||(extensionFile.equals("zip"))||(extensionFile.equals("tar"))||(extensionFile.equals("txt"))||(extensionFile.equals("rar"))){
             try {
                 Path path = Paths.get(fL.getUploadDir(userName) + fileName);
                 Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
@@ -752,7 +752,6 @@ public class ELearningController {
     public String deletePoll(@RequestParam("pollId") Long pollId,Model model){
         Optional<Poll> poll = pollRepository.findById(pollId);
         if (poll.isPresent()) {
-            boolean mandatory = poll.get().isMandatory();
             pollRepository.deleteById(pollId);
 
                 return "redirect:/pPoll";
@@ -825,9 +824,7 @@ public class ELearningController {
             //java.nio.file.Files;
             if(!Files.exists(path)){
                 Files.createDirectories(path);
-                System.out.println("Directory is created!");
-            }else{
-                System.out.println("Directory already exist,not created!");
+                //System.out.println("Directory is created!");
             }
         } catch (IOException e) {
             System.err.println("Failed to create directory!" + e.getMessage());

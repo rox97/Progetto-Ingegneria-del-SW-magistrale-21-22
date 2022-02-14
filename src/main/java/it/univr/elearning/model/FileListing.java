@@ -22,9 +22,7 @@ public class FileListing {
             //java.nio.file.Files;
             if(!Files.exists(path)){
                 Files.createDirectories(path);
-                System.out.println("Directory is created!");
-            }else{
-                System.out.println("Directory already exist,not created!");
+                //System.out.println("Directory is created!");
             }
         } catch (IOException e) {
             System.err.println("Failed to create directory!" + e.getMessage());
