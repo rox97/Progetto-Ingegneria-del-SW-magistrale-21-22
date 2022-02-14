@@ -229,10 +229,6 @@ public class JUnitTest {
         assertEquals("Fondamenti di Intelligenza Artificiale", event1.getEventCourse());
         assertEquals(date2, event1.getEventDate());
 
-
-
-
-
     }
 
 

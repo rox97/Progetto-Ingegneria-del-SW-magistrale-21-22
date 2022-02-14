@@ -20,8 +20,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static java.lang.Thread.sleep;
-
 @Controller
 public class ELearningController {
 
@@ -437,9 +435,9 @@ public class ELearningController {
     }
 
     @RequestMapping("/newCandidate")
-    public String newCandidate(@RequestParam(name="name", required=true) String name,
-                               @RequestParam(name="surname", required=true) String surname,
-                               @RequestParam(name="list", required=true) String list){
+    public String newCandidate(@RequestParam("name") String name,
+                               @RequestParam("surname") String surname,
+                               @RequestParam("list") String list){
         candidateRepository.save(new Candidate(name,surname,list,0));
         return "voteManager";
     }
@@ -749,13 +747,12 @@ public class ELearningController {
     }
 
     @RequestMapping("/deletePoll")
-    public String deletePoll(@RequestParam("pollId") Long pollId,Model model){
+    public String deletePoll(@RequestParam("pollId") Long pollId){
         Optional<Poll> poll = pollRepository.findById(pollId);
         if (poll.isPresent()) {
             boolean mandatory = poll.get().isMandatory();
             pollRepository.deleteById(pollId);
-
-                return "redirect:/pPoll";
+            return "redirect:/pPoll";
         }
         else
             return "/notfound";
@@ -793,8 +790,6 @@ public class ELearningController {
         courseRepository.save(c2);
         professorRepository.save(p2);
 
-        System.out.println(c.getId());
-        System.out.println(c2.getId());
 
         //INIZIALIZZAZIONE CANDIDATI
         Candidate cand1 = new Candidate("Simone","Baldi","Lista 1",0);
