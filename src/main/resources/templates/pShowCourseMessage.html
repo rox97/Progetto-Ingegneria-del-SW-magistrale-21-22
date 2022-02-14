@@ -16,6 +16,7 @@
     <th>Id</th>
     <th>Title</th>
     <th>Text</th>
+    <th>Delete</th>
   </tr>
   </thead>
   <tbody>
@@ -23,6 +24,7 @@
     <td th:text="${message.id}"></td>
     <td th:text="${message.title}"></td>
     <td th:text="${message.text}"></td>
+    <td><a href="deleteMessage?messageId=10" th:href="@{deleteMessage(messageId=${message.id})}"><button>Delete</button></a></td>
   </tr>
   </tbody>
 </table>

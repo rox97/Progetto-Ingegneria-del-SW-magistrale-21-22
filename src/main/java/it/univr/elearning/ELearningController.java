@@ -520,6 +520,20 @@ public class ELearningController {
         }
     }
 
+    @RequestMapping("/deleteMessage")
+    public String deleteMessage(@RequestParam("messageId") Long messageId,Model model) {
+        Optional<Message> message = messageRepository.findById(messageId);
+        if (message.isPresent()) {
+            messageRepository.deleteById(messageId);
+            model.addAttribute("messageId", message.get().getCourse().getId());
+            returnToCourse(message.get().getCourse().getId(), model);
+            return "/pCourse";
+        } else{
+            return "redirect:/pShowCourseMessage";
+        }
+    }
+
+
 
 
     //---------------------------------------------UPLOAD FILE STUDENTE------------------------------------------------------
