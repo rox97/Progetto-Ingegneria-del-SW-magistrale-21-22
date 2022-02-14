@@ -18,6 +18,10 @@
 <button type="button" id="button1" onclick="add_field()">Aggiungi risposta</button>
 <button type="button" id="button2" onclick="remove_checkbox()">Elimina risposta</button>
 <button type="button" id="button3" onclick="redirect()">Avanti</button>
+<form action="/retCourse" method="get">
+    <input type="hidden" name="courseId" th:value="${courseId}"/>
+    <input type="submit" value="Fine">
+</form>
 
 
 <script>
@@ -82,7 +86,7 @@ let currentCount = 0;
 
     function redirect(){
       if(required()==true){
-        window.location.href = "https://www.youtube.com/watch?v=xvFZjo5PgG0";
+        location.reload();
       }else{
         alert("Compila i campi vuoti")
       }

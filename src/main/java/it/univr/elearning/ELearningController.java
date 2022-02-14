@@ -36,6 +36,8 @@ public class ELearningController {
     @Autowired
     private EventRepository eventRepository;
     @Autowired
+    private PollRepository pollRepository;
+    @Autowired
     private NoticeRepository noticeRepository;
     @Autowired
     private CandidateRepository candidateRepository;
@@ -682,10 +684,81 @@ public class ELearningController {
 
 //---------------------------------------------SONDAGGIO--------------------------------------------------------------
 
-    @GetMapping("/poll") //visualizza la pagina html poll
-    public String poll() {
-
+    @GetMapping("/poll/{courseId}") //visualizza la pagina html poll
+    public String poll(Model model,@PathVariable(name="courseId") Long courseId) {
+        model.addAttribute(courseId);
         return "poll";
+    }
+
+    @RequestMapping("/pPoll")
+    public String showPollPage(Model model){
+        Professor professor = professorRepository.findByUserName(username);
+        List<Course> courses = professor.getCourses();
+        List<Poll> polls = new ArrayList<>();
+        for(Course c : courses){
+            List<Poll> genericPoll = c.getPolls();
+            polls.addAll(genericPoll);
+        }
+        model.addAttribute("polls",polls);
+        model.addAttribute("professor", professor);
+        return "PollManager";
+    }
+
+    @RequestMapping("/addPoll")
+    public String addPoll(@RequestParam("courseId") Long courseId, Model model){
+        model.addAttribute("courseId", courseId);
+        return "/addPoll";
+    }
+
+    @RequestMapping("/newPoll")
+    public String newPoll(@RequestParam("title") String title,
+                          @RequestParam(name = "mandatory", required = false) boolean mandatory,
+                           @RequestParam("courseId") Long courseId,
+                           Model model){
+        Optional<Course> oCourse = courseRepository.findById(courseId);
+        if(oCourse.isPresent()) {
+            Course c = oCourse.get();
+            Poll poll = new Poll(title);
+            poll.setCoursePollName(c.getCourseName());
+            System.out.println(poll.getCoursePollName());
+            poll.setCourse(c);
+
+            if(mandatory){
+                poll.setMandatory(true);
+            }
+            pollRepository.save(poll);
+            model.addAttribute(c);
+            model.addAttribute(courseId);
+            return "redirect:/poll/"+courseId;
+        }
+        else
+            return "/notfound";
+    }
+
+    @RequestMapping("/editPoll")
+    public String editPoll(@RequestParam("pollId") Long pollId, Model model) {
+        Optional<Poll> poll = pollRepository.findById(pollId);
+        if (poll.isPresent()){
+
+            model.addAttribute("courseId", poll.get().getCourse().getId());
+            pollRepository.delete(poll.get());
+            return "/addPoll";
+        }
+        else
+            return "/notfound";
+    }
+
+    @RequestMapping("/deletePoll")
+    public String deletePoll(@RequestParam("pollId") Long pollId,Model model){
+        Optional<Poll> poll = pollRepository.findById(pollId);
+        if (poll.isPresent()) {
+            boolean mandatory = poll.get().isMandatory();
+            pollRepository.deleteById(pollId);
+
+                return "redirect:/pPoll";
+        }
+        else
+            return "/notfound";
     }
 
 

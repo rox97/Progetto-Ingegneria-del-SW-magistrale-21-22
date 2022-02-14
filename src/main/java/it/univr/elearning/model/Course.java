@@ -98,6 +98,18 @@ public class Course {
     }
 
     @OneToMany(mappedBy="course",cascade = {CascadeType.MERGE})
+    private List<Poll> polls = new ArrayList<>();
+    public List<Poll> getPolls() {
+        return polls;
+    }
+    public void setPolls(List<Poll> polls){
+        this.polls = polls;
+    }
+    public void setPoll(Poll poll){
+        this.polls.add(poll);
+    }
+
+    @OneToMany(mappedBy="course",cascade = {CascadeType.MERGE})
     private List<Message> messages = new ArrayList<>();
     public List<Message> getMessages() {
         return messages;
