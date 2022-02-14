@@ -13,16 +13,12 @@
 <table border="1">
     <thead>
     <tr>
-        <th>Id</th>
-        <th>Course Name</th>
-        <th>Academic Year</th>
+        <th>File Name</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td th:text="${course.id}"> <b> 10 </b></td>
-        <td th:text="${course.courseName}"> Fondamenti di Ingegneria del Software </td>
-        <td th:text="${course.academicYear}"> 2021/22 </td>
+    <tr th:each="file: ${files}">
+        <td th:text="${file}"></td>
     </tr>
     </tbody>
 </table>

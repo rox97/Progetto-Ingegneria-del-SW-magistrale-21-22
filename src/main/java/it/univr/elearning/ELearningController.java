@@ -124,12 +124,20 @@ public class ELearningController {
 
     @RequestMapping("/showCourse")
     public String showCourse(@RequestParam("courseId") Long courseId, Model model){
+        FileListing fL = new FileListing();
+        String courseName = "";
         Optional<Course> oCourse = courseRepository.findById(courseId);
         if(oCourse.isPresent()){
             Course c = oCourse.get();
+            courseName = c.getCourseName() + " " + c.getAcademicYear();
+            fL.setUploadDir(courseName);
+            model.addAttribute("courseId", courseId);
+            model.addAttribute("userName", courseName);
+            model.addAttribute("files", fL.getFileStringListing(courseName));
             model.addAttribute("course",c);
             if(!Objects.equals(studentId, ""))
                 return "sCourse";
+
             else
                 return "pCourse";
         }
@@ -555,7 +563,6 @@ public class ELearningController {
     @GetMapping("/uploadDocente/{courseId}") //visualizza la pagina html upload lato docente
     public String uploadDocente(Model model,@PathVariable(name="courseId") Long courseId) {
         FileListing fL = new FileListing();
-        System.out.println("prova id del corso " + courseId);
         Optional<Course> c = courseRepository.findById(courseId);
         String courseName = "";
         if (c.isPresent()) {
@@ -563,7 +570,7 @@ public class ELearningController {
 
         }
         if (!username.equals("")) {
-            String nameDirTeacher = username + "/" + courseName;
+            String nameDirTeacher = courseName;
             System.out.println("nome directory <> " + nameDirTeacher);
             fL.setUploadDir(nameDirTeacher);
             model.addAttribute("courseId", courseId);
@@ -619,7 +626,7 @@ public class ELearningController {
             extensionFile=extension;
         }
         // Salva il file nel file system locale
-        if(extensionFile.equals("pdf")){
+        if((extensionFile.equals("pdf"))||(extensionFile.equals("docx"))||(extensionFile.equals("tar.gz"))||(extensionFile.equals("zip"))||(extensionFile.equals("tar"))||(extensionFile.equals("txt"))||(extensionFile.equals("rar"))){
             try {
                 Path path = Paths.get(fL.getUploadDir(userName) + fileName);
                 Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
@@ -750,7 +757,6 @@ public class ELearningController {
     public String deletePoll(@RequestParam("pollId") Long pollId){
         Optional<Poll> poll = pollRepository.findById(pollId);
         if (poll.isPresent()) {
-            boolean mandatory = poll.get().isMandatory();
             pollRepository.deleteById(pollId);
             return "redirect:/pPoll";
         }
@@ -820,9 +826,7 @@ public class ELearningController {
             //java.nio.file.Files;
             if(!Files.exists(path)){
                 Files.createDirectories(path);
-                System.out.println("Directory is created!");
-            }else{
-                System.out.println("Directory already exist,not created!");
+                //System.out.println("Directory is created!");
             }
         } catch (IOException e) {
             System.err.println("Failed to create directory!" + e.getMessage());
