@@ -23,7 +23,7 @@
         <td><a href="showEvent?eventId=10" th:href="@{showEvent(eventId=${event.id})}"><button>Show</button></a></td>    </tr>
     </tbody>
 </table>
-<form action="showCourse" method="get">
+<form action="/showCourse" method="get">
     <input type="hidden" name="courseId" th:value="${courseId}">
     <input type="submit" value="Indietro">
 </form>

@@ -15,7 +15,6 @@
         <th>Date</th>
         <th>Description</th>
         <th>Link</th>
-        <th>File</th>
     </tr>
     </thead>
     <tbody>
@@ -24,7 +23,6 @@
         <td th:text="${event.eventDate}"> </td>
         <td th:text="${event.eventDescription}">  </td>
         <td th:text="${event.link}">  </td>
-        <td th:text="test"> </td>
     </tr>
     </tbody>
 </table>
@@ -39,7 +37,6 @@
     <button type="submit" class="btn btn-primary">Upload File</button>
 </form>
 
-<form action="/sCourseHomeworks" method="get">
-    <input type="submit" value="Indietro">
-</form>
+<a href="/courseHomeworks?courseId=10" th:href="@{courseHomeworks(courseId=${courseId})}"><button>Indietro</button></a>
+
 </body>

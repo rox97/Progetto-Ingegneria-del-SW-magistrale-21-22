@@ -7,7 +7,7 @@
 
 <body>
 <h1><span th:text="${course.courseName}">Fondamenti di Ingegneria del Software</span></h1>
-<a href="/sCourseHomeworks?courseId=10" th:href="@{courseHomeworks(courseId=${course.id})}"><button>Homeworks</button></a>
+<a href="/courseHomeworks?courseId=10" th:href="@{courseHomeworks(courseId=${course.id})}"><button>Homeworks</button></a>
 <a href="/sViewMessage?courseId=10" th:href="@{sViewMessage(courseId=${course.id})}"><button>Messages</button></a>
 
 <table border="1">
