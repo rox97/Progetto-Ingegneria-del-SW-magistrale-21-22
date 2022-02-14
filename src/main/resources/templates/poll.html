@@ -18,7 +18,7 @@
 <button type="button" id="button1" onclick="add_field()">Aggiungi risposta</button>
 <button type="button" id="button2" onclick="remove_checkbox()">Elimina risposta</button>
 <button type="button" id="button3" onclick="redirect()">Avanti</button>
-<form action="/retCourse" method="get">
+<form action="/retCourse" method="get" onsubmit="return submitForm()">
     <input type="hidden" name="courseId" th:value="${courseId}"/>
     <input type="submit" value="Fine">
 </form>
@@ -89,6 +89,13 @@ let currentCount = 0;
         location.reload();
       }else{
         alert("Compila i campi vuoti")
+      }
+    }
+
+    function submitForm(){
+      if(required()==false){
+        alert("Compila i campi vuoti")
+        return false;
       }
     }
 
