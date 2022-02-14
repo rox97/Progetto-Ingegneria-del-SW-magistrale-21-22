@@ -12,6 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -314,7 +315,7 @@ public class JUnitTest {
         assertEquals(1L,poll1.getId());
         assertEquals("Sondaggio 1",poll1.getPollName());
         assertEquals("Fondamenti AI",poll1.getCoursePollName());
-        assertFalse(false,poll1.isMandatory());
+        assertFalse(poll1.isMandatory());
 
         poll1.setPollName("Sondaggio 2");
         assertEquals("Sondaggio 2",poll1.getPollName());
@@ -324,9 +325,6 @@ public class JUnitTest {
 
         assertEquals(course1,poll1.getCourse());
 
-    }
-
-    private void assertFalse(boolean b, boolean mandatory) {
     }
 
 }
