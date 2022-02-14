@@ -532,11 +532,23 @@ public class ELearningController {
         Optional<Message> message = messageRepository.findById(messageId);
         if (message.isPresent()) {
             messageRepository.deleteById(messageId);
-            model.addAttribute("messageId", message.get().getCourse().getId());
+            model.addAttribute("courseId", message.get().getCourse().getId());
             returnToCourse(message.get().getCourse().getId(), model);
             return "/pCourse";
         } else{
             return "redirect:/pShowCourseMessage";
+        }
+    }
+
+    @RequestMapping("/editMessage")
+    public String editMessage(@RequestParam("messageId") Long messageId, Model model){
+        Optional<Message> message = messageRepository.findById(messageId);
+        if (message.isPresent()){
+            model.addAttribute("courseId",message.get().getCourse().getId());
+            messageRepository.delete(message.get());
+            return "/pNewMessage";
+        } else{
+            return "/notfound";
         }
     }
 

@@ -16,6 +16,7 @@
     <th>Id</th>
     <th>Title</th>
     <th>Text</th>
+    <th>Edit</th>
     <th>Delete</th>
   </tr>
   </thead>
@@ -24,7 +25,8 @@
     <td th:text="${message.id}"></td>
     <td th:text="${message.title}"></td>
     <td th:text="${message.text}"></td>
-    <td><a href="deleteMessage?messageId=10" th:href="@{deleteMessage(messageId=${message.id})}"><button>Delete</button></a></td>
+    <td><a href="editMessage?messageId=10" th:href="@{editMessage(messageId=${message.id})}"><button>Edit</button></a></td>
+    <td><a href="deleteMessage?messageId=10" th:href="@{deleteMessage(messageId=${message.id})}"><button>Delete</button></a>
   </tr>
   </tbody>
 </table>

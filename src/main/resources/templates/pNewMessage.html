@@ -6,7 +6,9 @@
 </head>
 <body>
 
-<h1> Send a new message to students</h1>
+<h1> Send a new message to students of:
+    <span th:text="${courseName}"></span>
+</h1>
 
 <form action="/newMessage" method="post">
     Title:<input class="boxRisposta" type="text" name="title" onkeyup="redirect()"><br>

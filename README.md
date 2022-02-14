@@ -86,32 +86,32 @@ gli studenti possono accedere alla loro pagina e vedere l’evento nel calendari
 Una volta salvato l’evento, il sistema visualizza un messaggio di successo e l’utente ritorna sulla pagina del corso. Viene inviata una mail anche al professore con le stesse informazioni appena inserite e il link per avviare la chiamata.
 
 
-## Inviare avvisi agli iscritti al corso (agente: professore)
+## Inviare messaggi agli iscritti al corso (agente: professore)
 ### Initial Assumption
-Il professore ha la possibilità di inviare degli avvisi ad ogni partecipante (solo a tutti) del corso tramite la sezione apposita all’interno della sua aerea personale.
+Il professore ha la possibilità di inviare messaggi ad ogni partecipante (solo a tutti) del corso tramite la sezione apposita all’interno della sua aerea personale.
 ### Normal
-Il professore accede al corso nel quale vuole inviare l’annuncio, entra nella sezione messaggi e può scegliere di inviare un avviso andando a compilare i campi che lo compongono come il titolo, il contenuto. Compilato l’avviso il professore provvederà a caricare l’avviso sulla bacheca degli studenti.
+Il professore accede al corso nel quale vuole inviare il messaggio, entra nella sezione messaggi e può scegliere di inviarlo andando a compilare i campi che lo compongono come il titolo e il contenuto. Compilato tutto il professore provvederà ad inviarlo agli studenti.
+Nel caso potessi servigli può accedere al corso nella sezione vecchi messaggi per cancellare o modificare il messaggio inviato.
 ### What can go wrong
-Il professore ha la possibilità di rimuovere l’avviso, quindi di conseguenza non sarà più visibile agli studenti.
+Il professore potrebbe omettere l'inserimento del titolo o del contenuto, di conseguenza il sistema non permetterà il salvataggio senza di essi.
 ### Other Activities
-Gli studenti ricevono l'avviso nella loro pagina relativa al corso.
+Gli studenti ricevono il messaggio nella loro pagina relativa al corso.
 ### System state on completion
-Il professore può vedere il suo annuncio appena pubblicato o in caso di annuncio programmato il riepilogo di esso.
+Il professore può vedere il suo messaggio appena inviato entrando nel corso nella sezione vecchi messaggi.
 
 ## Bacheca annunci (agente: studente)
 ### Initial Assumption
 Lo studente può accedere alla bacheca annunci tramite la sezione apposita all’interno della sua area personale per vedere gli annunci disponibili o crearne uno.
 ### Normal
-Lo studente può accedere all’interfaccia della bacheca annunci andando a vedere quali sono presenti e scegliere se rispondere ad uno di essi. La bacheca è organizzata a categorie.
-In caso volesse rispondere ad un annuncio, dopo aver selezionato una categoria, può farlo cliccando su di esso dove gli verrà mostrata l’interfaccia per scrivere un messaggio al proprietario dell’annuncio.
-In caso lo studente volesse creare un annuncio può farlo accedendo alla categoria desiderata e cliccando sul pulsante nuovo annuncio. Dopo di che andrà ad inserire il titolo e il contenuto del relativo annuncio. 
+Lo studente può accedere all’interfaccia della bacheca vedendo quali annunci sono presenti per il suo corso.
+In caso lo studente volesse creare un annuncio può farlo accedendo alla bacheca e cliccando sul pulsante crea.
+Inserirà poi il titolo e il contenuto del relativo annuncio.
 Infine, per conferma la creazione gli basterà confermare la scelta.
 ### What can go wrong
-Lo studente che vuole creare un annuncio potrebbe omettere il titolo o il testo dell’annuncio però quando andrà a confermare verrà avvisato non è stata inserita quella determinata parte. Lo studente che sta rispondendo ad un annuncio e si dimenticata di inserire il testo di risposta verrà avvisato se tenta di inviare la risposta senza di esso.
-Lo studente può accedere alla sua sezione per andare a modificare i suoi post, nel caso in cui si fosse che c’è un errore nel annuncio.
+Lo studente che vuole creare un annuncio potrebbe omettere il titolo o il testo dell’annuncio di conseguenza il sistema non permetterà il salvataggio senza di essi.
 ### Other Activities
 ### System state on completion
-Lo studente che risponde ad un annuncio riceverà un popup che la sua risposta è stata inviata correttamente invece lo studente che crea un annuncio vedrà il resoconto del suo annuncio creato.
+Lo studente che crea un annuncio verrà reindirizzato alla bacheca dove sono presenti tutti gli annunci incluso il suo appena creato.
 
 ## Voto elezioni studentesche (agente: studente)
 ### Initial Assumption	
@@ -123,7 +123,7 @@ Lo studente seleziona uno tra i candidati disponibili; se lo studente andrà a c
 ### Other Activities
 L’organizzatore delle elezioni potrà vedere le percentuali delle votazioni tramite la sua area personale.
 ### System state on completion
-Lo studente vedrà il resoconto della sua votazione.
+Lo studente verrà reindirizzato alla pagina principale dei corsi dopo aver confermato la sua votazione.
 
 # Casi di test
 
