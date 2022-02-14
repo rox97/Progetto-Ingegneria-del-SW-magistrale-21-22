@@ -1,10 +1,10 @@
-package it.univr.elearning;
+package it.univr.elearning.repository;
 
+import it.univr.elearning.model.Grade;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface GradeRepository  extends CrudRepository<Grade, Long> {
     @Transactional

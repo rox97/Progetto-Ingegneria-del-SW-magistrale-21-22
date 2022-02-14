@@ -1,5 +1,6 @@
-package it.univr.elearning;
+package it.univr.elearning.repository;
 
+import it.univr.elearning.model.Student;
 import org.springframework.data.repository.CrudRepository;
 
 

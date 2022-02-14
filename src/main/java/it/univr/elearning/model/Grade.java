@@ -1,6 +1,4 @@
-package it.univr.elearning;
-
-import org.hibernate.annotations.Cascade;
+package it.univr.elearning.model;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -21,7 +19,7 @@ public class Grade {
     private Date examDate;
 
 
-    protected Grade() {
+    public Grade() {
     }
 
     public Grade(String courseName, String examType, String grade, Date examDate) {

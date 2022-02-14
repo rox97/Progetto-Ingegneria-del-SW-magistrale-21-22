@@ -1,4 +1,4 @@
-package it.univr.elearning;
+package it.univr.elearning.model;
 
 import javax.persistence.*;
 import java.util.*;
@@ -17,7 +17,7 @@ public class Student {
     private String studentId;
     private String password;
 
-    protected Student(){}
+    public Student(){}
 
     public Student(String firstName, String lastName, String studentId){
         this.firstName = firstName;
@@ -79,10 +79,7 @@ public class Student {
 
     @OneToMany(mappedBy = "student" ,cascade = {CascadeType.MERGE}, targetEntity = Grade.class, fetch = FetchType.EAGER)
     private List<Grade> grades = new ArrayList<>();
-    //public List<Grade> getBooklet() {
-    //    return grades;
-    //}
-    //public Grade getGrade(){return grade;}
+    public List<Grade> getGrades() {return this.grades;}
     public void setGrade(Grade grade) {
         this.grades.add(grade);
     }

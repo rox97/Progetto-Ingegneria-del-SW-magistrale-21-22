@@ -1,5 +1,7 @@
 package it.univr.elearning;
 
+import it.univr.elearning.model.*;
+import it.univr.elearning.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +42,6 @@ public class ELearningController {
     @Autowired
     private MessageRepository messageRepository;
 
-    //Variabile percorso cartella upload file
     private String username = "";
     private String studentId = "";
 
@@ -49,9 +50,6 @@ public class ELearningController {
         initTest();
         return "redirect:login";
     }
-
-
-
 
     @RequestMapping("/login")
     public String login() {
@@ -720,7 +718,6 @@ public class ELearningController {
         candidateRepository.save(cand2);
         candidateRepository.save(cand3);
 
-        //REMOVE: se rimuovo la prima istanza di un voto nella repository, non riesco più a salvarne altri
         String examDate = "1970-01-01";
         Date date = null;
         try {
@@ -729,7 +726,6 @@ public class ELearningController {
             e.printStackTrace();
         }
         Grade g = new Grade("test", "test", "test", date);
-        Student s = new Student();
         gradeRepository.save(g);
 
         //inizializzazione avvisi

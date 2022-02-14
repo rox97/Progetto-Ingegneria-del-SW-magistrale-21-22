@@ -1,4 +1,4 @@
-package it.univr.elearning;
+package it.univr.elearning.model;
 
 import java.io.File;
 import java.io.IOException;

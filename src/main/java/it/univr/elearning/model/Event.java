@@ -1,4 +1,4 @@
-package it.univr.elearning;
+package it.univr.elearning.model;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -24,7 +24,7 @@ public class Event {
         this.eventDate = eventDate;
     }
 
-    protected Event() {
+    public Event() {
 
     }
 
