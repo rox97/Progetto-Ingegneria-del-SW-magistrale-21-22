@@ -26,7 +26,7 @@ public class Notice {
     public void setText(String text) {
         this.text = text;
     }
-    public void setCourseName(String courseName){ this.title = courseName;}
+    public void setCourseName(String courseName){ this.courseName = courseName;}
 
 
     public Long  getId() {return id;}

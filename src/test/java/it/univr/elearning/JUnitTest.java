@@ -168,6 +168,16 @@ public class JUnitTest {
         messages.add(message3);
         course1.setMessage(message3);
 
+        Poll poll1 = new Poll("Poll 1");
+        Poll poll2 = new Poll("Poll 2");
+        Poll poll3 = new Poll("Poll 3");
+        List<Poll> polls = new ArrayList<>();
+        polls.add(poll1);
+        polls.add(poll2);
+        course1.setPolls(polls);
+        polls.add(poll3);
+        course1.setPoll(poll3);
+
         assertEquals(1L, course1.getId());
         assertEquals("Fondamenti di Ingegneria del Software", course1.getCourseName());
         assertEquals("Mariano Ceccato", course1.getCoordinatorName());
@@ -176,6 +186,7 @@ public class JUnitTest {
         assertEquals(professor1, course1.getProfessor());
         assertEquals(events, course1.getEvents());
         assertEquals(messages, course1.getMessages());
+        assertEquals(polls,course1.getPolls());
 
         course1.setCourseName("Fondamenti di Intelligenza Artificiale");
         course1.setCoordinatorName("Alessandro Farinelli");
@@ -223,5 +234,99 @@ public class JUnitTest {
 
     }
 
+
+    @Test
+    public void candidateTest(){
+        Candidate cand1 = new Candidate("Simone","Baldi","Lista 1",0);
+        cand1.setId(1L);
+
+        assertEquals(1L,cand1.getId());
+        assertEquals("Simone",cand1.getName());
+        assertEquals("Baldi",cand1.getSurname());
+        assertEquals("Lista 1",cand1.getList());
+        assertEquals(0,cand1.getNumberVote());
+
+        cand1.setId(2L);
+        cand1.setName("Andrea");
+        cand1.setSurname("Caliari");
+        cand1.setList("Lista 2");
+        cand1.setNumberVote(1);
+
+        cand1.addVote();
+
+        assertEquals(2L,cand1.getId());
+        assertEquals("Andrea",cand1.getName());
+        assertEquals("Caliari",cand1.getSurname());
+        assertEquals("Lista 2",cand1.getList());
+        assertEquals(2,cand1.getNumberVote());
+    }
+
+    @Test
+    public void messageTest(){
+        Message message1 = new Message("Spostamento lezione","Si comunica che la lezione","Fondamenti di Ingegneria del Software");
+        message1.setId(1L);
+
+        assertEquals(1L,message1.getId());
+        assertEquals("Spostamento lezione",message1.getTitle());
+        assertEquals("Si comunica che la lezione",message1.getText());
+        assertEquals("Fondamenti di Ingegneria del Software",message1.getCourseName());
+
+        message1.setTitle("Annullamento lezione");
+        message1.setText("La lezione del 10 è annullata");
+        message1.setCourseName("Fondamenti AI");
+
+        assertEquals("Annullamento lezione",message1.getTitle());
+        assertEquals("La lezione del 10 è annullata",message1.getText());
+        assertEquals("Fondamenti AI",message1.getCourseName());
+
+        Course course1 = new Course("Fondamenti di Informatica","Roberto Giacobazzi","2021/2022");
+        message1.setCourse(course1);
+
+        assertEquals(course1,message1.getCourse());
+    }
+
+    @Test
+    public void noticeTest(){
+        Notice notice1 = new Notice("Canale telegram del corso","Canale aperto a tutti i frequentati del corso","Laurea in Informatica");
+        notice1.setId(1L);
+
+        assertEquals(1L,notice1.getId());
+        assertEquals("Canale telegram del corso",notice1.getTitle());
+        assertEquals("Canale aperto a tutti i frequentati del corso",notice1.getText());
+        assertEquals("Laurea in Informatica",notice1.getCourseName());
+
+        notice1.setTitle("Appunti lezioni 2021");
+        notice1.setText("Appunti completi di sicurezza e privacy");
+        notice1.setCourseName("Sicurezza e privacy");
+
+        assertEquals("Appunti lezioni 2021",notice1.getTitle());
+        assertEquals("Appunti completi di sicurezza e privacy",notice1.getText());
+        assertEquals("Sicurezza e privacy",notice1.getCourseName());
+    }
+
+    @Test
+    public void pollTest(){
+        Poll poll1 = new Poll("Sondaggio 1");
+        poll1.setId(1L);
+        poll1.setCoursePollName("Fondamenti AI");
+        poll1.setMandatory(false);
+
+        assertEquals(1L,poll1.getId());
+        assertEquals("Sondaggio 1",poll1.getPollName());
+        assertEquals("Fondamenti AI",poll1.getCoursePollName());
+        assertFalse(false,poll1.isMandatory());
+
+        poll1.setPollName("Sondaggio 2");
+        assertEquals("Sondaggio 2",poll1.getPollName());
+
+        Course course1 = new Course("Fondamenti di Informatica","Roberto Giacobazzi","2021/2022");
+        poll1.setCourse(course1);
+
+        assertEquals(course1,poll1.getCourse());
+
+    }
+
+    private void assertFalse(boolean b, boolean mandatory) {
+    }
 
 }
