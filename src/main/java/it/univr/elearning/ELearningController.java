@@ -203,8 +203,7 @@ public class ELearningController {
         Optional<Course> oCourse = courseRepository.findById(courseId);
         if(oCourse.isPresent()) {
             Course c = oCourse.get();
-            Event event = new Event(title, description, date);
-            event.setEventCourse(c.getCourseName());
+            Event event = new Event(title, description,c.getCourseName(), date);
             event.setCourse(c);
             if(!link.equals("")){
                event.setLink(link);

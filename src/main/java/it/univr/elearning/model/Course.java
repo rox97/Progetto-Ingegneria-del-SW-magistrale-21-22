@@ -25,6 +25,10 @@ public class Course {
         this.academicYear = academicYear;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setCourseName(String courseName) {
         this.courseName = courseName;
     }
@@ -86,10 +90,10 @@ public class Course {
     public List<Event> getEvents() {
         return events;
     }
-    public void setCourses(List<Event> events){
+    public void setEvents(List<Event> events){
         this.events = events;
     }
-    public void setCourse(Event event){
+    public void setEvent(Event event){
         this.events.add(event);
     }
 

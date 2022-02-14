@@ -18,9 +18,10 @@ public class Event {
     private Date eventDate;
     private boolean isHomework = false;
 
-    public Event(String eventTitle, String eventDescription, Date eventDate) {
+    public Event(String eventTitle, String eventDescription, String eventCourse , Date eventDate) {
         this.eventTitle = eventTitle;
         this.eventDescription = eventDescription;
+        this.eventCourse = eventCourse;
         this.eventDate = eventDate;
     }
 
