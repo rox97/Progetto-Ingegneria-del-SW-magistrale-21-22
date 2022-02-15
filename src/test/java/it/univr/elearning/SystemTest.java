@@ -205,7 +205,7 @@ public class SystemTest extends BaseTest {
 
         WebElement uploadElement = driver.findElement(By.xpath("/html/body/section/div/div/div/form[1]/div/input[3]"));
 
-        uploadElement.sendKeys(System.getProperty("user.dir")+ "\\src\\test\\resources\\fileTest\\Course-project.pdf"); //Seleziono il file da caricare
+        uploadElement.sendKeys(System.getProperty("user.dir")+ "\\src\\test\\resources\\fileTest\\Testing.pdf"); //Seleziono il file da caricare
         driver.findElement(By.xpath("/html/body/section/div/div/div/form[1]/button")).click(); // Faccio upload del file
         title1 = driver.findElement(By.xpath("/html/body/section/div/div/div/p")).getText();
 
