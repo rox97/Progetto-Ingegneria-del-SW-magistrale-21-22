@@ -199,7 +199,7 @@ public class SystemTest extends BaseTest {
 
         String[] trimmedText = title1.split("==>");
         assertEquals("First row should be 'File caricato con successo '", "File caricato con successo ", trimmedText[0]); //Controllo che il file sia stato caricato
-        //driver.findElement(By.xpath("/html/body/section/div/div/div/table/tbody/tr/td[2]/form/input[3]")).click(); // Elimino il file
+        driver.findElement(By.xpath("/html/body/section/div/div/div/table/tbody/tr/td[2]/form/input[3]")).click(); // Elimino il file
         driver.findElement(By.xpath("/html/body/section/div/div/div/form[2]/input")).click(); // Torno alla pagina dei corsi
 
         title1 = driver.findElement(By.tagName("h1")).getText();
@@ -211,7 +211,7 @@ public class SystemTest extends BaseTest {
 
     @Test
     public void testPoll(){
-        //init();
+        aInit();
         aTestLoginProfessor();//Login con credenziali professore
 
         driver.findElement(By.xpath("/html/body/table/tbody/tr/td[4]/a")).click(); // Entro nella pagina del corso
@@ -224,7 +224,7 @@ public class SystemTest extends BaseTest {
         driver.findElement(By.name("title")).sendKeys("Sondaggio qualità del corso"); // Inserisco titolo sondaggio
         driver.findElement(By.xpath("/html/body/form/input[2]")).click(); //Clicco sulla checkbox isMandatory
 
-        driver.findElement(By.xpath("/html/body/form/input[4]")).click(); //Clicco sul salva
+        driver.findElement(By.xpath("/html/body/form/input[5]")).click(); //Clicco sul salva
         title1 = driver.findElement(By.xpath("/html/body/div/label")).getText();
         assertEquals("First row should be 'Answer Survey:'", "Answer Survey:", title1); //Controllo di essere nella pagina di creazione delle domande
 
@@ -242,6 +242,15 @@ public class SystemTest extends BaseTest {
         driver.findElement(By.xpath("/html/body/form/input")).click(); //Clicco fine per tornare alla pagina dei corsi
         title1 = driver.findElement(By.tagName("h1")).getText();
         assertEquals("First row should be 'Courses'", "Courses", title1);
+        driver.findElement(By.xpath("/html/body/a[2]/button")).click();//entro della sezione sondaggi
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[4]/a/button")).click();//vado su edit
+        title1 = driver.findElement(By.tagName("h1")).getText();
+        assertEquals("First row should be 'Create a new Survey'", "Create a new Survey", title1); //Controllo di essere entrato nella pagina sondaggio
+        driver.findElement(By.name("title")).sendKeys("Sondaggio qualità del corso modificato"); // Inserisco titolo sondaggio
+        driver.findElement(By.xpath("/html/body/form/input[5]")).click(); //Clicco sul salva
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[5]/a/button")).click();//elimino il sondaggio
+        driver.findElement(By.xpath("/html/body/form/input")).click();//torno indietro alla pagina del corso
+
 
 
     }
@@ -261,13 +270,13 @@ public class SystemTest extends BaseTest {
 
         WebElement uploadElement = driver.findElement(By.xpath("/html/body/section/div/div/div/form[1]/div/input[3]"));
 
-        uploadElement.sendKeys(System.getProperty("user.dir")+ "\\src\\test\\resources\\fileTest\\Course-project.pdf"); //Seleziono il file da caricare
+        uploadElement.sendKeys(System.getProperty("user.dir")+ "\\src\\test\\resources\\fileTest\\Testing.pdf"); //Seleziono il file da caricare
         driver.findElement(By.xpath("/html/body/section/div/div/div/form[1]/button")).click(); // Faccio upload del file
         title1 = driver.findElement(By.xpath("/html/body/section/div/div/div/p")).getText();
 
         String[] trimmedText = title1.split("==>");
         assertEquals("First row should be 'File caricato con successo '", "File caricato con successo ", trimmedText[0]); //Controllo che il file sia stato caricato
-        //driver.findElement(By.xpath("/html/body/section/div/div/div/table/tbody/tr/td[2]/form/input[3]")).click(); // Elimino il file
+        driver.findElement(By.xpath("/html/body/section/div/div/div/table/tbody/tr/td[2]/form/input[4]")).click(); // Elimino il file
         driver.findElement(By.xpath("/html/body/section/div/div/div/form[2]/input[2]")).click(); // Torno alla pagina del corso
 
         title1 = driver.findElement(By.tagName("h1")).getText();
