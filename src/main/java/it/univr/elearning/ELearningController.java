@@ -61,11 +61,6 @@ public class ELearningController {
         return "redirect:/init";
     }
 
-    @RequestMapping("/home")
-    public String home() {
-        return "home";
-    }
-
     @RequestMapping("/courses")
     public String showCourses(@RequestParam("userName") String username,
                               @RequestParam("password") String password,
@@ -783,8 +778,8 @@ public class ELearningController {
 
     //TEST
     public void initTest(){
-        Student s1 = new Student("andrea", "rossetti","VR1234");
-        Student s2 = new Student("simone", "baldi","VR9876");
+        Student s1 = new Student("Andrea", "Rossetti","VR1234");
+        Student s2 = new Student("Simone", "Baldi","VR9876");
         s1.setPassword("andrea");
         s2.setPassword("simone");
         studentRepository.save(s1);
@@ -811,8 +806,8 @@ public class ELearningController {
 
         //INIZIALIZZAZIONE CANDIDATI
         Candidate cand1 = new Candidate("Simone","Baldi","Lista 1",0);
-        Candidate cand2 = new Candidate("Gianni","Caliari","Lista 2",0);
-        Candidate cand3 = new Candidate("Raudo","Mefisto","Lista 3",0);
+        Candidate cand2 = new Candidate("Andrea","Caliari","Lista 2",0);
+        Candidate cand3 = new Candidate("Andrea","Rossetti","Lista 3",0);
         candidateRepository.save(cand1);
         candidateRepository.save(cand2);
         candidateRepository.save(cand3);
@@ -829,7 +824,7 @@ public class ELearningController {
 
         //inizializzazione avvisi
         Notice a = new Notice ("titolo","testo","Fondamenti AI");
-        Notice b = new Notice ("gianni","mefisto","Fondamenti AI");
+        Notice b = new Notice ("titolo 2","testo 2","Fondamenti AI");
         noticeRepository.save(a);
         noticeRepository.save(b);
 
