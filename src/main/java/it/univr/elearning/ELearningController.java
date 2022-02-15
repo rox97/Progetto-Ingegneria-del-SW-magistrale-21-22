@@ -487,7 +487,7 @@ public class ELearningController {
             returnToCourse(courseId,model);
             return "/pCourse";
         } else{
-            return "/notfound"; //FIXME: cambiare ritorno
+            return "/notfound";
         }
     }
 
@@ -540,6 +540,7 @@ public class ELearningController {
         Optional<Message> message = messageRepository.findById(messageId);
         if (message.isPresent()){
             model.addAttribute("courseId",message.get().getCourse().getId());
+            model.addAttribute("courseName",message.get().getCourseName());
             messageRepository.delete(message.get());
             return "/pNewMessage";
         } else{
