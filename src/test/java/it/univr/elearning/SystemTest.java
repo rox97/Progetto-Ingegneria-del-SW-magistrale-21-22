@@ -17,19 +17,19 @@ public class SystemTest extends BaseTest {
     }
 
     @Test
-    public void testLoginProfessor(){
+    public void testLoginProfessor(){ //Eseguo il login come professore
         driver.get("http://localhost:8080/login");
         String message1 = driver.findElement(By.tagName("h1")).getText();
         assertEquals("Login message expected", "Login", message1);
-        driver.findElement(By.name("userName")).sendKeys("asdfgh");
-        driver.findElement(By.name("password")).sendKeys("mariano");
+        driver.findElement(By.name("userName")).sendKeys("qwerty");
+        driver.findElement(By.name("password")).sendKeys("alessandro");
         driver.findElement(By.name("password")).submit();
         String message2 = driver.findElement(By.tagName("h1")).getText();
         assertEquals("First row should be 'Courses'", "Courses", message2);
     }
 
     @Test
-    public void testLoginStudent(){
+    public void testLoginStudent(){//Eseguo il login come studente
         driver.get("http://localhost:8080/login");
         String message1 = driver.findElement(By.tagName("h1")).getText();
         assertEquals("Login message expected", "Login", message1);
@@ -42,14 +42,7 @@ public class SystemTest extends BaseTest {
 
     @Test
     public void testAddGrades(){
-        driver.get("http://localhost:8080/login");
-        String message1 = driver.findElement(By.tagName("h1")).getText();
-        assertEquals("Login message expected", "Login", message1);
-        driver.findElement(By.name("userName")).sendKeys("qwerty");
-        driver.findElement(By.name("password")).sendKeys("alessandro");
-        driver.findElement(By.name("password")).submit();
-        String message2 = driver.findElement(By.tagName("h1")).getText();
-        assertEquals("First row should be 'Courses'", "Courses", message2);
+        testLoginProfessor(); //effettuo il login come professore
         driver.findElement(By.xpath("/html/body/table/tbody/tr/td[4]/a")).click();
         driver.findElement(By.xpath("/html/body/a[1]")).click();
         driver.findElement(By.xpath("/html/body/form/input[1]")).sendKeys("14022022");
@@ -63,11 +56,7 @@ public class SystemTest extends BaseTest {
         driver.findElement(By.xpath("/html/body/a[3]")).click();
         String message4 = driver.findElement(By.tagName("h1")).getText();
         assertEquals("Login message expected", "Login", message4);
-        driver.findElement(By.name("userName")).sendKeys("VR1234");
-        driver.findElement(By.name("password")).sendKeys("andrea");
-        driver.findElement(By.name("password")).submit();
-        String message5 = driver.findElement(By.tagName("h1")).getText();
-        assertEquals("First row should be 'Courses'", "Courses", message5);
+        testLoginStudent();
         driver.findElement(By.xpath("/html/body/a[1]")).click();
         String grade = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]")).getText();
         assertEquals("The grade should be '20'", "20", grade);
@@ -75,55 +64,103 @@ public class SystemTest extends BaseTest {
 
     @Test
     public void testAddEvent(){
-        driver.get("http://localhost:8080/login");
-        String message1 = driver.findElement(By.tagName("h1")).getText();
-        assertEquals("Login message expected", "Login", message1);
-        driver.findElement(By.name("userName")).sendKeys("qwerty");
-        driver.findElement(By.name("password")).sendKeys("alessandro");
-        driver.findElement(By.name("password")).submit();
-        String message2 = driver.findElement(By.tagName("h1")).getText();
-        assertEquals("First row should be 'Courses'", "Courses", message2);
+        testLoginProfessor();
         driver.findElement(By.xpath("/html/body/table/tbody/tr/td[4]/a")).click();
         driver.findElement(By.xpath("/html/body/a[2]")).click();
         driver.findElement(By.name("title")).sendKeys("Titolo evento");
         driver.findElement(By.name("description")).sendKeys("Descrizione dell'evento");
         driver.findElement(By.xpath("/html/body/form/input[3]")).sendKeys("14022022");
         driver.findElement(By.name("link")).sendKeys("https://www.linkdellevento.com");
-        driver.findElement(By.xpath("/html/body/form/input[4]")).click();
+        driver.findElement(By.xpath("/html/body/form/input[7]")).click();
         driver.findElement(By.xpath("/html/body/a[2]")).click();
-        driver.findElement(By.name("title")).sendKeys("Titolo evento ");
-        driver.findElement(By.name("description")).sendKeys("Descrizione dell'evento ");
+        driver.findElement(By.name("title")).sendKeys("Titolo evento 2");
+        driver.findElement(By.name("description")).sendKeys("Descrizione dell'evento 2");
         driver.findElement(By.xpath("/html/body/form/input[3]")).sendKeys("15022022");
         driver.findElement(By.name("link")).sendKeys("https://www.linkdellevento2.com");
-        driver.findElement(By.xpath("/html/body/form/input[4]")).click();
+        driver.findElement(By.xpath("/html/body/form/input[7]")).click();
         driver.findElement(By.xpath("/html/body/form/input")).click();
-        driver.findElement(By.xpath("/html/body/table/tbody/tr[1]/td[3]/a")).click();
+        driver.findElement(By.xpath("/html/body/a[1]")).click();
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]/a")).click();
         String event1 = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[1]")).getText();
-        assertEquals("The grade should be 'Titolo evento'", "titolo evento", event1);
+        assertEquals("The event title should be 'Titolo evento'", "Titolo evento", event1);
         driver.findElement(By.xpath("/html/body/form/input")).click();
         driver.findElement(By.xpath("/html/body/table/tbody/tr[1]/td[4]/a")).click();
-        driver.findElement(By.xpath("/html/body/form/input")).click();
         driver.findElement(By.name("title")).sendKeys("Titolo evento 3");
         driver.findElement(By.name("description")).sendKeys("Descrizione dell'evento 3");
         driver.findElement(By.xpath("/html/body/form/input[3]")).sendKeys("16022022");
         driver.findElement(By.name("link")).sendKeys("https://www.linkdellevento3.com");
-        driver.findElement(By.xpath("/html/body/form/input[4]")).click();
+        driver.findElement(By.xpath("/html/body/form/input[7]")).click();
+        driver.findElement(By.xpath("/html/body/form/input")).click();
+        driver.findElement(By.xpath("/html/body/a[1]")).click();
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]/a")).click();
+        String event2 = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[1]")).getText();
+        assertEquals("The event title should be 'Titolo evento 2'", "Titolo evento 2", event2);
+        driver.findElement(By.xpath("/html/body/form/input")).click();
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[5]/a")).click();
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]/a")).click();
+        String event3 = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[1]")).getText();
+        assertEquals("The event title should be 'Titolo evento 3'", "Titolo evento 3", event3);
+        driver.findElement(By.xpath("/html/body/form/input")).click();
+        driver.findElement(By.xpath("/html/body/form/input")).click();
+        driver.findElement(By.xpath("/html/body/a[3]")).click();
+        String message3 = driver.findElement(By.tagName("h1")).getText();
+        assertEquals("Login message expected", "Login", message3);
+        testLoginStudent();
+        driver.findElement(By.xpath("/html/body/a[2]")).click();
+        String message4 = driver.findElement(By.tagName("h1")).getText();
+        assertEquals("First row should be 'Student's calendar''", "Student's calendar", message4);
+        driver.findElement(By.xpath("/html/body/table/tbody/tr[1]/td[3]/a")).click();
+        String event4 = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[1]")).getText();
+        assertEquals("The event title should be 'Titolo evento 3'", "Titolo evento 3", event4);
+        driver.findElement(By.xpath("/html/body/form/input")).click();
+        driver.findElement(By.xpath("/html/body/form/input")).click();
+        String message5 = driver.findElement(By.tagName("h1")).getText();
+        assertEquals("First row should be 'Courses'", "Courses", message5);
     }
 
     @Test
     public void testAddHomework(){
-        driver.get("http://localhost:8080/login");
-        String message1 = driver.findElement(By.tagName("h1")).getText();
-        assertEquals("Login message expected", "Login", message1);
-        driver.findElement(By.name("userName")).sendKeys("qwerty");
-        driver.findElement(By.name("password")).sendKeys("alessandro");
-        driver.findElement(By.name("password")).submit();
-        String message2 = driver.findElement(By.tagName("h1")).getText();
-        assertEquals("First row should be 'Courses'", "Courses", message2);
-
-
+        testLoginProfessor();
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[4]/a")).click();
+        driver.findElement(By.xpath("/html/body/a[2]")).click();
+        driver.findElement(By.name("title")).sendKeys("Titolo homework");
+        driver.findElement(By.name("description")).sendKeys("Descrizione dell'homework");
+        driver.findElement(By.xpath("/html/body/form/input[3]")).sendKeys("14022022");
         driver.findElement(By.name("homework")).click();
-
+        driver.findElement(By.xpath("/html/body/form/input[7]")).click();
+        driver.findElement(By.xpath("/html/body/a[2]")).click();
+        driver.findElement(By.name("title")).sendKeys("Titolo homework 2");
+        driver.findElement(By.name("description")).sendKeys("Descrizione dell'homework 2");
+        driver.findElement(By.xpath("/html/body/form/input[3]")).sendKeys("15022022");
+        driver.findElement(By.name("homework")).click();
+        driver.findElement(By.xpath("/html/body/form/input[7]")).click();
+        driver.findElement(By.xpath("/html/body/a[5]")).click();
+        String homework1 = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[1]")).getText();
+        assertEquals("The homework title should be 'Titolo homework'", "Titolo homework", homework1);
+        driver.findElement(By.xpath("/html/body/table/tbody/tr[1]/td[3]/a")).click();
+        driver.findElement(By.name("title")).sendKeys("Titolo homework 3");
+        driver.findElement(By.name("description")).sendKeys("Descrizione dell'homework 3");
+        driver.findElement(By.xpath("/html/body/form/input[3]")).sendKeys("16022022");
+        driver.findElement(By.name("homework")).click();
+        driver.findElement(By.xpath("/html/body/form/input[7]")).click();
+        driver.findElement(By.xpath("/html/body/a[5]")).click();
+        String homework2 = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[1]")).getText();
+        assertEquals("The homework title should be 'Titolo homework 2'", "Titolo homework 2", homework2);
+        driver.findElement(By.xpath("/html/body/table/tbody/tr[1]/td[4]/a")).click();
+        driver.findElement(By.xpath("/html/body/a[5]")).click();
+        String homework3 = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[1]")).getText();
+        assertEquals("The homework title should be 'Titolo homework 3'", "Titolo homework 3", homework3);
+        driver.findElement(By.xpath("/html/body/form/input[2]")).click();
+        driver.findElement(By.xpath("/html/body/form/input")).click();
+        driver.findElement(By.xpath("/html/body/a[3]")).click();
+        String message3 = driver.findElement(By.tagName("h1")).getText();
+        assertEquals("Login message expected", "Login", message3);
+        testLoginStudent();
+        driver.findElement(By.xpath("/html/body/table/tbody/tr[1]/td[4]/a")).click();
+        driver.findElement(By.xpath("/html/body/a[1]")).click();
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]/a")).click();
+        String homework4 = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[1]")).getText();
+        assertEquals("The homework title should be 'Titolo homework 3'", "Titolo homework 3", homework4);
     }
 
     @Test
