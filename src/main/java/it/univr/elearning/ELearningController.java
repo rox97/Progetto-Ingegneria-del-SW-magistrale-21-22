@@ -61,11 +61,6 @@ public class ELearningController {
         return "redirect:/init";
     }
 
-    @RequestMapping("/home")
-    public String home() {
-        return "home";
-    }
-
     @RequestMapping("/courses")
     public String showCourses(@RequestParam("userName") String username,
                               @RequestParam("password") String password,
