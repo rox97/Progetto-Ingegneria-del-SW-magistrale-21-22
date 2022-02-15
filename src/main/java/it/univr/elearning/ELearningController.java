@@ -810,8 +810,8 @@ public class ELearningController {
 
         //INIZIALIZZAZIONE CANDIDATI
         Candidate cand1 = new Candidate("Simone","Baldi","Lista 1",0);
-        Candidate cand2 = new Candidate("Gianni","Caliari","Lista 2",0);
-        Candidate cand3 = new Candidate("Raudo","Mefisto","Lista 3",0);
+        Candidate cand2 = new Candidate("Andrea","Caliari","Lista 2",0);
+        Candidate cand3 = new Candidate("Andrea","Rossetti","Lista 3",0);
         candidateRepository.save(cand1);
         candidateRepository.save(cand2);
         candidateRepository.save(cand3);
@@ -828,7 +828,7 @@ public class ELearningController {
 
         //inizializzazione avvisi
         Notice a = new Notice ("titolo","testo","Fondamenti AI");
-        Notice b = new Notice ("gianni","mefisto","Fondamenti AI");
+        Notice b = new Notice ("titolo 2","testo 2","Fondamenti AI");
         noticeRepository.save(a);
         noticeRepository.save(b);
 
