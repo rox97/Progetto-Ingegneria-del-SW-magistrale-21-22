@@ -783,8 +783,8 @@ public class ELearningController {
 
     //TEST
     public void initTest(){
-        Student s1 = new Student("andrea", "rossetti","VR1234");
-        Student s2 = new Student("simone", "baldi","VR9876");
+        Student s1 = new Student("Andrea", "Rossetti","VR1234");
+        Student s2 = new Student("Simone", "Baldi","VR9876");
         s1.setPassword("andrea");
         s2.setPassword("simone");
         studentRepository.save(s1);
