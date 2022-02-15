@@ -133,7 +133,8 @@ public class ELearningController {
             fL.setUploadDir(courseName);
             model.addAttribute("courseId", courseId);
             model.addAttribute("userName", courseName);
-            model.addAttribute("files", fL.getFileStringListing(courseName));
+            model.addAttribute("files", fL.getFilePathListing(courseName));
+            model.addAttribute("pathFile", fL.getFilePathNameListing(courseName));
             model.addAttribute("course",c);
             if(!Objects.equals(studentId, ""))
                 return "sCourse";

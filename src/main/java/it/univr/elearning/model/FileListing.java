@@ -16,6 +16,7 @@ public class FileListing {
         return this.UPLOAD_DIR+userNameFolder+"/";
     }
 
+
     public void setUploadDir(String userNameFolder){
         try {
             Path path = Paths.get(UPLOAD_DIR+userNameFolder+"/");
@@ -33,6 +34,21 @@ public class FileListing {
     public File[] getFilePathListing(String userNameFolder) { //Ritorna il percorso del file
         File dir = new File(UPLOAD_DIR+userNameFolder+"/");
         return dir.listFiles();
+
+    }
+
+    public List<String> getFilePathNameListing(String userNameFolder) { //Ritorna il percorso del file
+        File dir = new File(UPLOAD_DIR+userNameFolder+"/");
+        File[] files = dir.listFiles();
+        List<String> filNamePaths = new ArrayList<>();
+
+        assert files != null;
+        for (File file : files) {
+            filNamePaths.add(file.getPath());
+        }
+        return filNamePaths;
+
+
     }
 
     public List<String> getFileStringListing(String userNameFolder) { //Ritorna il nome del file

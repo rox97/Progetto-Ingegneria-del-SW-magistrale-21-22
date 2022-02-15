@@ -6,20 +6,26 @@
 </head>
 <body>
 
-<p>Creazione sondaggio:</p>
-
+<div>
+    <label for="titlePollInput">Answer Survey:</label>
+    <input id="titlePollInput" class="boxRisposta" type="text" value="" name="item">
+</div>
+<br>
 
 <form name="sondaggio" method="get">
     <div id=check00>
         <input type="checkbox" id="check0" name="risposta">
-        <input class="boxRisposta" type="text" onfocus="this.value=''" name="item">
+        <input class="boxRisposta" type="text" value="" name="item">
     </div>
 </form>
+<br>
 <button type="button" id="button1" onclick="add_field()">Aggiungi risposta</button>
 <button type="button" id="button2" onclick="remove_checkbox()">Elimina risposta</button>
 <button type="button" id="button3" onclick="redirect()">Avanti</button>
+
 <form action="/retCourse" method="get" onsubmit="return submitForm()">
     <input type="hidden" name="courseId" th:value="${courseId}"/>
+    <br>
     <input type="submit" value="Fine">
 </form>
 
