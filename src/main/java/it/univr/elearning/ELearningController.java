@@ -717,14 +717,16 @@ public class ELearningController {
     }
 
     @RequestMapping("/addPoll")
-    public String addPoll(@RequestParam("courseId") Long courseId, Model model){
+    public String addPoll(@RequestParam("courseId") Long courseId,@RequestParam(name = "modify", required = false) boolean modify, Model model){
         model.addAttribute("courseId", courseId);
+        model.addAttribute("modify",modify);
         return "/addPoll";
     }
 
     @RequestMapping("/newPoll")
     public String newPoll(@RequestParam("title") String title,
                           @RequestParam(name = "mandatory", required = false) boolean mandatory,
+                          @RequestParam(name = "modify", required = false) boolean modify,
                            @RequestParam("courseId") Long courseId,
                            Model model){
         Optional<Course> oCourse = courseRepository.findById(courseId);
@@ -739,9 +741,16 @@ public class ELearningController {
                 poll.setMandatory(true);
             }
             pollRepository.save(poll);
-            model.addAttribute(c);
-            model.addAttribute(courseId);
-            return "redirect:/poll/"+courseId;
+            System.out.println("Modify value "+modify);
+            if(modify==false) {
+                model.addAttribute(c);
+                model.addAttribute(courseId);
+                return "redirect:/poll/" + courseId;
+            }else{
+                model.addAttribute(courseId);
+                returnToCourse(courseId,model);
+                return "redirect:/pPoll";
+            }
         }
         else
             return "/notfound";
@@ -749,10 +758,12 @@ public class ELearningController {
 
     @RequestMapping("/editPoll")
     public String editPoll(@RequestParam("pollId") Long pollId, Model model) {
+        boolean modify=true;
         Optional<Poll> poll = pollRepository.findById(pollId);
         if (poll.isPresent()){
 
             model.addAttribute("courseId", poll.get().getCourse().getId());
+            model.addAttribute("modify",modify);
             pollRepository.delete(poll.get());
             return "/addPoll";
         }
