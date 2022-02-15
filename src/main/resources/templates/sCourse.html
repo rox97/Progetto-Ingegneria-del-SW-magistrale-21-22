@@ -18,7 +18,7 @@
     </thead>
     <tbody>
     <tr th:each="file: ${files}">
-        <td th:text="${file}"></td>
+        <td th:text="${file.getName()}"></td>
     </tr>
     </tbody>
 </table>
