@@ -24,7 +24,7 @@ public abstract class BaseTest {
         chrome_options.addArguments("--headless");
         if(SystemUtils.IS_OS_WINDOWS){
             System.setProperty("webdriver.chrome.driver",
-                    Paths.get("src/test/resources/chromedriver_win64_98/chromedriver.exe").toString());
+                    Paths.get("src/test/resources/chromedriver_win32_98/chromedriver.exe").toString());
         }
         else if (SystemUtils.IS_OS_MAC){
             System.setProperty("webdriver.chrome.driver",

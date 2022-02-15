@@ -232,7 +232,6 @@ public class ELearningController {
     public String editEvent(@RequestParam("eventId") Long eventId, Model model) {
         Optional<Event> event = eventRepository.findById(eventId);
         if (event.isPresent()){
-
             model.addAttribute("courseId", event.get().getCourse().getId());
             eventRepository.delete(event.get());
             return "/addEvent";
