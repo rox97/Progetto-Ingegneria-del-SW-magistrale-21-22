@@ -184,20 +184,31 @@ public class SystemTest extends BaseTest {
 
     @Test
     public void testAddFile(){
-        //init();
+        //aInit();
         bTestLoginStudent(); //login credenziali studente
 
         driver.findElement(By.xpath("/html/body/form/input")).click(); // Entro nella pagina di archiviazione personale lato studente
         String title1 = driver.findElement(By.tagName("h2")).getText();
         assertEquals("First row should be 'Cloud Personale'", "Cloud Personale", title1); //Controllo di essere entrato nel corso giusto
 
-        WebElement uploadElement = driver.findElement(By.xpath("/html/body/section/div/div/div/form[1]/div/input[2]"));
+        driver.findElement(By.xpath("/html/body/section/div/div/div/form[1]/button")).click(); // Faccio upload del file senza aver caricato alcun file
+        title1 = driver.findElement(By.tagName("p")).getText();
+        assertEquals("First row should be 'Please select a file to upload.'", "Please select a file to upload.", title1); //Controllo che il file sia stato caricato
 
-        uploadElement.sendKeys(System.getProperty("user.dir")+ "\\src\\test\\resources\\fileTest\\Course-project.pdf"); //Seleziono il file da caricare
+        WebElement uploadElement = driver.findElement(By.xpath("/html/body/section/div/div/div/form[1]/div/input[2]"));
+        uploadElement.sendKeys(System.getProperty("user.dir")+ "\\src\\test\\resources\\fileTest\\imgTest.png"); //Seleziono il file da caricare
         driver.findElement(By.xpath("/html/body/section/div/div/div/form[1]/button")).click(); // Faccio upload del file
         title1 = driver.findElement(By.xpath("/html/body/section/div/div/div/p")).getText();
 
         String[] trimmedText = title1.split("==>");
+        assertEquals("First row should be 'Upload fallito '", "Upload fallito ", trimmedText[0]); //Controllo che il file sia stato caricato
+
+        uploadElement = driver.findElement(By.xpath("/html/body/section/div/div/div/form[1]/div/input[2]"));
+        uploadElement.sendKeys(System.getProperty("user.dir")+ "\\src\\test\\resources\\fileTest\\Course-project.pdf"); //Seleziono il file da caricare
+        driver.findElement(By.xpath("/html/body/section/div/div/div/form[1]/button")).click(); // Faccio upload del file
+        title1 = driver.findElement(By.xpath("/html/body/section/div/div/div/p")).getText();
+
+        trimmedText = title1.split("==>");
         assertEquals("First row should be 'File caricato con successo '", "File caricato con successo ", trimmedText[0]); //Controllo che il file sia stato caricato
         driver.findElement(By.xpath("/html/body/section/div/div/div/table/tbody/tr/td[2]/form/input[3]")).click(); // Elimino il file
         driver.findElement(By.xpath("/html/body/section/div/div/div/form[2]/input")).click(); // Torno alla pagina dei corsi
@@ -208,10 +219,54 @@ public class SystemTest extends BaseTest {
 
     }
 
+    @Test
+    public void testAddHomeworkFile(){
+
+        bTestLoginStudent(); //login credenziali studente
+
+        driver.findElement(By.xpath("/html/body/table/tbody/tr[1]/td[4]/a/button")).click(); // Entro nella pagina del corso
+        String title1 = driver.findElement(By.tagName("h1")).getText();
+        assertEquals("First row should be 'Fondamenti AI'", "Fondamenti AI", title1); //Controllo di essere entrato nel corso giusto
+        driver.findElement(By.xpath("/html/body/a[1]/button")).click(); // Entro nella pagina degli homework
+        title1 = driver.findElement(By.tagName("h1")).getText();
+        assertEquals("First row should be 'Course's homeworks'", "Course's homeworks", title1); //Controllo di essere entrato nella pagina homework
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]/a/button")).click(); // Entro nella pagina visualizzazione homework
+        title1 = driver.findElement(By.tagName("h1")).getText();
+        assertEquals("First row should be 'Homework'", "Homework", title1); //Controllo di essere entrato nell pagina del compito selezionato
+        driver.findElement(By.xpath("/html/body/a/button")).click(); // Torno indietro
+
+        title1 = driver.findElement(By.tagName("h1")).getText();
+        assertEquals("First row should be 'Course's homeworks'", "Course's homeworks", title1); //Controllo di essere entrato nella pagina homework
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]/a/button")).click(); // Entro nella pagina visualizzazione homework
+        title1 = driver.findElement(By.tagName("h1")).getText();
+        assertEquals("First row should be 'Homework'", "Homework", title1); //Controllo di essere entrato nell pagina del compito selezionato
+        WebElement uploadElement = driver.findElement(By.xpath("/html/body/form/div/input[1]"));
+        uploadElement.sendKeys(System.getProperty("user.dir")+ "\\src\\test\\resources\\fileTest\\Homework.rar"); //Seleziono il file da caricare
+        driver.findElement(By.xpath("/html/body/form/button")).click(); // Faccio upload del file
+        title1 = driver.findElement(By.tagName("h1")).getText();
+        assertEquals("First row should be 'Fondamenti AI'", "Fondamenti AI", title1); //Controllo di essere entrato nell pagina del corso
+
+        driver.findElement(By.xpath("/html/body/a[1]/button")).click(); // Entro nella pagina degli homework
+        title1 = driver.findElement(By.tagName("h1")).getText();
+        assertEquals("First row should be 'Course's homeworks'", "Course's homeworks", title1); //Controllo di essere entrato nella pagina homework
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]/a/button")).click(); // Entro nella pagina visualizzazione homework
+        title1 = driver.findElement(By.tagName("h1")).getText();
+        assertEquals("First row should be 'Homework'", "Homework", title1); //Controllo di essere entrato nell pagina del compito selezionato
+        driver.findElement(By.xpath("/html/body/form/button")).click(); // Faccio upload del file
+        title1 = driver.findElement(By.tagName("h1")).getText();
+        assertEquals("First row should be 'Fondamenti AI'", "Fondamenti AI", title1); //Controllo di essere entrato nell pagina del corso
+
+        driver.findElement(By.xpath("/html/body/form/input")).click(); // Faccio indietro
+        title1 = driver.findElement(By.tagName("h1")).getText();
+        assertEquals("First row should be 'Courses'", "Courses", title1); //Controllo di essere entrato nella pagina dei corsi
+
+
+    }
+
 
     @Test
     public void testPoll(){
-        aInit();
+        //aInit();
         aTestLoginProfessor();//Login con credenziali professore
 
         driver.findElement(By.xpath("/html/body/table/tbody/tr/td[4]/a")).click(); // Entro nella pagina del corso
@@ -266,7 +321,11 @@ public class SystemTest extends BaseTest {
         driver.findElement(By.xpath("/html/body/a[3]/button")).click(); //Entro nella pagina di aggiunta file
 
         title1 = driver.findElement(By.tagName("h2")).getText();
-        assertEquals("First row should be 'Upload File Docente aggiornato'", "Upload File Docente aggiornato", title1); //Controllo di essere entrato nella pagina sondaggio
+        assertEquals("First row should be 'Upload File Docente aggiornato'", "Upload File Docente aggiornato", title1); //Controllo di essere entrato nella pagina addFile
+
+        driver.findElement(By.xpath("/html/body/section/div/div/div/form[1]/button")).click(); // Faccio upload del file senza aver caricato alcun file
+        title1 = driver.findElement(By.tagName("p")).getText();
+        assertEquals("First row should be 'Please select a file to upload.'", "Please select a file to upload.", title1); //Controllo che il file sia stato caricato
 
         WebElement uploadElement = driver.findElement(By.xpath("/html/body/section/div/div/div/form[1]/div/input[3]"));
 
