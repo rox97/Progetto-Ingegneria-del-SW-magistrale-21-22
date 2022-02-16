@@ -15,18 +15,23 @@ public class Candidate {
     private String list;
     private int numberVote;
 
-    protected Candidate(){};
+    protected Candidate() {
+    }
 
-    public Candidate(String name, String surname, String list, int numberVote){
+    public Candidate(String name, String surname, String list, int numberVote) {
         this.name = name;
         this.surname = surname;
         this.list = list;
         this.numberVote = numberVote;
     }
 
-    public Long getId() { return id;}
+    public Long getId() {
+        return id;
+    }
 
-    public void setId(Long id) { this.id = id;}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -60,5 +65,7 @@ public class Candidate {
         this.numberVote = numberVote;
     }
 
-    public void addVote(){this.numberVote++;}
+    public void addVote() {
+        this.numberVote++;
+    }
 }
