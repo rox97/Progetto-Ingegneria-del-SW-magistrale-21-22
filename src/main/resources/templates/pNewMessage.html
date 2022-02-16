@@ -14,7 +14,7 @@
     Title:<input class="boxRisposta" type="text" name="title" onkeyup="redirect()"><br>
     Text:<input class="boxRisposta" type="text" name="text" onkeyup="redirect()"><br>
     <input type="hidden" name="courseId" th:value="${courseId}"/>
-    <input id="btn" disabled="disabled" type="submit" value="Invia avviso"/>
+    <input id="btn" disabled="disabled" type="submit" value="Send message"/>
 </form>
 
 <!--<form action="/showCourseList" method="post">
@@ -24,7 +24,7 @@
 </select>
 </form>-->
 
-<a href="retCourse?courseId=10" th:href="@{retCourse(courseId=${courseId})}"><button>Indietro</button> </a>
+<a href="retCourse?courseId=10" th:href="@{retCourse(courseId=${courseId})}"><button>Back</button> </a>
 
 <script>
     function required(){

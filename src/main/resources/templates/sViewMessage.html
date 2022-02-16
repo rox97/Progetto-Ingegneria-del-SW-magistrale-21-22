@@ -13,21 +13,19 @@
 <table border="1">
   <thead>
   <tr>
-    <th>Id</th>
     <th>Title</th>
     <th>Text</th>
   </tr>
   </thead>
   <tbody>
   <tr th:each="message: ${messages}">
-    <td th:text="${message.id}"></td>
     <td th:text="${message.title}"></td>
     <td th:text="${message.text}"></td>
   </tr>
   </tbody>
 </table>
 
-<a href="retCourse?courseId=10" th:href="@{retCourse(courseId=${courseId})}"><button>Indietro</button> </a>
+<a href="retCourse?courseId=10" th:href="@{retCourse(courseId=${courseId})}"><button>Back</button> </a>
 
 <body>
 
