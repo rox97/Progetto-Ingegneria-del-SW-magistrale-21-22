@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>ELearning Web application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+<h1><span th:text="${course.courseName}">Fondamenti di Ingegneria del Software</span></h1>
+<a href="/courseHomeworks?courseId=10" th:href="@{courseHomeworks(courseId=${course.id})}"><button>Homeworks</button></a>
+<a href="/sViewMessage?courseId=10" th:href="@{sViewMessage(courseId=${course.id})}"><button>Messages</button></a>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>File Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="file: ${files}">
+        <td th:text="${file.getName()}"></td>
+    </tr>
+    </tbody>
+</table>
+<form action="retCourses" method="get">
+    <input type="submit" value="Back">
+</form>
+
+</body>

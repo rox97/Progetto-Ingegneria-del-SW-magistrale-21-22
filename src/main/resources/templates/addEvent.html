@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>ELearning Web application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+
+<h1> Create a new event</h1>
+
+<form action="newEvent" method="post">
+    Title:<input type="text" name="title"><br>
+    Description:<input type="text" name="description"><br>
+    Date:<input type="date" name="date"><br>
+    Link:<input type="text" name="link"><br>
+    <input type="checkbox" name="homework"/> Is this a homework?<br><br>
+    <input type="hidden" name="courseId" th:value="${courseId}"/>
+    <input type="submit" value="Salva"/>
+</form>
+
+<a href="/retCourse?courseId=10" th:href="@{retCourse(courseId=${courseId})}"><button>Cancel</button></a>
+</body>
+</html>

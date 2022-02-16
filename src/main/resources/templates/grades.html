@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>ELearning Web application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+<h1>Students grades</h1>
+<h2>
+    Course:
+    <span th:text="${courseName}"> test </span>
+</h2>
+
+<form action="addGrades" method="post" th:object="${studentForm}">
+    Date:<input type="date" name="examDate"><br>
+    Exam type:<input type="text" name="examType"><br>
+    <input type="hidden" name="courseName" th:value="${courseName}"/>
+    <input type="hidden" name="courseId" th:value="${courseId}"/>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Student Id</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Grade</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="student, iteration: ${students}">
+        <td th:text="*{students[__${iteration.index}__].studentId}"> <b> 10 </b></td>
+        <td th:text="*{students[__${iteration.index}__].firstName}"> John </td>
+        <td th:text="*{students[__${iteration.index}__].lastName}"> Smith </td>
+        <td><input type="text" th:field="*{students[__${iteration.index}__].lastGrade}"/></td>
+        <input type="hidden" th:field="*{students[__${iteration.index}__].id}"/>
+        <input type="hidden" th:field="*{students[__${iteration.index}__].firstName}"/>
+        <input type="hidden" th:field="*{students[__${iteration.index}__].lastName}"/>
+        <input type="hidden" th:field="*{students[__${iteration.index}__].studentId}"/>
+    </tr>
+    </tbody>
+</table>
+    <input type="submit" value="Salva" />
+</form>
+<a href="/retCourse?courseId=10" th:href="@{retCourse(courseId=${courseId})}"><button>Cancel</button></a>
+
+</body>
+</html>

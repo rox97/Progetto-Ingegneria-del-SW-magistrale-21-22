@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>ELearning Web application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+<h1>Homework</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Homework Title</th>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Link</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:text="${event.eventTitle}"> </td>
+        <td th:text="${event.eventDate}"> </td>
+        <td th:text="${event.eventDescription}">  </td>
+        <td th:text="${event.link}">  </td>
+    </tr>
+    </tbody>
+</table>
+
+<form method="post" th:action="@{/upload}" enctype="multipart/form-data">
+    <div class="form-group">
+        <input type="file" name="file" class="form-control-file">
+        <input type="hidden" name="eventId" th:value="${event.id}">
+        <input type="hidden" name="courseId" th:value="${courseId}">
+        <input type="hidden" name="userName" th:value="${userName}">
+    </div>
+    <button type="submit" class="btn btn-primary">Upload File</button>
+</form>
+
+<a href="/courseHomeworks?courseId=10" th:href="@{courseHomeworks(courseId=${courseId})}"><button>Back</button></a>
+
+</body>

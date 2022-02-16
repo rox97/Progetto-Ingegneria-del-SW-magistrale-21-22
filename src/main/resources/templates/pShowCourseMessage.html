@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <title>ELearning Web application</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1> Messages of:
+  <span th:text="${courseName}"></span>
+</h1>
+
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>Title</th>
+    <th>Text</th>
+    <th>Edit</th>
+    <th>Delete</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="message: ${messages}">
+    <td th:text="${message.title}"></td>
+    <td th:text="${message.text}"></td>
+    <td><a href="editMessage?messageId=10" th:href="@{editMessage(messageId=${message.id})}"><button>Edit</button></a></td>
+    <td><a href="deleteMessage?messageId=10" th:href="@{deleteMessage(messageId=${message.id})}"><button>Delete</button></a>
+  </tr>
+  </tbody>
+</table>
+
+<a href="retCourse?courseId=10" th:href="@{retCourse(courseId=${courseId})}"><button>Back</button> </a>
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>ELearning Web application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+<h1>Professor's calendar</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Event Title</th>
+        <th>Date</th>
+        <th>Show</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="event: ${events}">
+        <td th:text="${event.eventTitle}"> </td>
+        <td th:text="${event.eventDate}"> </td>
+        <td><a href="showEvent?eventId=10" th:href="@{showEvent(eventId=${event.id})}"><button>Show</button></a></td>
+        <td> <a href="editEvent?eventId=10" th:href="@{editEvent(eventId=${event.id})}"><button>Edit</button></a></td>
+        <td> <a href="deleteEvent?eventId=10" th:href="@{deleteEvent(eventId=${event.id})}"><button>Delete</button></a></td>
+    </tr>
+    </tbody>
+</table>
+<form action="retCourses" method="get">
+    <input type="submit" value="Back">
+</form>
+</body>

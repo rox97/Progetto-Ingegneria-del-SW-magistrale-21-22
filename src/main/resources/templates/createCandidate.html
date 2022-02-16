@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>ELearning Web application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<h1> Insert a candidate for election</h1>
+
+<form action="newCandidate" method="post">
+    Name:<input class="boxRisposta" type="text" name="name" onkeyup="redirect()"><br>
+    Surname:<input class="boxRisposta" type="text" name="surname" onkeyup="redirect()"><br>
+    List:<input class="boxRisposta" type="text" name="list" onkeyup="redirect()"><br>
+    <input id="btn" disabled="disabled" type="submit" value="Save"/>
+</form>
+
+<a href="/voteManager"><button>Back</button></a>
+<body>
+
+<script>
+    function required(){
+
+      var checkCondition= new Boolean(true);
+      const boxList = document.querySelectorAll(".boxRisposta");
+
+      for(var i=0; i < boxList.length;i++){
+        var empt = boxList[i].value;
+
+        if (empt == "") {
+          checkCondition = false;
+        }
+
+      }
+      return checkCondition;
+    }
+
+    function redirect(){
+      var btn = document.getElementById("btn");
+      if(required()==true){
+        btn.disabled = false;
+      }else{
+        btn.disabled = true;
+      }
+    }
+</script>
+
+</body>
+</html>

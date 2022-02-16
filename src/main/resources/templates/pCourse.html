@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>ELearning Web application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+<h1><span th:text="${course.courseName}">Test</span></h1>
+
+<a href="/grades?courseId=10" th:href="@{grades(courseId=${course.id})}"><button>Add Grades</button></a>
+<a href="/addEvent?courseId=10" th:href="@{addEvent(courseId=${course.id})}"><button>Add Event</button></a>
+<a href="uploadDocente?courseId=10" th:href="@{uploadDocente/{courseId}(courseId=${course.id})}"><button>Add File</button></a>
+<a href="/addPoll?courseId=10" th:href="@{addPoll(courseId=${course.id})}"><button>Add Poll</button></a>
+<a href="/courseHomeworks?courseId=10" th:href="@{courseHomeworks(courseId=${course.id})}"><button>Homeworks</button></a>
+<a href="/pNewMessage?courseId=10" th:href="@{pNewMessage(courseId=${course.id})}"><button>Add message</button></a>
+<a href="/pShowCourseMessage?courseId=10" th:href="@{pShowCourseMessage(courseId=${course.id})}"><button>Show old message</button></a>
+
+
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>File Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="file: ${files}">
+        <td th:text="${file.getName()}"></td>
+    </tr>
+    </tbody>
+</table>
+<form action="retCourses" method="get">
+    <input type="submit" value="Back">
+</form>
+
+</body>

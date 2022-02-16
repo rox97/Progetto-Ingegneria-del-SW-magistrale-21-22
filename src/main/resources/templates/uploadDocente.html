@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <title>ELearning Web application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" lang="en"/>
+</head>
+<body>
+
+<section class="my-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <h2>Upload Teacher File</h2>
+                <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
+                <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input type="hidden" name="courseId" th:value="${courseId}"/>
+                        <input type="hidden" name="userName" th:value="${userName}"/>
+                        <input type="file" name="file" class="form-control-file">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Upload File</button>
+                </form>
+
+                <form action="/retCourse" method="get">
+                    <input type="hidden" name="courseId" th:value="${courseId}"/>
+                    <input type="submit" value="Back">
+                </form>
+
+                <table border="1">
+                    <thead>
+                    <tr>
+                        <th>File Name</th>
+                        <th>Delete</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="file: ${files}">
+                        <td th:text="${file}"></td>
+                        <td>
+                            <form method="POST" th:action="@{/delete}">
+                                <input type="hidden" name="file" th:value="${file}"/>
+                                <input type="hidden" name="userName" th:value="${userName}"/>
+                                <input type="hidden" name="courseId" th:value="${courseId}"/>
+                                <input type="submit" name="submit" value="delete" class="link-button"/>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+</body>
+</html>

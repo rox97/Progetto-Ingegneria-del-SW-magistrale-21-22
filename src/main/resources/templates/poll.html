@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ELearning Web application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<div>
+    <label for="titlePollInput">Question Survey:</label>
+    <input id="titlePollInput" class="boxRisposta" type="text" value="" name="item">
+</div>
+<br>
+
+<form name="sondaggio" method="get">
+    <div id=check00>
+        <input type="checkbox" id="check0" name="risposta">
+        <input class="boxRisposta" type="text" value="" name="item">
+    </div>
+</form>
+<br>
+<button type="button" id="button1" onclick="add_field()">Add Answer</button>
+<button type="button" id="button2" onclick="remove_checkbox()">Delete Answer</button>
+<button type="button" id="button3" onclick="redirect()">Next</button>
+
+<form action="/retCourse" method="get" onsubmit="return submitForm()">
+    <input type="hidden" name="courseId" th:value="${courseId}"/>
+    <br>
+    <input type="submit" value="Complete">
+</form>
+
+
+<script>
+let currentCount = 0;
+    function add_field()
+    {
+      if(currentCount<3){
+        var aCapo = document.createElement('br');
+        var div = document.createElement('div');// make a hr
+        div.setAttribute('id', 'check'+(currentCount+1)+'0');
+        var form = document.getElementsByTagName('form')[0],
+        input1 = document.createElement('input');
+        input1.setAttribute('type', 'checkbox');
+        input1.setAttribute('id', 'check'+(currentCount+1));
+        input1.setAttribute('name', 'risposta');
+        input2 = document.createElement('input');
+        input2.setAttribute('class', 'boxRisposta');
+        input2.setAttribute('type', 'text');
+        input2.setAttribute('onfocus', 'this.value=""');
+        input2.setAttribute('name', 'item');
+        form.appendChild(div);
+        div.appendChild(aCapo);
+        div.appendChild(input1);
+        div.appendChild(input2);
+
+        currentCount++;
+        if(currentCount==3){
+          document.getElementById('button1').style.visibility = 'hidden';
+        }
+      }
+    }
+
+    function remove_checkbox(){
+
+      const matches=document.querySelectorAll('input:checked');
+      var arrayLength = matches.length;
+      for (var i = 0; i < arrayLength; i++) {
+        var el = document.getElementById(matches[i].id+'0');
+        el.remove();
+        currentCount--;
+        document.getElementById('button1').style.visibility = 'visible';
+        //Do something
+      }
+
+    }
+
+    function required(){
+
+      var checkCondition= new Boolean(true);
+      const boxList = document.querySelectorAll(".boxRisposta");
+
+      for(var i=0; i < boxList.length;i++){
+        var empt = boxList[i].value;
+
+        if (empt == "") {
+          checkCondition = false;
+        }
+
+      }
+      return checkCondition;
+    }
+
+    function redirect(){
+      if(required()==true){
+        location.reload();
+      }else{
+        alert("Compila i campi vuoti")
+      }
+    }
+
+    function submitForm(){
+      if(required()==false){
+        alert("Compila i campi vuoti")
+        return false;
+      }
+    }
+
+
+</script>
+
+</body>
+</html>

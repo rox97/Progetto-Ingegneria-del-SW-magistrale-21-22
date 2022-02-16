@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>ELearning Web application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+
+<h1> Create a new Survey</h1>
+
+<form action="newPoll" method="post">
+    Title:<input type="text" name="title"><br>
+    <input type="checkbox" name="mandatory"/> Is the survey mandatory?<br><br>
+    <input type="hidden" name="courseId" th:value="${courseId}"/>
+    <input type="hidden" name="modify" th:value="${modify}"/>
+    <input type="submit" value="Save"/>
+</form>
+
+<a href="/retCourse?courseId=10" th:href="@{retCourse(courseId=${courseId})}"><button>Cancel</button></a>
+</body>
+</html>
+</html>

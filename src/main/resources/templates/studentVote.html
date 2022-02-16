@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>ELearning Web application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1> Student votes</h1>
+
+<form action="newVote" method="post">
+<table border="1">
+    <thead>
+    <tr>
+        <th>List</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Select</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="candidate: ${candidates}">
+        <td th:text="${candidate.list}"></td>
+        <td th:text="${candidate.name}"></td>
+        <td th:text="${candidate.surname}"></td>
+        <td><input type="radio" class="checkRisposta" onclick="handleClick()" th:name="candidateId" th:value="${candidate.id}"/></td>
+    </tr>
+
+    </tbody>
+</table>
+    <input id="btn" disabled="disabled" type="submit" value="Save" />
+
+</form>
+
+<button onclick="redirect()">Back</button>
+
+<script type="text/javascript">
+
+
+      function handleClick(){
+        var btn = document.getElementById("btn");
+        btn.disabled = false;
+      }
+
+      function required(){
+        var checkCondition= new Boolean(true);
+        const boxList = document.querySelectorAll(".checkRisposta");
+
+        for(var i=0; i < boxList.length;i++){
+
+            if(boxList[i].checked == true){
+                checkCondition = false;
+            }
+
+        }
+
+        return checkCondition;
+      }
+
+      function redirect(){
+
+          if(required()==true){
+            window.location.href = "/retCourses";
+
+          }else{
+             alert("Non hai salvato la selezione");
+
+          }
+      }
+
+
+</script>
+
+</body>
+</html>
