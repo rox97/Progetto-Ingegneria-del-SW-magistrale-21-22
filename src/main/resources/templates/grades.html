@@ -6,7 +6,7 @@
 </head>
 
 <body>
-<h1>Student grades</h1>
+<h1>Students grades</h1>
 <h2>
     Course:
     <span th:text="${courseName}"> test </span>
@@ -41,7 +41,7 @@
 </table>
     <input type="submit" value="Salva" />
 </form>
-<a href="/retCourse?courseId=10" th:href="@{retCourse(courseId=${courseId})}"><button>Annulla</button></a>
+<a href="/retCourse?courseId=10" th:href="@{retCourse(courseId=${courseId})}"><button>Cancel</button></a>
 
 </body>
 </html>

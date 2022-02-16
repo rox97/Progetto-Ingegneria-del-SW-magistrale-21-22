@@ -11,7 +11,6 @@
 <table border="1">
   <thead>
   <tr>
-    <th>Id</th>
     <th>Course Name</th>
     <th>Academic Year</th>
     <th>Show</th>
@@ -19,15 +18,14 @@
   </thead>
   <tbody>
   <tr th:each="course: ${courses}">
-    <td th:text="${course.id}"> <b> 10 </b></td>
     <td th:text="${course.courseName}"> Fondamenti di Ingegneria del Software </td>
     <td th:text="${course.academicYear}"> 2021/22 </td>
     <td> <a href="showCourse?courseId=10" th:href="@{showCourse(courseId=${course.id})}"><button>Show</button></a></td>
   </tr>
   </tbody>
 </table>
-<a href="/pCalendar"><button>Calendario</button></a><br>
-<a href="/pPoll"><button>Sondaggi</button></a><br>
-<a href="/login"><button>Esci</button></a>
+<a href="/pCalendar"><button>Calendar</button></a><br>
+<a href="/pPoll"><button>Survey</button></a><br>
+<a href="/login"><button>Quit</button></a>
 
 </body>
