@@ -190,7 +190,7 @@ public class SystemTest extends BaseTest {
 
         driver.findElement(By.xpath("/html/body/form/input")).click(); // Entro nella pagina di archiviazione personale lato studente
         String title1 = driver.findElement(By.tagName("h2")).getText();
-        assertEquals("First row should be 'Cloud Personale'", "Cloud Personale", title1); //Controllo di essere entrato nel corso giusto
+        assertEquals("First row should be 'Student Cloud'", "Student Cloud", title1); //Controllo di essere entrato nel corso giusto
 
         driver.findElement(By.xpath("/html/body/section/div/div/div/form[1]/button")).click(); // Faccio upload del file senza aver caricato alcun file
         title1 = driver.findElement(By.tagName("p")).getText();
@@ -291,7 +291,7 @@ public class SystemTest extends BaseTest {
 
         driver.findElement(By.xpath("/html/body/form/input[5]")).click(); //Clicco sul salva
         title1 = driver.findElement(By.xpath("/html/body/div/label")).getText();
-        assertEquals("First row should be 'Answer Survey:'", "Answer Survey:", title1); //Controllo di essere nella pagina di creazione delle domande
+        assertEquals("First row should be 'Question Survey:'", "Question Survey:", title1); //Controllo di essere nella pagina di creazione delle domande
 
         driver.findElement(By.xpath("/html/body/div/input")).sendKeys("Ritiene che il materiale fornito sia sufficente per seguire le lezioni?"); //Inserimento dati sondaggio
         driver.findElement(By.xpath("/html/body/form[1]/div/input[2]")).sendKeys("No");
@@ -331,7 +331,7 @@ public class SystemTest extends BaseTest {
         driver.findElement(By.xpath("/html/body/a[3]/button")).click(); //Entro nella pagina di aggiunta file
 
         title1 = driver.findElement(By.tagName("h2")).getText();
-        assertEquals("First row should be 'Upload File Docente aggiornato'", "Upload File Docente aggiornato", title1); //Controllo di essere entrato nella pagina addFile
+        assertEquals("First row should be 'Upload Teacher File'", "Upload Teacher File", title1); //Controllo di essere entrato nella pagina addFile
 
         driver.findElement(By.xpath("/html/body/section/div/div/div/form[1]/button")).click(); // Faccio upload del file senza aver caricato alcun file
         title1 = driver.findElement(By.tagName("p")).getText();

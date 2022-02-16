@@ -14,10 +14,10 @@
     <input type="checkbox" name="mandatory"/> Is the survey mandatory?<br><br>
     <input type="hidden" name="courseId" th:value="${courseId}"/>
     <input type="hidden" name="modify" th:value="${modify}"/>
-    <input type="submit" value="Salva"/>
+    <input type="submit" value="Save"/>
 </form>
 
-<a href="/retCourse?courseId=10" th:href="@{retCourse(courseId=${courseId})}"><button>Annulla</button></a>
+<a href="/retCourse?courseId=10" th:href="@{retCourse(courseId=${courseId})}"><button>Cancel</button></a>
 </body>
 </html>
 </html>

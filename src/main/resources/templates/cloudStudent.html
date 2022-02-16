@@ -9,7 +9,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-8 mx-auto">
-        <h2>Cloud Personale</h2>
+        <h2>Student Cloud</h2>
         <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
         <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
           <div class="form-group">
@@ -19,7 +19,7 @@
           <button type="submit" class="btn btn-primary">Upload File</button>
         </form>
         <form action="retCourses" method="get">
-          <input type="submit" value="Indietro">
+          <input type="submit" value="Back">
         </form>
 
         <table border="1">

@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 mx-auto">
-                <h2>Upload File Docente aggiornato</h2>
+                <h2>Upload Teacher File</h2>
                 <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
                 <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
                     <div class="form-group">
@@ -22,7 +22,7 @@
 
                 <form action="/retCourse" method="get">
                     <input type="hidden" name="courseId" th:value="${courseId}"/>
-                    <input type="submit" value="Indietro">
+                    <input type="submit" value="Back">
                 </form>
 
                 <table border="1">

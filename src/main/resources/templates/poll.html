@@ -7,7 +7,7 @@
 <body>
 
 <div>
-    <label for="titlePollInput">Answer Survey:</label>
+    <label for="titlePollInput">Question Survey:</label>
     <input id="titlePollInput" class="boxRisposta" type="text" value="" name="item">
 </div>
 <br>
@@ -19,14 +19,14 @@
     </div>
 </form>
 <br>
-<button type="button" id="button1" onclick="add_field()">Aggiungi risposta</button>
-<button type="button" id="button2" onclick="remove_checkbox()">Elimina risposta</button>
-<button type="button" id="button3" onclick="redirect()">Avanti</button>
+<button type="button" id="button1" onclick="add_field()">Add Answer</button>
+<button type="button" id="button2" onclick="remove_checkbox()">Delete Answer</button>
+<button type="button" id="button3" onclick="redirect()">Next</button>
 
 <form action="/retCourse" method="get" onsubmit="return submitForm()">
     <input type="hidden" name="courseId" th:value="${courseId}"/>
     <br>
-    <input type="submit" value="Fine">
+    <input type="submit" value="Complete">
 </form>
 
 
