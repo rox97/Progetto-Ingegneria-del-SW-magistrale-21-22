@@ -4,7 +4,7 @@ Simone Baldi (VR457324)
 Andrea Caliari (VR456755)
 Andrea Rossetti (VR457323)
 
-###Indice
+### Indice
 - [Sviluppo](#sviluppo)
 - [Requisiti](#requisiti)
 - [Scenari](#scenari)
@@ -14,7 +14,7 @@ Andrea Rossetti (VR457323)
     - [Coverage](#coverage)
 
 
-##Sviluppo
+## Sviluppo
 Abbiamo deciso di adottare, durante lo sviluppo, uno stile di programmazione agile.
 Abbiamo cercato di produrre un codice funzionante nei tempi stabiliti, riconsiderando gli obbiettivi preposti e decidendo di semplificare alcune funzionalità per evitare costi di sviluppo maggiori.
 
@@ -22,7 +22,7 @@ Dopo esserci confrontati e aver deciso una linea di sviluppo comune, ci siamo su
 Anche per i test, abbiamo deciso di suddividerceli sempre seguendo gli Use Case che ciascuno di noi ha implementato, in particolare ognuno ha testato con jUnit i modelli da lui utilizzati e i propri Use Case con Selenium
 
 
-##Requisiti
+## Requisiti
 E-Learning è un sistema informatico di sostengo per la didattica.
 
 Il sistema è pensato per permettere agli insegnati di:
