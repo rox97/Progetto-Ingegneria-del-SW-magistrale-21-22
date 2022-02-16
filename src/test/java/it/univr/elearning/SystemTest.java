@@ -44,7 +44,7 @@ public class SystemTest extends BaseTest {
     @Test
     public void testAddGrades(){
         aTestLoginProfessor();
-        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[4]/a")).click();
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]/a")).click();
         driver.findElement(By.xpath("/html/body/a[1]")).click();
         driver.findElement(By.xpath("/html/body/form/input[1]")).sendKeys("14022022");
         driver.findElement(By.name("examType")).sendKeys("Scritto");
@@ -64,7 +64,7 @@ public class SystemTest extends BaseTest {
         driver.findElement(By.xpath("/html/body/form/input")).click();
         driver.findElement(By.xpath("/html/body/a[5]")).click();
         aTestLoginProfessor();
-        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[4]/a")).click();
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]/a")).click();
         driver.findElement(By.xpath("/html/body/a[1]")).click();
         driver.findElement(By.xpath("/html/body/form/input[1]")).sendKeys("14022022");
         driver.findElement(By.name("examType")).sendKeys("Orale");
@@ -85,7 +85,7 @@ public class SystemTest extends BaseTest {
     @Test
     public void testAddEvent(){
         aTestLoginProfessor();
-        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[4]/a")).click();
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]/a")).click();
         driver.findElement(By.xpath("/html/body/a[2]")).click();
         driver.findElement(By.name("title")).sendKeys("Titolo evento");
         driver.findElement(By.name("description")).sendKeys("Descrizione dell'evento");
@@ -141,7 +141,7 @@ public class SystemTest extends BaseTest {
     @Test
     public void testAddHomework(){
         aTestLoginProfessor(); //effettuo il login come professore
-        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[4]/a")).click();
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]/a")).click();
         driver.findElement(By.xpath("/html/body/a[2]")).click();
         driver.findElement(By.name("title")).sendKeys("Titolo homework");
         driver.findElement(By.name("description")).sendKeys("Descrizione dell'homework");
@@ -176,7 +176,7 @@ public class SystemTest extends BaseTest {
         String message3 = driver.findElement(By.tagName("h1")).getText();
         assertEquals("Login message expected", "Login", message3);
         bTestLoginStudent();
-        driver.findElement(By.xpath("/html/body/table/tbody/tr[1]/td[4]/a")).click();
+        driver.findElement(By.xpath("/html/body/table/tbody/tr[1]/td[3]/a")).click();
         driver.findElement(By.xpath("/html/body/a[1]")).click();
         driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]/a")).click();
         String homework4 = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[1]")).getText();
@@ -185,7 +185,6 @@ public class SystemTest extends BaseTest {
 
     @Test
     public void testAddFile(){
-        //aInit();
         bTestLoginStudent(); //login credenziali studente
 
         driver.findElement(By.xpath("/html/body/form/input")).click(); // Entro nella pagina di archiviazione personale lato studente
@@ -228,10 +227,9 @@ public class SystemTest extends BaseTest {
 
     @Test
     public void testAddHomeworkFile(){
-
         bTestLoginStudent(); //login credenziali studente
 
-        driver.findElement(By.xpath("/html/body/table/tbody/tr[1]/td[4]/a/button")).click(); // Entro nella pagina del corso
+        driver.findElement(By.xpath("/html/body/table/tbody/tr[1]/td[3]/a/button")).click(); // Entro nella pagina del corso
         String title1 = driver.findElement(By.tagName("h1")).getText();
         assertEquals("First row should be 'Fondamenti AI'", "Fondamenti AI", title1); //Controllo di essere entrato nel corso giusto
         driver.findElement(By.xpath("/html/body/a[1]/button")).click(); // Entro nella pagina degli homework
@@ -276,10 +274,9 @@ public class SystemTest extends BaseTest {
 
     @Test
     public void testPoll(){
-        //aInit();
         aTestLoginProfessor();//Login con credenziali professore
 
-        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[4]/a")).click(); // Entro nella pagina del corso
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]/a")).click(); // Entro nella pagina del corso
         String title1 = driver.findElement(By.tagName("h1")).getText();
         assertEquals("First row should be 'Fondamenti AI'", "Fondamenti AI", title1); //Controllo di essere entrato nel corso giusto
         driver.findElement(By.xpath("/html/body/a[4]/button")).click(); //Entro nella pagina del sondaggio
@@ -322,10 +319,9 @@ public class SystemTest extends BaseTest {
 
     @Test
     public void testAddFileToCourse(){
-        //init();
         aTestLoginProfessor();//login credenziali professore
 
-        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[4]/a")).click(); // Entro nella pagina del corso
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]/a")).click(); // Entro nella pagina del corso
         String title1 = driver.findElement(By.tagName("h1")).getText();
         assertEquals("First row should be 'Fondamenti AI'", "Fondamenti AI", title1); //Controllo di essere entrato nel corso giusto
         driver.findElement(By.xpath("/html/body/a[3]/button")).click(); //Entro nella pagina di aggiunta file
@@ -358,9 +354,8 @@ public class SystemTest extends BaseTest {
 
     @Test
     public void testMessage(){
-        //aInit();
         aTestLoginProfessor(); //login con credenziali professore
-        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[4]/a")).click();
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]/a")).click();
         String message = driver.findElement(By.tagName("h1")).getText();
         assertEquals("Fondamenti AI",message);
         //create first message
@@ -384,9 +379,9 @@ public class SystemTest extends BaseTest {
         driver.findElement(By.xpath("/html/body/a[7]")).click();
         message = driver.findElement(By.tagName("h1")).getText();
         assertEquals("Messages of: Fondamenti AI",message);
-        String title = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[2]")).getText();
+        String title = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[1]")).getText();
         assertEquals("Text should be 'Titolo","Titolo",title);
-        String text = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]")).getText();
+        String text = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[2]")).getText();
         assertEquals("Text should be 'Testo","Testo",text);
         driver.findElement(By.xpath("/html/body/a")).click();
         message = driver.findElement(By.tagName("h1")).getText();
@@ -400,15 +395,15 @@ public class SystemTest extends BaseTest {
         bTestLoginStudent(); //login con credenziali studente
         message = driver.findElement(By.tagName("h1")).getText();
         assertEquals("Courses",message);
-        driver.findElement(By.xpath("/html/body/table/tbody/tr[1]/td[4]/a")).click();
+        driver.findElement(By.xpath("/html/body/table/tbody/tr[1]/td[3]/a")).click();
         message = driver.findElement(By.tagName("h1")).getText();
         assertEquals("Fondamenti AI",message);
         driver.findElement(By.xpath("/html/body/a[2]")).click();
         message = driver.findElement(By.tagName("h1")).getText();
         assertEquals("Messages of: Fondamenti AI",message);
-        title = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[2]")).getText();
+        title = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[1]")).getText();
         assertEquals("Text should be 'Titolo'","Titolo",title);
-        text = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]")).getText();
+        text = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[2]")).getText();
         assertEquals("Text should be 'Testo'","Testo",text);
 
         //return to login
@@ -424,13 +419,13 @@ public class SystemTest extends BaseTest {
 
         //test modify message
         aTestLoginProfessor();
-        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[4]/a")).click();
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]/a")).click();
         message = driver.findElement(By.tagName("h1")).getText();
         assertEquals("Fondamenti AI",message);
         driver.findElement(By.xpath("/html/body/a[7]")).click();
         message = driver.findElement(By.tagName("h1")).getText();
         assertEquals("Messages of: Fondamenti AI",message);
-        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[4]/a")).click();
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]/a")).click();
         message = driver.findElement(By.tagName("h1")).getText();
         assertEquals("Send a new message to students of: Fondamenti AI",message);
         driver.findElement(By.name("title")).sendKeys("Titolo modificato");
@@ -439,9 +434,9 @@ public class SystemTest extends BaseTest {
         message = driver.findElement(By.tagName("h1")).getText();
         assertEquals("Fondamenti AI",message);
         driver.findElement(By.xpath("/html/body/a[7]")).click();
-        title = driver.findElement(By.xpath("/html/body/table/tbody/tr[2]/td[2]")).getText();
+        title = driver.findElement(By.xpath("/html/body/table/tbody/tr[2]/td[1]")).getText();
         assertEquals("Text should be 'Titolo modificato'","Titolo modificato",title);
-        text = driver.findElement((By.xpath("/html/body/table/tbody/tr[2]/td[3]"))).getText();
+        text = driver.findElement((By.xpath("/html/body/table/tbody/tr[2]/td[2]"))).getText();
         assertEquals("Text should be 'Testo modificato'","Testo modificato",text);
         driver.findElement(By.xpath("/html/body/a")).click();
         message = driver.findElement(By.tagName("h1")).getText();
@@ -456,21 +451,21 @@ public class SystemTest extends BaseTest {
 
         //test delete message
         aTestLoginProfessor();
-        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[4]/a")).click();
+        driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]/a")).click();
         message = driver.findElement(By.tagName("h1")).getText();
         assertEquals("Fondamenti AI",message);
         driver.findElement(By.xpath("/html/body/a[7]")).click();
         message = driver.findElement(By.tagName("h1")).getText();
         assertEquals("Messages of: Fondamenti AI",message);
-        driver.findElement(By.xpath("/html/body/table/tbody/tr[2]/td[5]/a")).click();
+        driver.findElement(By.xpath("/html/body/table/tbody/tr[2]/td[4]/a")).click();
         message = driver.findElement(By.tagName("h1")).getText();
         assertEquals("Fondamenti AI",message);
         driver.findElement(By.xpath("/html/body/a[7]")).click();
         message = driver.findElement(By.tagName("h1")).getText();
         assertEquals("Messages of: Fondamenti AI",message);
-        text = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[2]")).getText();
+        text = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[1]")).getText();
         assertEquals("Title should be 'Titolo 2'","Titolo 2",text);
-        title = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[3]")).getText();
+        title = driver.findElement(By.xpath("/html/body/table/tbody/tr/td[2]")).getText();
         assertEquals("Text should be 'Testo 2'","Testo 2",title);
         //return to login
         driver.findElement(By.xpath("/html/body/a")).click();
@@ -500,11 +495,11 @@ public class SystemTest extends BaseTest {
         driver.findElement(By.id("btn")).click();
         message = driver.findElement(By.tagName("h1")).getText();
         assertEquals("Notice board",message);
-        String title = driver.findElement(By.xpath("/html/body/table/tbody/tr[3]/td[2]")).getText();
+        String title = driver.findElement(By.xpath("/html/body/table/tbody/tr[3]/td[1]")).getText();
         assertEquals("Text should be 'Titolo'","Titolo",title);
-        String text = driver.findElement(By.xpath("/html/body/table/tbody/tr[3]/td[3]")).getText();
+        String text = driver.findElement(By.xpath("/html/body/table/tbody/tr[3]/td[2]")).getText();
         assertEquals("Text should be 'Testo'","Testo",text);
-        String courseName = driver.findElement(By.xpath("/html/body/table/tbody/tr[3]/td[4]")).getText();
+        String courseName = driver.findElement(By.xpath("/html/body/table/tbody/tr[3]/td[3]")).getText();
         assertEquals("Text should be 'Nome corso'","Nome corso",courseName);
         //Test back button
         driver.findElement(By.xpath("/html/body/a")).click();
