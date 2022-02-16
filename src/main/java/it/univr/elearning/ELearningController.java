@@ -46,7 +46,7 @@ public class ELearningController {
     private String studentId = "";
 
     @RequestMapping("/init")
-    public String init() {
+    public String init() throws ParseException {
         initTest();
         return "redirect:login";
     }
@@ -120,11 +120,10 @@ public class ELearningController {
     @RequestMapping("/showCourse")
     public String showCourse(@RequestParam("courseId") Long courseId, Model model){
         FileListing fL = new FileListing();
-        String courseName = "";
         Optional<Course> oCourse = courseRepository.findById(courseId);
         if(oCourse.isPresent()){
             Course c = oCourse.get();
-            courseName = c.getCourseName() + " " + c.getAcademicYear();
+            String courseName = c.getCourseName() + " " + c.getAcademicYear();
             fL.setUploadDir(courseName);
             model.addAttribute("courseId", courseId);
             model.addAttribute("userName", courseName);
@@ -175,7 +174,7 @@ public class ELearningController {
     }
 
     @RequestMapping("/retCalendar")
-    public String returnToCalendar(Model model){
+    public String returnToCalendar(){
         if(username.equals(""))
             return "redirect:/sCalendar";
         else if (studentId.equals(""))
@@ -197,13 +196,9 @@ public class ELearningController {
                            @RequestParam("date") String eventDate,
                            @RequestParam("courseId") Long courseId,
                            @RequestParam(name = "homework", required = false) boolean homework,
-                           Model model){
-        Date date = null;
-        try {
-            date = new SimpleDateFormat("yyyy-MM-dd").parse(eventDate);
-        } catch (ParseException e) {
-            System.out.println("DATE PARSING ERROR");
-        }
+                           Model model) throws ParseException {
+        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(eventDate);
+
         Optional<Course> oCourse = courseRepository.findById(courseId);
         if(oCourse.isPresent()) {
             Course c = oCourse.get();
@@ -328,16 +323,10 @@ public class ELearningController {
                             @ModelAttribute("examDate") String examDate,
                             @ModelAttribute("examType") String examType,
                             @ModelAttribute("studentForm") StudentForm studentForm,
-                            Model model) {
+                            Model model) throws ParseException {
         List<Student> students = studentForm.getStudents();
-        Date date = null;
-        try {
-            date = new SimpleDateFormat("yyyy-MM-dd").parse(examDate);
-        } catch (ParseException e) {
-            System.out.println("DATE PARSING ERROR");
-        }
-        //FIXME: nullPointerException ogni tanto, probabilmente generato dal fatto che non inizializza la repository all'avvio.
-        //Probabilmente si risolverà con la versione definitiva
+        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(examDate);
+
         for (Student s : students) {
             if (!Objects.equals(s.getLastGrade(), "")) {
                 Grade grade = new Grade();
@@ -380,25 +369,22 @@ public class ELearningController {
     //--------------------CONTROLLER BACHECA AVVISI--------------------
     @RequestMapping("/noticeBoard")
     public String notice(Model model){
-        Student s = studentRepository.findStudentByStudentId(studentId);
         Iterable<Notice> notices = noticeRepository.findAll();
         model.addAttribute("notices",notices);
-        //model.addAttribute("student", s);
 
         return "noticeBoard";
 
     }
 
-    //FIXME: non dovrebbe più servire
     @RequestMapping("/createNotice")
     public String input(){
         return "createNotice";
     }
 
     @RequestMapping("/inputNotice")
-    public String createNewNotice(@RequestParam(name="title", required=true) String title,
-                                  @RequestParam(name="text", required=true) String text,
-                                  @RequestParam(name="courseName", required=true) String courseName){
+    public String createNewNotice(@RequestParam("title") String title,
+                                  @RequestParam("text") String text,
+                                  @RequestParam("courseName") String courseName){
         noticeRepository.save(new Notice(title,text,courseName));
         return "redirect:/noticeBoard";
     }
@@ -406,7 +392,6 @@ public class ELearningController {
     //--------------------CONTROLLER ELEZIONI--------------------
     @RequestMapping("/studentVote")
     public String showElection(Model model){
-        //TODO: booleano in student per il controllo del voto già effettuato che ritorna un allert
         Iterable<Candidate> candidates = candidateRepository.findAll();
         model.addAttribute("candidates", candidates);
 
@@ -474,8 +459,8 @@ public class ELearningController {
     }
 
     @RequestMapping("/newMessage")
-    public String newMessage(@RequestParam(name="title", required=true) String title,
-                             @RequestParam(name="text", required=true) String text,
+    public String newMessage(@RequestParam("title") String title,
+                             @RequestParam("text") String text,
                              @RequestParam("courseId") Long courseId,
                              Model model){
         Optional<Course> a = courseRepository.findById(courseId);
@@ -578,12 +563,11 @@ public class ELearningController {
 
         }
         if (!username.equals("")) {
-            String nameDirTeacher = courseName;
-            System.out.println("nome directory <> " + nameDirTeacher);
-            fL.setUploadDir(nameDirTeacher);
+            System.out.println("nome directory <> " + courseName);
+            fL.setUploadDir(courseName);
             model.addAttribute("courseId", courseId);
-            model.addAttribute("userName", nameDirTeacher);
-            model.addAttribute("files", fL.getFileStringListing(nameDirTeacher)); //popola la tabella con i file caricati
+            model.addAttribute("userName", courseName);
+            model.addAttribute("files", fL.getFileStringListing(courseName)); //popola la tabella con i file caricati
             return "/uploadDocente";
         } else {
             return "/notfound";
@@ -599,7 +583,7 @@ public class ELearningController {
                              @RequestParam(name = "courseId", required = false) Long courseId,
                              RedirectAttributes attributes,
                              @RequestParam("userName") String userName,
-                             @RequestParam(name = "eventId", required = false) Long eventId) {
+                             @RequestParam(name = "eventId", required = false) Long eventId) throws IOException {
 
 
         FileListing fL= new FileListing();
@@ -622,7 +606,7 @@ public class ELearningController {
         }
 
         // normalizza la path del file
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 
         //Mi prendo l'estensione del file
         String extensionFile="";
@@ -635,12 +619,9 @@ public class ELearningController {
         }
         // Salva il file nel file system locale
         if((extensionFile.equals("pdf"))||(extensionFile.equals("docx"))||(extensionFile.equals("tar.gz"))||(extensionFile.equals("zip"))||(extensionFile.equals("tar"))||(extensionFile.equals("txt"))||(extensionFile.equals("rar"))){
-            try {
-                Path path = Paths.get(fL.getUploadDir(userName) + fileName);
-                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+            Path path = Paths.get(fL.getUploadDir(userName) + fileName);
+            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
             // ritorna una risposta di successo
             attributes.addFlashAttribute("message", "File caricato con successo ==> " + fileName + '!');
@@ -743,7 +724,7 @@ public class ELearningController {
             }
             pollRepository.save(poll);
             System.out.println("Modify value "+modify);
-            if(modify==false) {
+            if(!modify) {
                 model.addAttribute(c);
                 model.addAttribute(courseId);
                 return "redirect:/poll/" + courseId;
@@ -759,12 +740,11 @@ public class ELearningController {
 
     @RequestMapping("/editPoll")
     public String editPoll(@RequestParam("pollId") Long pollId, Model model) {
-        boolean modify=true;
         Optional<Poll> poll = pollRepository.findById(pollId);
         if (poll.isPresent()){
 
             model.addAttribute("courseId", poll.get().getCourse().getId());
-            model.addAttribute("modify",modify);
+            model.addAttribute("modify", true);
             pollRepository.delete(poll.get());
             return "/addPoll";
         }
@@ -789,7 +769,7 @@ public class ELearningController {
 
 
     //TEST
-    public void initTest(){
+    public void initTest() throws ParseException {
         Student s1 = new Student("Andrea", "Rossetti","VR1234");
         Student s2 = new Student("Simone", "Baldi","VR9876");
         s1.setPassword("andrea");
@@ -825,12 +805,8 @@ public class ELearningController {
         candidateRepository.save(cand3);
 
         String examDate = "1970-01-01";
-        Date date = null;
-        try {
-            date = new SimpleDateFormat("yyyy-MM-dd").parse(examDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(examDate);
+
         Grade g = new Grade("test", "test", "test", date);
         gradeRepository.save(g);
 
@@ -842,10 +818,8 @@ public class ELearningController {
 
         try {
             Path path = Paths.get("./testUPLOADFILES/");
-            //java.nio.file.Files;
             if(!Files.exists(path)){
                 Files.createDirectories(path);
-                //System.out.println("Directory is created!");
             }
         } catch (IOException e) {
             System.err.println("Failed to create directory!" + e.getMessage());
