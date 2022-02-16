@@ -1,5 +1,6 @@
 package it.univr.elearning;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -12,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 public class SystemTest extends BaseTest {
 
     @Test
-    public void aInit(){
+    public void aInit(){ //Inizializzo il programma per eseguire i test
         driver.get("http://localhost:8080/");
     }
 
@@ -196,7 +197,10 @@ public class SystemTest extends BaseTest {
         assertEquals("First row should be 'Please select a file to upload.'", "Please select a file to upload.", title1); //Controllo che il file sia stato caricato
 
         WebElement uploadElement = driver.findElement(By.xpath("/html/body/section/div/div/div/form[1]/div/input[2]"));
-        uploadElement.sendKeys(System.getProperty("user.dir")+ "\\src\\test\\resources\\fileTest\\imgTest.png"); //Seleziono il file da caricare
+        if(SystemUtils.IS_OS_WINDOWS)
+            uploadElement.sendKeys(System.getProperty("user.dir")+ "\\src\\test\\resources\\fileTest\\imgTest.png"); //Seleziono il file da caricare
+        else if (SystemUtils.IS_OS_MAC || SystemUtils.IS_OS_LINUX)
+            uploadElement.sendKeys(System.getProperty("user.dir")+ "/src/test/resources/fileTest/imgTest.png");
         driver.findElement(By.xpath("/html/body/section/div/div/div/form[1]/button")).click(); // Faccio upload del file
         title1 = driver.findElement(By.xpath("/html/body/section/div/div/div/p")).getText();
 
@@ -204,7 +208,10 @@ public class SystemTest extends BaseTest {
         assertEquals("First row should be 'Upload fallito '", "Upload fallito ", trimmedText[0]); //Controllo che il file sia stato caricato
 
         uploadElement = driver.findElement(By.xpath("/html/body/section/div/div/div/form[1]/div/input[2]"));
-        uploadElement.sendKeys(System.getProperty("user.dir")+ "\\src\\test\\resources\\fileTest\\Course-project.pdf"); //Seleziono il file da caricare
+        if(SystemUtils.IS_OS_WINDOWS)
+            uploadElement.sendKeys(System.getProperty("user.dir")+ "\\src\\test\\resources\\fileTest\\Course-project.pdf"); //Seleziono il file da caricare
+        else if (SystemUtils.IS_OS_MAC || SystemUtils.IS_OS_LINUX)
+            uploadElement.sendKeys(System.getProperty("user.dir")+ "/src/test/resources/fileTest/Course-project.pdf");
         driver.findElement(By.xpath("/html/body/section/div/div/div/form[1]/button")).click(); // Faccio upload del file
         title1 = driver.findElement(By.xpath("/html/body/section/div/div/div/p")).getText();
 
@@ -241,7 +248,10 @@ public class SystemTest extends BaseTest {
         title1 = driver.findElement(By.tagName("h1")).getText();
         assertEquals("First row should be 'Homework'", "Homework", title1); //Controllo di essere entrato nell pagina del compito selezionato
         WebElement uploadElement = driver.findElement(By.xpath("/html/body/form/div/input[1]"));
-        uploadElement.sendKeys(System.getProperty("user.dir")+ "\\src\\test\\resources\\fileTest\\Homework.rar"); //Seleziono il file da caricare
+        if(SystemUtils.IS_OS_WINDOWS)
+            uploadElement.sendKeys(System.getProperty("user.dir")+ "\\src\\test\\resources\\fileTest\\Homework.rar"); //Seleziono il file da caricare
+        else if (SystemUtils.IS_OS_MAC || SystemUtils.IS_OS_LINUX)
+            uploadElement.sendKeys(System.getProperty("user.dir")+ "/src/test/resources/fileTest/Homework.rar");
         driver.findElement(By.xpath("/html/body/form/button")).click(); // Faccio upload del file
         title1 = driver.findElement(By.tagName("h1")).getText();
         assertEquals("First row should be 'Fondamenti AI'", "Fondamenti AI", title1); //Controllo di essere entrato nell pagina del corso
@@ -329,7 +339,11 @@ public class SystemTest extends BaseTest {
 
         WebElement uploadElement = driver.findElement(By.xpath("/html/body/section/div/div/div/form[1]/div/input[3]"));
 
-        uploadElement.sendKeys(System.getProperty("user.dir")+ "\\src\\test\\resources\\fileTest\\Testing.pdf"); //Seleziono il file da caricare
+        if(SystemUtils.IS_OS_WINDOWS)
+            uploadElement.sendKeys(System.getProperty("user.dir")+ "\\src\\test\\resources\\fileTest\\Testing.pdf"); //Seleziono il file da caricare
+        else if (SystemUtils.IS_OS_MAC || SystemUtils.IS_OS_LINUX)
+            uploadElement.sendKeys(System.getProperty("user.dir")+ "/src/test/resources/fileTest/Testing.pdf");
+
         driver.findElement(By.xpath("/html/body/section/div/div/div/form[1]/button")).click(); // Faccio upload del file
         title1 = driver.findElement(By.xpath("/html/body/section/div/div/div/p")).getText();
 
