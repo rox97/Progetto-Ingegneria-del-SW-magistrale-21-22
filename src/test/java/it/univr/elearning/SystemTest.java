@@ -527,6 +527,14 @@ public class SystemTest extends BaseTest {
         driver.findElement(By.name("surname")).sendKeys("Caliari");
         driver.findElement(By.name("list")).sendKeys("Lista 1");
         driver.findElement(By.id("btn")).click();
+        //test tasto indietro inserisci candidato
+        message = driver.findElement(By.tagName("h2")).getText();
+        assertEquals("Vote manager for student election", message);
+        driver.findElement(By.xpath("/html/body/a[2]")).click();
+        message = driver.findElement(By.tagName("h1")).getText();
+        assertEquals("Insert a candidate for election", message);
+        driver.findElement(By.xpath("/html/body/a")).click();
+        //return to login
         message = driver.findElement(By.tagName("h2")).getText();
         assertEquals("Vote manager for student election", message);
         driver.findElement(By.xpath("/html/body/a[3]")).click();
